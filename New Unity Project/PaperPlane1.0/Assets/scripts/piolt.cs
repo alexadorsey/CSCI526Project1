@@ -8,13 +8,16 @@ public class piolt : MonoBehaviour {
 	public float timer ;
 	public int score = 0;
 	public bool speedup;
+	float maxHeight = 100.0f;
 
-
+	public float speed = 2.0f;
 	// Use this for initialization
 	void Start () {
 		velocity = new Vector3 (0.0f, 0.0f, 0.0f);
 		timer = 100;
 		speedup = false;
+
+
 	}
 
 	void OnMouseDrag() {
@@ -34,111 +37,145 @@ public class piolt : MonoBehaviour {
 		if (cc.gameObject.name == "Terrain") {
 			score += 1;
 			Debug.Log ("hit terrain!");
-			Application.Quit();
+			//Application.Quit();
 		} 
 	}
 
 	void FixedUpdate(){
 		
-		float vertical = Input.GetAxis ("Vertical");
-		float horizontal = Input.GetAxis ("Horizontal");
-		if (horizontal > 0) {
-			transform.Rotate (0.0f, 0.0f, 60 * Time.deltaTime);
-		} else if (horizontal < 0) {
-			transform.Rotate (0.0f, 0.0f, -60 * Time.deltaTime);
+		if (Input.GetKey ("space")) {
+			rigidbody.velocity = new Vector3(0, 1, 0) * 10;
+			//rigidbody.AddForce(transform.up * 10, ForceMode.Impulse);
+			//rigidbody.AddForce (new Vector3(0,380.0f,0));
+
+
+
 		}
 
-	}
-
-	// Update is called once per frame
-	void Update () {
-
-		float speed = 3.0f;
-		Vector3 dir = Vector3.zero;
-		dir.x = -Input.acceleration.y;
-		dir.z = Input.acceleration.x;
-		if (dir.sqrMagnitude > 1)
-			dir.Normalize();
-		
-		dir *= Time.deltaTime;
-		transform.Translate(dir * speed);
-
-		float forwardSpeed = 30.0f;
-
-		//float speed = 5.0f;
-		transform.position += transform.forward * Time.deltaTime * forwardSpeed;
-		//float z = 1.0f;
-		//Vector3 start = transform.position;
-		/*
-
-		float DownwardSpeed = 0.0f;
-		DownwardSpeed--;
-		if(DownwardSpeed < 0) {
-			DownwardSpeed = -1;
-		}
-				
-		if(Input.GetKey("space")) {
-			DownwardSpeed =1;
-		}
-
-		if (transform.position.z < 3.0f) {
-			DownwardSpeed = 3.0f;
-		}
-*/
-
-		Vector3 moveCameraTo = transform.position + new Vector3(-70.0f, 30.0f, 0.0f);
-
-		Camera.main.transform.position = moveCameraTo;
-
-		Camera.main.transform.LookAt (transform.position);
-
-		//Input.GetTouch(0).phase == TouchPhase.Began
 		if(Input.touchCount == 1) {
 			//velocity.y += 1.0f;
 			speedup = true;
 
+			
 		}
 		if (speedup) {
 			timer --;
 			if(timer > 0){
-				//Debug.Log(Time.realtimeSinceStartup);
-				rigidbody.AddRelativeForce (new Vector3(0,30.0f,0));
+				//rigidbody.AddForce (new Vector3(0,50.0f,0));
+				rigidbody.velocity = new Vector3(0, 1, 0) * 10;
 			}
 		}
 		if (timer == 0) {
 			timer = 100;
 			speedup = false;
-			//rigidbody.Sleep();
-			//rigidbody.sleepVelocity = 0.0f;
 		}
-		/*
-		if (Input.GetKeyUp ("space")) {
-			rigidbody.AddRelativeForce (new Vector3(0,-30.0f,0));
+	}
+
+	// Update is called once per frame
+	void Update () {
+		Vector3 moveCameraTo = transform.position - transform.forward * 7.0f + Vector3.up * 3.0f;
+		float bias = 0.96f;
+		Camera.main.transform.position = Camera.main.transform.position * bias + 
+			                             moveCameraTo * (1.0f - bias);
+		Camera.main.transform.LookAt(transform.position + transform.forward * 2.0f);
+
+
+		transform.position += transform.forward * 0.8f;
+		//speed -= transform.forward.y * Time.deltaTime * 2.0f;
+	//	if (speed <3.0f) {
+	//		speed =3.0f;
+	//	}
+
+		float vertical = Input.acceleration.y;
+		float horizontal = Input.acceleration.x ;
+//				float vertical = Input.GetAxis ("Vertical");
+//				float horizontal = Input.GetAxis ("Horizontal") ;
+		transform.Rotate (0.0f, horizontal,0.0f);
+
+		float terrainHeightWhereWeAre = Terrain.activeTerrain.SampleHeight (transform.position);
+		if (terrainHeightWhereWeAre > transform.position.y) {
+			transform.position = new Vector3(transform.position.x,
+			                                 terrainHeightWhereWeAre,
+			                                 transform.position.z);
 		}
-*/
 
-		//Physics.gravity = new Vector3(0, -10.0F, 0);
+		// Check if plane has reached max height
+		// If it has, don't move it above max height
+		if (rigidbody.position.y >= maxHeight) {
+			transform.position = new Vector3 (rigidbody.position.x, maxHeight, rigidbody.position.z);
+		}
 
-		float vertical = Input.GetAxis ("Vertical");
-		float horizontal = Input.GetAxis ("Horizontal");
-
-		//rigidbody.AddRelativeForce (new Vector3(0,3.0f,0));
-		//Vector3 end = new Vector3(horizontal* speed, DownwardSpeed,vertical );
-		//transform.Rotate(Input.GetAxis("Vertical"), 0.0f, -Input.GetAxis("Horizontal"));
-		//transform.position +=  velocity *Time.deltaTime;
-		//transform.position += new Vector3 (horizontal, 0.0f, vertical);
-		/*
-		transform.Rotate (0.0f,horizontal*2.0f,0.0f);
-		if (horizontal > 0) {
-						transform.Rotate (0.0f, 0.0f,- 1.0f);
-
-				} else if (horizontal < 0) {
-						transform.Rotate (0.0f, 0.0f, 1.0f);
-
-				} else {
-			transform.Rotate (0.0f, 0.0f, 0.0f);
-				}
-*/
+//		/*
+//		if (Input.GetKeyUp ("space")) {
+//			rigidbody.AddRelativeForce (new Vector3(0,-30.0f,0));
+//		}
+//*/
+//
+		Physics.gravity = new Vector3(0, -10.0F, 0);
+//
+////		var xRotationLimit = 20;
+////		var yRotationLimit = 20;
+////		var zRotationLimit = 20;
+//
+//		float vertical = Input.GetAxis ("Vertical");
+//		float horizontal = Input.GetAxis ("Horizontal") ;
+//
+//		Debug.Log(horizontal);
+//
+////		float turnSpeed = 2.0f;
+////		if(Input.GetButton("Forward"))
+////		{
+////			transform.eulerAngles.z += - turnSpeed * Time.deltaTime;
+////		}
+////		if(Input.GetButton("Backward"))
+////		{
+////			transform.eulerAngles.z += turnSpeed * Time.deltaTime;
+////		}
+////		
+////		if(Input.GetButton("Left"))
+////		{
+////			transform.eulerAngles.x +=  turnSpeed * Time.deltaTime;
+////		}
+////		if(Input.GetButton("Right"))
+////		{
+////			transform.eulerAngles.x += - turnSpeed * Time.deltaTime;
+////		}
+////		
+////		if(Input.GetButton("Jump")){
+////			transform.position += transform.right * moveSpeed * Time.deltaTime;
+////		}
+////
+////		if(transform.rotation.eulerAngles.x > xRotationLimit){
+////			transform.rotation = Quaternion.identity;
+////		}
+////		
+////		if(transform.rotation.eulerAngles.y > yRotationLimit){
+////			transform.rotation = Quaternion.identity;
+////		}
+////		
+////		if(transform.rotation.eulerAngles.z > zRotationLimit){
+////			transform.rotation = Quaternion.identity;
+////		}
+//
+//
+//
+//		//rigidbody.AddRelativeForce (new Vector3(0,3.0f,0));
+//		//Vector3 end = new Vector3(horizontal* speed, DownwardSpeed,vertical );
+//		//transform.Rotate(Input.GetAxis("Vertical"), 0.0f, -Input.GetAxis("Horizontal"));
+//		//transform.position +=  velocity *Time.deltaTime;
+//		//transform.position += new Vector3 (horizontal, 0.0f, vertical);
+//		/*
+//		transform.Rotate (0.0f,horizontal*2.0f,0.0f);
+//		if (horizontal > 0) {
+//						transform.Rotate (0.0f, 0.0f,- 1.0f);
+//
+//				} else if (horizontal < 0) {
+//						transform.Rotate (0.0f, 0.0f, 1.0f);
+//
+//				} else {
+//			transform.Rotate (0.0f, 0.0f, 0.0f);
+//				}
+//*/
 
 	}
 }

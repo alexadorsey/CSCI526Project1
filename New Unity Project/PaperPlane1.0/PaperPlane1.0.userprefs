@@ -1,10 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/play.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/piolt.cs">
     <Files>
-      <File FileName="Assets/scripts/piolt.cs" Line="57" Column="74" />
-      <File FileName="Assets/scripts/play.cs" Line="20" Column="34" />
-      <File FileName="Assets/LoadingScene.cs" Line="10" Column="30" />
+      <File FileName="Assets/scripts/piolt.cs" Line="92" Column="56" />
+      <File FileName="Assets/scripts/piolt.cs" Line="176" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
