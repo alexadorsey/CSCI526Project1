@@ -6,18 +6,24 @@ public class piolt : MonoBehaviour {
 
 	public Vector3 velocity;
 	public float timer ;
-	public int score = 0;
 	public bool speedup;
 	float maxHeight = 100.0f;
+	float speed = 2.0f;
 
-	public float speed = 2.0f;
+
+	private float score;
+
+
+	public void addScore(){
+		score++;
+	}
 	// Use this for initialization
 	void Start () {
 		velocity = new Vector3 (0.0f, 0.0f, 0.0f);
 		timer = 100;
 		speedup = false;
 
-
+		score = 0.0f;
 	}
 
 	void OnMouseDrag() {
@@ -35,7 +41,7 @@ public class piolt : MonoBehaviour {
 
 	void OnCollisionEnter(Collision cc){
 		if (cc.gameObject.name == "Terrain") {
-			score += 1;
+			//score += 1;
 			Debug.Log ("hit terrain!");
 			//Application.Quit();
 		} 
@@ -44,25 +50,18 @@ public class piolt : MonoBehaviour {
 	void FixedUpdate(){
 		
 		if (Input.GetKey ("space")) {
-			rigidbody.velocity = new Vector3(0, 1, 0) * 10;
-			//rigidbody.AddForce(transform.up * 10, ForceMode.Impulse);
-			//rigidbody.AddForce (new Vector3(0,380.0f,0));
-
-
-
+			rigidbody.velocity = new Vector3(0, 1, 0) * 5;
 		}
 
 		if(Input.touchCount == 1) {
 			//velocity.y += 1.0f;
 			speedup = true;
-
-			
 		}
 		if (speedup) {
 			timer --;
 			if(timer > 0){
 				//rigidbody.AddForce (new Vector3(0,50.0f,0));
-				rigidbody.velocity = new Vector3(0, 1, 0) * 10;
+				rigidbody.velocity = new Vector3(0, 1, 0) * 1.1f;
 			}
 		}
 		if (timer == 0) {
@@ -80,25 +79,25 @@ public class piolt : MonoBehaviour {
 		Camera.main.transform.LookAt(transform.position + transform.forward * 2.0f);
 
 
-		transform.position += transform.forward * 0.8f;
+		transform.position += transform.forward * 0.1f;
 		//speed -= transform.forward.y * Time.deltaTime * 2.0f;
 	//	if (speed <3.0f) {
 	//		speed =3.0f;
 	//	}
 
-		float vertical = Input.acceleration.y;
-		float horizontal = Input.acceleration.x ;
-//				float vertical = Input.GetAxis ("Vertical");
-//				float horizontal = Input.GetAxis ("Horizontal") ;
+//		float vertical = Input.acceleration.y;
+//		float horizontal = Input.acceleration.x ;
+				float vertical = Input.GetAxis ("Vertical");
+				float horizontal = Input.GetAxis ("Horizontal") ;
 		transform.Rotate (0.0f, horizontal,0.0f);
-
+		/*
 		float terrainHeightWhereWeAre = Terrain.activeTerrain.SampleHeight (transform.position);
 		if (terrainHeightWhereWeAre > transform.position.y) {
 			transform.position = new Vector3(transform.position.x,
 			                                 terrainHeightWhereWeAre,
 			                                 transform.position.z);
 		}
-
+*/
 		// Check if plane has reached max height
 		// If it has, don't move it above max height
 		if (rigidbody.position.y >= maxHeight) {
