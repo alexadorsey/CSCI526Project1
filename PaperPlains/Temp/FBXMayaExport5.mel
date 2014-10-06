@@ -1,0 +1,23 @@
+print "Starting maya loading and fbx conversion \n";
+	
+if (`file -q -exists "/Users/alexadorsey/Desktop/CSCI 526/PaperPlains/Assets/paper_plane.mb"`)
+{		
+	file -o "/Users/alexadorsey/Desktop/CSCI 526/PaperPlains/Assets/paper_plane.mb";
+	FBXExportEmbeddedTextures -v false;
+	// FBXExportHardEdges -v true;
+	FBXExportApplyConstantKeyReducer -v false;
+	FBXExportShowUI -v false;
+
+	print "Before fbx export\n";
+	FBXExport -f "/Users/alexadorsey/Desktop/CSCI 526/PaperPlains/Temp/ExportedFBXFile.fbx";
+	print "after fbx export\n";
+}
+else
+	print "Could not open Maya file.";
+
+
+system ("rm \"/Users/alexadorsey/Desktop/CSCI 526/PaperPlains/Temp/CommandPipe\"");
+
+$donepipeKill = `fopen "/Users/alexadorsey/Desktop/CSCI 526/PaperPlains/Temp/SyncPipeKill" "w"`;
+fwrite $donepipeKill "Done";
+fclose $donepipeKill;
