@@ -218,7 +218,6 @@ function OnGUI(){
 	timeText.fontSize = Mathf.Floor(Screen.dpi/5);
 	plusText.fontSize = Mathf.Floor(Screen.dpi/5);
 	
-	//scoreText.pixelOffset.x = 
 	scoreText.pixelOffset.y = Screen.height/3 + 20;
 	timeText.pixelOffset.y = -Screen.height/3 - 20;
 	
@@ -236,6 +235,11 @@ function OnGUI(){
 	heart1.pixelInset.y = Screen.height/3 + 30;
 	heart2.pixelInset.y = Screen.height/3 + 30;
 	heart3.pixelInset.y = Screen.height/3 + 30;
+	
+	
+	// Game Over Text
+	gameOverText.fontSize = Mathf.Floor(Screen.dpi/2);
+	gameOverText.pixelOffset.y = Screen.height/6;
 	
 }
  
