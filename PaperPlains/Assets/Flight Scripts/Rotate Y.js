@@ -48,6 +48,7 @@ var gameOverText : GUIText;
 
 
 
+
 function Start(){
 	// Initialize the level
 	score = 0;
@@ -62,6 +63,7 @@ function Start(){
 	scoreText = GameObject.Find("Score").guiText;
 	timeText = GameObject.Find("Time").guiText;
 	plusText = GameObject.Find("Plus Points Text").guiText;
+	
 	heart1 = (GameObject.Find("heart1").GetComponent(GUITexture)as GUITexture);
 	heart2 = (GameObject.Find("heart2").GetComponent(GUITexture)as GUITexture);
 	heart3 = (GameObject.Find("heart3").GetComponent(GUITexture)as GUITexture);
@@ -135,10 +137,13 @@ function Update() {
 		
 		// Character controls
 	    var controller : CharacterController = GetComponent(CharacterController);
-	    transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+	    //transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
 	    
-	    var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-	    var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+	    //var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+	    var h = Input.acceleration.y;
+	    //var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+	    var v = Input.acceleration.x;
 	    transform.localEulerAngles.x = -v*60; // forth/back banking first!
 	    
 	    
@@ -189,16 +194,50 @@ function Update() {
 function FixedUpdate () {
 	if (!isGamePaused) {
 	//Check when spacebar is pushed
-		if (Input.GetKeyDown (KeyCode.Space)) {		
-			print("space bar pressed " + rigidbody);
-			isFlyingUp = true;
-			//rigidbody.velocity = Vector3(0, 20, 0);
+//		if (Input.GetKeyDown (KeyCode.Space)) {		
+//			print("space bar pressed " + rigidbody);
+//			isFlyingUp = true;
+//			//rigidbody.velocity = Vector3(0, 20, 0);
+//		}
+		for(var i = 0; i < Input.touchCount; ++i){
+			if(Input.GetTouch(i).phase == TouchPhase.Began){
+				print("speed up");
+				isFlyingUp = true;
+			}
+		
 		}
 	}
 	
 }
  
  
+ 
+ 
+function OnGUI(){
+	scoreText.fontSize = Mathf.Floor(Screen.dpi/5);
+	timeText.fontSize = Mathf.Floor(Screen.dpi/5);
+	plusText.fontSize = Mathf.Floor(Screen.dpi/5);
+	
+	//scoreText.pixelOffset.x = 
+	scoreText.pixelOffset.y = Screen.height/3 + 20;
+	timeText.pixelOffset.y = -Screen.height/3 - 20;
+	
+	heart1.pixelInset.width = 0.05 * Screen.width;
+	heart1.pixelInset.height = 0.05 * Screen.width;
+	heart2.pixelInset.width = 0.05 * Screen.width;
+	heart2.pixelInset.height = 0.05 * Screen.width;
+	heart3.pixelInset.width = 0.05 * Screen.width;
+	heart3.pixelInset.height = 0.05 * Screen.width;
+	
+	heart1.pixelInset.position.x = -heart2.pixelInset.width * 2;
+	//heart2.pixelInset.position.x = heart1.pixelInset.position.x * 2;
+	heart3.pixelInset.position.x = heart2.pixelInset.width * 2;
+	
+	heart1.pixelInset.y = Screen.height/3 + 30;
+	heart2.pixelInset.y = Screen.height/3 + 30;
+	heart3.pixelInset.y = Screen.height/3 + 30;
+	
+}
  
 // Descreases the number of lives by newLifeValue, updates hearts, and checks for game over
 function DecreaseLives (newLifeValue : int) {
