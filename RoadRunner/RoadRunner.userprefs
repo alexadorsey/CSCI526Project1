@@ -1,14 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerControl.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../PaperPlains/Assets/Flight Scripts/Rotate Y.js">
     <Files>
-      <File FileName="Assets/Scripts/GroundControl.cs" Line="7" Column="18" />
-      <File FileName="Assets/Scripts/SpawnScript.cs" Line="33" Column="24" />
-      <File FileName="Assets/Scripts/PowerupScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ObstacleScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PlayerControl.cs" Line="42" Column="21" />
-      <File FileName="Assets/Scripts/TriggerZoneScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameControlScript.cs" Line="1" Column="1" />
+      <File FileName="../PaperPlains/Assets/Flight Scripts/Rotate Y.js" Line="55" Column="45" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
