@@ -38,12 +38,17 @@ private var heart_disabled : Color = Color(1.0, 0.0, 0.0, 0.2);
 private var heart_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
 
 var overlay : GUITexture;
-private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 0.5);
+private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 0.4);
 private var gameWonColor : Color = Color(1.0, 0.0, 0.0, 0.5);
 
 // Game Over displays
 var gameOverText : GUIText;
 var replayButton : GUITexture;
+var reasonText : GUIText;
+var yourScoreText : GUIText;
+var highScoreText : GUIText;
+var yourScoreDisplay : GUIText;
+var highScoreDisplay : GUIText;
 
 
 
@@ -84,6 +89,11 @@ function Start(){
 	gameOverText = GameObject.Find("Game Over").guiText;
 	overlay = (GameObject.Find("Overlay").GetComponent(GUITexture)as GUITexture);
 	replayButton = (GameObject.Find("Replay Button").GetComponent(GUITexture)as GUITexture);
+	reasonText = GameObject.Find("Reason Text").guiText;
+	yourScoreText = GameObject.Find("Your Score").guiText;
+	highScoreText = GameObject.Find("High Score").guiText;
+	yourScoreDisplay = GameObject.Find("Your Score Display").guiText;
+	highScoreDisplay = GameObject.Find("High Score Display").guiText;
 	
 	// Show the start display
 	UpdateScore();
@@ -95,8 +105,9 @@ function Start(){
 
 // Check for collision with non-trigger objects -- for us, this is the terrain
 function OnCollisionEnter(collision : Collision) {
-	DecreaseLives(1);
+	//DecreaseLives(1);
 	print("Collision with Terrain; Lives: " + lives);
+	GameOver();
 }
  
  // Handles triggers with collisions
@@ -248,9 +259,9 @@ function OnGUI(){
 	heart3.pixelInset.width = 0.05 * Screen.width;
 	heart3.pixelInset.height = 0.05 * Screen.width;
 	
-	heart1.pixelInset.position.x = -heart2.pixelInset.width * 2;
-	//heart2.pixelInset.position.x = heart1.pixelInset.position.x * 2;
-	heart3.pixelInset.position.x = heart2.pixelInset.width * 2;
+	heart1.pixelInset.position.x = -heart2.pixelInset.width * 2 -heart1.pixelInset.width/2;
+	heart2.pixelInset.position.x = -heart1.pixelInset.width/2;
+	heart3.pixelInset.position.x = heart2.pixelInset.width * 2 -heart1.pixelInset.width/2;
 	
 	heart1.pixelInset.y = Screen.height/3 + 30;
 	heart2.pixelInset.y = Screen.height/3 + 30;
@@ -258,10 +269,43 @@ function OnGUI(){
 	
 	
 	// Game Over Text
-	gameOverText.fontSize = Mathf.Floor(Screen.dpi/2);
-	gameOverText.pixelOffset.y = Screen.height/6;
+	gameOverText.fontSize = Mathf.Floor(Screen.dpi/2.5);
+	gameOverText.pixelOffset.y = Screen.height/4;
 	
+	// You hit the terrain!
+	reasonText.fontSize = Mathf.Floor(Screen.dpi/5);
+	reasonText.pixelOffset.y = gameOverText.pixelOffset.y - 150;
+	
+	// Your score:
+	yourScoreText.fontSize = Mathf.Floor(Screen.dpi/7);
+	yourScoreText.pixelOffset.x = -Screen.width/5;
+	yourScoreText.pixelOffset.y = 0;
+	
+	// 100
+	yourScoreDisplay.fontSize = Mathf.Floor(Screen.dpi/7);
+	yourScoreDisplay.pixelOffset.x = 0;
+	yourScoreDisplay.pixelOffset.y = yourScoreText.pixelOffset.y;
+	
+	// High score:
+	highScoreText.fontSize = yourScoreText.fontSize;
+	highScoreText.pixelOffset.x = yourScoreText.pixelOffset.x;
+	highScoreText.pixelOffset.y = yourScoreText.pixelOffset.y - 100;
+	
+	// 200
+	highScoreDisplay.fontSize = yourScoreDisplay.fontSize;
+	highScoreDisplay.pixelOffset.x = yourScoreDisplay.pixelOffset.x;
+	highScoreDisplay.pixelOffset.y = highScoreText.pixelOffset.y;
+	
+	// Replay
+	replayButton.pixelInset.width = 0.1 * Screen.width;
+	replayButton.pixelInset.height = replayButton.pixelInset.width;
+	replayButton.pixelInset.position.x = -replayButton.pixelInset.width/2;
+	replayButton.pixelInset.position.y = -Screen.height/2.5;
+
 }
+
+
+
  
 // Descreases the number of lives by newLifeValue, updates hearts, and checks for game over
 function DecreaseLives (newLifeValue : int) {
@@ -341,19 +385,31 @@ function GameOver(){
 }
 
 function ShowGameOverScreen() {
-	ShowOverlay(gameOverColor);
-	gameOverText.enabled = true;
-	replayButton.enabled = true;
-	
-
+	UpdateScores();
+	ShowOverlay(gameOverColor);	
+	gameOverText.gameObject.SetActive(true);
+	reasonText.gameObject.SetActive(true);
+	yourScoreText.gameObject.SetActive(true);
+	highScoreText.gameObject.SetActive(true);
+	yourScoreDisplay.gameObject.SetActive(true);
+	highScoreDisplay.gameObject.SetActive(true);
+	replayButton.gameObject.SetActive(true);
 	
 	timeText.enabled = false;
 	scoreText.enabled = false;
+	heart1.enabled = false;
+	heart2.enabled = false;
+	heart3.enabled = false;
 }
 
 function HideGameOverScreen(){
-	gameOverText.enabled = false;
-	replayButton.enabled = false;
+	gameOverText.gameObject.SetActive(false);
+	reasonText.gameObject.SetActive(false);
+	yourScoreText.gameObject.SetActive(false);
+	highScoreText.gameObject.SetActive(false);
+	yourScoreDisplay.gameObject.SetActive(false);
+	highScoreDisplay.gameObject.SetActive(false);
+	replayButton.gameObject.SetActive(false);
 }
 
 
@@ -408,6 +464,11 @@ function HidePlusText(){
 function MakeInvincible(invincibleValue : float){
 	invincibleTime = invincibleValue;
 	invincibleMode = true;
+}
+
+function UpdateScores(){
+	yourScoreDisplay.text = score.ToString();
+	// TODO: Check if score is greater than stored high score
 }
 
 
