@@ -21,13 +21,14 @@ function MoveObject (thisTransform : Transform, startPos : Vector3, endPos : Vec
     }
 }
 
-
-function OnCollisionEnter (hit : Collision) { 
+/*
+function OnTriggerEnter (hit : Collider) { 
  
-    if(hit.gameObject.tag == "Player") {
- 
+    if(hit.gameObject.tag == "Drone") {
+ 		// decrease one life
         Destroy(this.gameObject);
  
     }
  
 }
+*/

@@ -52,13 +52,13 @@
      <Compile Include="Assets\Flight Scripts\Boost Z.js" />
      <Compile Include="Assets\Flight Scripts\Destroy When Hit.js" />
      <Compile Include="Assets\Flight Scripts\Limited Pivot .js" />
+     <Compile Include="Assets\Flight Scripts\MoveObject.js" />
      <Compile Include="Assets\Flight Scripts\Plane Destroy.js" />
      <Compile Include="Assets\Flight Scripts\Rotate Y.js" />
      <Compile Include="Assets\Flight Scripts\Smoke Trail.js" />
      <Compile Include="Assets\Flight Scripts\SmoothFollow.js" />
      <Compile Include="Assets\Flight Scripts\SmoothLookAt.js" />
      <Compile Include="Assets\Flight Scripts\StaticObstacle.js" />
-     <Compile Include="Assets\MoveObject.js" />
      <Compile Include="Assets\Resize.js" />
      <Compile Include="Assets\Rings.js" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />

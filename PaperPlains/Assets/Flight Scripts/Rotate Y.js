@@ -105,7 +105,7 @@ function Start(){
 
 // Check for collision with non-trigger objects -- for us, this is the terrain
 function OnCollisionEnter(collision : Collision) {
-	//DecreaseLives(1);
+
 	print("Collision with Terrain; Lives: " + lives);
 	GameOver();
 }
@@ -114,6 +114,11 @@ function OnCollisionEnter(collision : Collision) {
  // Put the outcome of each collision with a reward/obstacle here
  function OnTriggerEnter (other : Collider) {
  	print("Collision with " + other.name);
+ 	
+ 	if(other.name == "Sphere"){
+ 		DecreaseLives(1);
+ 		Destroy(other.gameObject);
+ 	} 	
  	if (other.transform.IsChildOf(transform))
 			return;
 			
@@ -230,18 +235,18 @@ function Update() {
 function FixedUpdate () {
 	if (!isGamePaused) {
 	//Check when spacebar is pushed
-//		if (Input.GetKeyDown (KeyCode.Space)) {		
-//			print("space bar pressed " + rigidbody);
-//			isFlyingUp = true;
-//			//rigidbody.velocity = Vector3(0, 20, 0);
-//		}
-		for(var i = 0; i < Input.touchCount; ++i){
-			if(Input.GetTouch(i).phase == TouchPhase.Began){
-				print("speed up");
-				isFlyingUp = true;
-			}
-		
+		if (Input.GetKeyDown (KeyCode.Space)) {		
+			print("space bar pressed " + rigidbody);
+			isFlyingUp = true;
+			//rigidbody.velocity = Vector3(0, 20, 0);
 		}
+//		for(var i = 0; i < Input.touchCount; ++i){
+//			if(Input.GetTouch(i).phase == TouchPhase.Began){
+//				print("speed up");
+//				isFlyingUp = true;
+//			}
+//		
+//		}
 	}
 	
 }
