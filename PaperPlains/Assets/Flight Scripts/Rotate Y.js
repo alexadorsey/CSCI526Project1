@@ -1,4 +1,5 @@
 private var numRings : int;
+var numRingsCounter : int;
 var maxHeight : int;
 var score : int;
 var lives : int;
@@ -10,6 +11,7 @@ var flyingUpCounter : int;
 // Game control booleans
 var isGameWon = false;
 var isGameOver = false;
+var isTimeUp = false;
 var isGamePaused = false;
 var speedBoost = false;
 var updateScore = true;
@@ -39,7 +41,7 @@ private var heart_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
 
 var overlay : GUITexture;
 private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 0.4);
-private var gameWonColor : Color = Color(1.0, 0.0, 0.0, 0.5);
+private var gameWonColor : Color = Color(1.0, 0.1, 0.2, 0.5);
 
 // Game Over displays
 var gameOverText : GUIText;
@@ -57,19 +59,21 @@ var highScoreDisplay : GUIText;
 function Start(){
 	// Initialize the level
 	score = 0;
-	timer = 60;
+	timer = 2;
 	lives = 3;
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
 	plusTextWaitTime = 0;
 	maxHeight = 120;
-	numRings = 10;
+	numRings = 9;
+	numRingsCounter = 0;
 	flyingUpCounter = 0;
 	speed = 1.0;
 	rotateSpeed = 3.0;
 	
 	isGameWon = false;
 	isGameOver = false;
+	isTimeUp = false;
 	isGamePaused = false;
 	speedBoost = false;
 	updateScore = true;
@@ -98,7 +102,7 @@ function Start(){
 	// Show the start display
 	UpdateScore();
 	HideOverlay();
-	HideGameOverScreen();
+	HideGameEndScreen();
 	HidePlusText();
 	
 }
@@ -151,6 +155,10 @@ function OnCollisionEnter(collision : Collision) {
 			}
 			
 			ring.renderer.material.color = Color.red;
+			numRingsCounter++;
+			if (numRingsCounter == numRings) {
+				GameWon();
+			}
 		}		
 	}
 	
@@ -393,28 +401,40 @@ function UpdateScore() {
 
 // Call when level has been won
 function GameWon() {
-	yield WaitForSeconds(0.5);
 	isGameWon = true;
-	PauseGame();
-	ShowGameWonScreen();
-}
-function ShowGameWonScreen() {
-	ShowOverlay(gameWonColor);
-	
+	ShowGameEndScreen();
 }
 
+function TimesUp(){
+	isTimeUp = true;
+	ShowGameEndScreen();
+}
 
 
 // Call when game over
 function GameOver(){
 	isGameOver = true;
-	PauseGame();
-	ShowGameOverScreen();
+	ShowGameEndScreen();
 }
 
-function ShowGameOverScreen() {
+function ShowGameEndScreen() {
+	PauseGame();
 	UpdateScores();
-	ShowOverlay(gameOverColor);	
+	if (isGameOver){
+		ShowOverlay(gameOverColor);
+		gameOverText.text = "GAME OVER";
+	}
+	if (isGameWon){
+		ShowOverlay(gameWonColor);
+		gameOverText.text = "LEVEL COMPLETE!";
+		reasonText.text = "You collected every ring";
+	}
+	if (isTimeUp) {
+		ShowOverlay(gameWonColor);
+		gameOverText.text = "TIME'S UP!";
+		reasonText.text = "";
+	}
+	
 	gameOverText.gameObject.SetActive(true);
 	reasonText.gameObject.SetActive(true);
 	yourScoreText.gameObject.SetActive(true);
@@ -430,7 +450,7 @@ function ShowGameOverScreen() {
 	heart3.enabled = false;
 }
 
-function HideGameOverScreen(){
+function HideGameEndScreen(){
 	gameOverText.gameObject.SetActive(false);
 	reasonText.gameObject.SetActive(false);
 	yourScoreText.gameObject.SetActive(false);
@@ -460,7 +480,7 @@ function RunTimer(){
 		var mins: int = timer / 60;
 		timeText.text = String.Format("{0:0}:{1:00}", mins, secs);
 	} else {
-		GameOver();
+		TimesUp();
 	}
 }
 
