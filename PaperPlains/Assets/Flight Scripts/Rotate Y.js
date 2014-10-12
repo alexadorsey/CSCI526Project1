@@ -110,7 +110,7 @@ function OnCollisionEnter(collision : Collision) {
 	// If hits a ring
 	if (other.name == "Circle") {
 		print("Root is " + other.transform.root.name);
-		var ring: Transform = other.transform.root;
+		var ring : Transform = other.transform.parent;
 		
 		// If ring is not red already, change it red
 		if (ring.renderer.material.color != Color.red){

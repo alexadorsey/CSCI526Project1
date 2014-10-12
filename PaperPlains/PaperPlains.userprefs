@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resize.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Flight Scripts/StaticObstacle.js">
     <Files>
-      <File FileName="Assets/Flight Scripts/Rotate Y.js" Line="63" Column="1" />
-      <File FileName="Assets/Resize.js" Line="16" Column="33" />
+      <File FileName="Assets/Flight Scripts/Rotate Y.js" Line="113" Column="1" />
+      <File FileName="Assets/ClickEvent.js" Line="76" Column="2" />
+      <File FileName="Assets/Flight Scripts/StaticObstacle.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
