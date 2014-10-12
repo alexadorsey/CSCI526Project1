@@ -206,14 +206,16 @@ function Update() {
 	    	flyingUpCounter = 0;
 	    }
     }else{
-    
-    	
-    	if(replayButton.HitTest(Input.GetTouch(0).position)){
-			if(Input.GetTouch(0).phase == TouchPhase.Began){
-				UnPauseGame();
-				Application.LoadLevel(Application.loadedLevel);
+    	if(Input.touchCount > 0){
+    		if(replayButton.HitTest(Input.GetTouch(0).position)){
+				if(Input.GetTouch(0).phase == TouchPhase.Began){
+					UnPauseGame();
+					Application.LoadLevel(Application.loadedLevel);
+				}
 			}
-		}
+    	}
+    	
+    	
     }
     // Keep plane from moving above max height
     if (rigidbody.position.y >= maxHeight) {
