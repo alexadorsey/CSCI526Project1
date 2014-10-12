@@ -20,3 +20,14 @@ function MoveObject (thisTransform : Transform, startPos : Vector3, endPos : Vec
         yield; 
     }
 }
+
+
+function OnCollisionEnter (hit : Collision) { 
+ 
+    if(hit.gameObject.tag == "Player") {
+ 
+        Destroy(this.gameObject);
+ 
+    }
+ 
+}
