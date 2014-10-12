@@ -115,7 +115,7 @@ function OnCollisionEnter(collision : Collision) {
  function OnTriggerEnter (other : Collider) {
  	print("Collision with " + other.name);
  	
- 	if(other.name == "Sphere"){
+ 	if(other.tag == "Sphere1"){
  		DecreaseLives(1);
  		Destroy(other.gameObject);
  	} 	
