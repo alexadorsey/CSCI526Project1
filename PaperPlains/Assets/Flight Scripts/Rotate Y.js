@@ -1,13 +1,10 @@
-var speed : float = 1.0;
-var rotateSpeed : float = 3.0;
-var isFlyingUp = false;
-var flyingUpCounter = 0;
-
-
-private var numRings = 10;
-var maxHeight : int = 120;
+private var numRings : int;
+var maxHeight : int;
 var score : int;
 var lives : int;
+var speed : float;
+var rotateSpeed : float;
+var flyingUpCounter : int;
 
 
 // Game control booleans
@@ -17,6 +14,8 @@ var isGamePaused = false;
 var speedBoost = false;
 var updateScore = true;
 var invincibleMode = false;
+var isFlyingUp = false;
+
 
 
 var startTime;
@@ -44,6 +43,7 @@ private var gameWonColor : Color = Color(1.0, 0.0, 0.0, 0.5);
 
 // Game Over displays
 var gameOverText : GUIText;
+var replayButton : GUITexture;
 
 
 
@@ -57,7 +57,19 @@ function Start(){
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
 	plusTextWaitTime = 0;
+	maxHeight = 120;
+	numRings = 10;
+	flyingUpCounter = 0;
+	speed = 1.0;
+	rotateSpeed = 3.0;
 	
+	isGameWon = false;
+	isGameOver = false;
+	isGamePaused = false;
+	speedBoost = false;
+	updateScore = true;
+	invincibleMode = false;
+	isFlyingUp = false;
 	
 	// Gameplay Text
 	scoreText = GameObject.Find("Score").guiText;
@@ -70,7 +82,8 @@ function Start(){
 	
 	// Game Over Text
 	gameOverText = GameObject.Find("Game Over").guiText;
-	overlay = (GameObject.Find("Overlay").GetComponent(GUITexture)as GUITexture);	
+	overlay = (GameObject.Find("Overlay").GetComponent(GUITexture)as GUITexture);
+	replayButton = (GameObject.Find("Replay Button").GetComponent(GUITexture)as GUITexture);
 	
 	// Show the start display
 	UpdateScore();
@@ -181,9 +194,16 @@ function Update() {
 	    	isFlyingUp = false;
 	    	flyingUpCounter = 0;
 	    }
+    }else{
+    
+    	
+    	if(replayButton.HitTest(Input.GetTouch(0).position)){
+			if(Input.GetTouch(0).phase == TouchPhase.Began){
+				UnPauseGame();
+				Application.LoadLevel(Application.loadedLevel);
+			}
+		}
     }
-    
-    
     // Keep plane from moving above max height
     if (rigidbody.position.y >= maxHeight) {
 		transform.position = Vector3 (rigidbody.position.x, maxHeight, rigidbody.position.z);
@@ -323,12 +343,17 @@ function GameOver(){
 function ShowGameOverScreen() {
 	ShowOverlay(gameOverColor);
 	gameOverText.enabled = true;
+	replayButton.enabled = true;
+	
+
+	
 	timeText.enabled = false;
 	scoreText.enabled = false;
 }
 
 function HideGameOverScreen(){
 	gameOverText.enabled = false;
+	replayButton.enabled = false;
 }
 
 

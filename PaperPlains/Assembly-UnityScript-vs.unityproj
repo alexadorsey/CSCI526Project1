@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ClickEvent.js" />
      <Compile Include="Assets\Flight Scripts\A-D Only to Rotate Y.js" />
      <Compile Include="Assets\Flight Scripts\Boost Q.js" />
      <Compile Include="Assets\Flight Scripts\Boost Z.js" />
@@ -56,6 +57,7 @@
      <Compile Include="Assets\Flight Scripts\Smoke Trail.js" />
      <Compile Include="Assets\Flight Scripts\SmoothFollow.js" />
      <Compile Include="Assets\Flight Scripts\SmoothLookAt.js" />
+     <Compile Include="Assets\Resize.js" />
      <Compile Include="Assets\Rings.js" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
