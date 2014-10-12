@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Flight Scripts/Rotate Y.js">
     <Files>
-      <File FileName="Assets/Flight Scripts/A-D Only to Rotate Y.js" Line="2" Column="21" />
-      <File FileName="Assets/Flight Scripts/Rotate Y.js" Line="190" Column="3" />
+      <File FileName="Assets/Flight Scripts/Rotate Y.js" Line="413" Column="1" />
+      <File FileName="Assets/ClickEvent.js" Line="76" Column="2" />
+      <File FileName="Assets/Flight Scripts/StaticObstacle.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

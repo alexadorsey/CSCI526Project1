@@ -251,7 +251,7 @@ function OnGUI(){
 	timeText.fontSize = Mathf.Floor(Screen.dpi/5);
 	plusText.fontSize = Mathf.Floor(Screen.dpi/5);
 	
-	scoreText.pixelOffset.y = Screen.height/3 + 20;
+	scoreText.pixelOffset.y = Screen.height/2 + 20;
 	timeText.pixelOffset.y = -Screen.height/3 - 20;
 	
 	heart1.pixelInset.width = 0.05 * Screen.width;
