@@ -107,7 +107,10 @@ function Start(){
 function OnCollisionEnter(collision : Collision) {
 
 	print("Collision with Terrain; Lives: " + lives);
-	GameOver();
+	if (!invincibleMode){
+		GameOver();
+	}
+	
 }
  
  // Handles triggers with collisions
@@ -130,8 +133,23 @@ function OnCollisionEnter(collision : Collision) {
 		
 		// If ring is not red already, change it red
 		if (ring.renderer.material.color != Color.red){
-			AddScore(30);
-			ShowPlusText("+30");
+			if (ring.name == "Ring Medium"){
+				AddScore(60);
+				ShowPlusText("+60");
+			}
+			if (ring.name == "Ring Hard"){
+				AddScore(90);
+				ShowPlusText("+90");
+			}
+			if (ring.name == "Ring Easy"){
+				AddScore(30);
+				ShowPlusText("+30");
+			}
+			if (ring.name == "Ring"){
+				AddScore(30);
+				ShowPlusText("+30");
+			}
+			
 			ring.renderer.material.color = Color.red;
 		}		
 	}
