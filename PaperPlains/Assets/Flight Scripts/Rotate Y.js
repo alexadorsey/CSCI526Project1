@@ -17,6 +17,7 @@ var speedBoost = false;
 var updateScore = true;
 var invincibleMode = false;
 var isFlyingUp = false;
+var inCountdown = true;
 
 
 
@@ -27,12 +28,15 @@ var speedBoostTime : int;
 var plusTextWaitTime : float;
 var invincibleTime : float;
 var invincibleCounter : int;
+var countdownCounter : int;
+var countdownTime : int;
 
 
 // Gameplay displays
 var scoreText : GUIText;
 var timeText : GUIText;
 var plusText : GUIText;
+var countdownText : GUIText;
 var heart1 : GUITexture;
 var heart2 : GUITexture;
 var heart3 : GUITexture;
@@ -40,8 +44,9 @@ private var heart_disabled : Color = Color(1.0, 0.0, 0.0, 0.2);
 private var heart_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
 
 var overlay : GUITexture;
+private var gameStartColor : Color = Color(0.0, 0.0, 0.0, 0.2);
 private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 0.4);
-private var gameWonColor : Color = Color(1.0, 0.1, 0.2, 0.5);
+private var gameWonColor : Color = Color(0.3, 1.0, 0.3, 0.5);
 
 // Game Over displays
 var gameOverText : GUIText;
@@ -59,7 +64,7 @@ var highScoreDisplay : GUIText;
 function Start(){
 	// Initialize the level
 	score = 0;
-	timer = 2;
+	timer = 60;
 	lives = 3;
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
@@ -68,6 +73,8 @@ function Start(){
 	numRings = 9;
 	numRingsCounter = 0;
 	flyingUpCounter = 0;
+	countdownCounter = 0;
+	countdownTime = 3;
 	speed = 1.0;
 	rotateSpeed = 3.0;
 	
@@ -79,11 +86,13 @@ function Start(){
 	updateScore = true;
 	invincibleMode = false;
 	isFlyingUp = false;
+	inCountdown = true;
 	
 	// Gameplay Text
 	scoreText = GameObject.Find("Score").guiText;
 	timeText = GameObject.Find("Time").guiText;
 	plusText = GameObject.Find("Plus Points Text").guiText;
+	countdownText = GameObject.Find("Countdown Text").guiText;
 	
 	heart1 = (GameObject.Find("heart1").GetComponent(GUITexture)as GUITexture);
 	heart2 = (GameObject.Find("heart2").GetComponent(GUITexture)as GUITexture);
@@ -101,10 +110,9 @@ function Start(){
 	
 	// Show the start display
 	UpdateScore();
-	HideOverlay();
 	HideGameEndScreen();
-	HidePlusText();
-	
+	ShowOverlay(gameStartColor);	
+	HidePlusText();	
 }
 
 // Check for collision with non-trigger objects -- for us, this is the terrain
@@ -173,12 +181,14 @@ function OnCollisionEnter(collision : Collision) {
 	if (other.name == "Lightning Body"){
 		IncreaseSpeed();   
 		Destroy(other.gameObject);
+		ChangePlaneColor(Color.yellow);
 	}
 	
 	// If hits a star
 	if (other.name == "Collectible Star"){
-		MakeInvincible(10);   
+		MakeInvincible(5);   
 		Destroy(other.gameObject);
+		ChangePlaneColor(Color.red);
 	}
 	
 }
@@ -188,31 +198,38 @@ function Update() {
 	if (!isGamePaused) {
 	
 		// Run the timer
-		RunTimer();
+		RunTimer();		
 		
 		// Character controls
-	    var controller : CharacterController = GetComponent(CharacterController);
-	    transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-	    var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-	    var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+		if (!inCountdown){
+	    	var controller : CharacterController = GetComponent(CharacterController);
+//	    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+//	    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+//	    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+	
+	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+	    	var h = Input.acceleration.y;
+	    	var v = Input.acceleration.x;
+	    	transform.localEulerAngles.x = -v*60; // forth/back banking first!
+	    }
 	    
 	    
-//	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-//	    var h = Input.acceleration.y;
-//	    var v = Input.acceleration.x;
-	    
-	    
-	    transform.localEulerAngles.x = -v*60; // forth/back banking first!
 	    
 	    
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
 	    	transform.Translate(2.5, 0, 0);
 	    } else {
-	    	transform.Translate(1.5, 0, 0); 
+	    	if (inCountdown) {
+	    		transform.Translate(0, 0, 0);
+	    	} else{
+	    		transform.Translate(1.5, 0, 0);
+	    	}
+	    	 
 	    }
 	    if (speedBoostCounter >= speedBoostTime * 60) {
 	    	speedBoost = false;
+	    	ChangePlaneColor(Color.white);
 	    	speedBoostCounter = 0;
 	    } else {
 	    	speedBoostCounter++;
@@ -221,10 +238,22 @@ function Update() {
 	    // Invincible Counter
 	    if (invincibleCounter >= invincibleTime * 60){
 	    	invincibleMode = false;
+	    	ChangePlaneColor(Color.white);
 	    	invincibleCounter = 0;
 	    } else {
 	    	invincibleCounter++;
 	    }
+	    
+	    // Starting Countdown
+	    if (countdownTime > -1){
+		    if (countdownCounter % 60 == 0) {
+		    	countdownText.text = countdownTime.ToString();
+		    	countdownTime--;
+		    }
+		    countdownCounter++;
+		 } else {
+		 	EndCountdown();
+		 }
 	    
 	      
 	     
@@ -239,7 +268,7 @@ function Update() {
 	    	isFlyingUp = false;
 	    	flyingUpCounter = 0;
 	    }
-    }else{
+    } else {
     	if(Input.touchCount > 0){
     		if(replayButton.HitTest(Input.GetTouch(0).position)){
 				if(Input.GetTouch(0).phase == TouchPhase.Began){
@@ -247,9 +276,7 @@ function Update() {
 					Application.LoadLevel(Application.loadedLevel);
 				}
 			}
-    	}
-    	
-    	
+    	}	
     }
     // Keep plane from moving above max height
     if (rigidbody.position.y >= maxHeight) {
@@ -261,18 +288,17 @@ function Update() {
 function FixedUpdate () {
 	if (!isGamePaused) {
 	//Check when spacebar is pushed
-		if (Input.GetKeyDown (KeyCode.Space)) {		
-			print("space bar pressed " + rigidbody);
-			isFlyingUp = true;
-			//rigidbody.velocity = Vector3(0, 20, 0);
-		}
-//		for(var i = 0; i < Input.touchCount; ++i){
-//			if(Input.GetTouch(i).phase == TouchPhase.Began){
-//				print("speed up");
-//				isFlyingUp = true;
-//			}
-//		
+//		if (Input.GetKeyDown (KeyCode.Space)) {		
+//			print("space bar pressed " + rigidbody);
+//			isFlyingUp = true;
+//			//rigidbody.velocity = Vector3(0, 20, 0);
 //		}
+		for(var i = 0; i < Input.touchCount; ++i){
+			if(Input.GetTouch(i).phase == TouchPhase.Began){
+				print("fly up");
+				isFlyingUp = true;
+			}
+		}
 	}
 	
 }
@@ -282,11 +308,14 @@ function FixedUpdate () {
  
 function OnGUI(){
 	scoreText.fontSize = Mathf.Floor(Screen.dpi/5);
-	timeText.fontSize = Mathf.Floor(Screen.dpi/5);
+	timeText.fontSize = Mathf.Floor(Screen.dpi/4.5);
 	plusText.fontSize = Mathf.Floor(Screen.dpi/5);
+	// Countdown Text
+	countdownText.fontSize = Mathf.Floor(Screen.dpi/2);
 	
-	scoreText.pixelOffset.y = Screen.height/3 + 20;
+	scoreText.pixelOffset.y = Screen.height/3;
 	timeText.pixelOffset.y = -Screen.height/3 - 20;
+	
 	
 	heart1.pixelInset.width = 0.05 * Screen.width;
 	heart1.pixelInset.height = 0.05 * Screen.width;
@@ -302,6 +331,8 @@ function OnGUI(){
 	heart1.pixelInset.y = Screen.height/3 + 30;
 	heart2.pixelInset.y = Screen.height/3 + 30;
 	heart3.pixelInset.y = Screen.height/3 + 30;
+	
+	
 	
 	
 	// Game Over Text
@@ -402,6 +433,7 @@ function UpdateScore() {
 // Call when level has been won
 function GameWon() {
 	isGameWon = true;
+	yield WaitForSeconds(1);
 	ShowGameEndScreen();
 }
 
@@ -458,6 +490,7 @@ function HideGameEndScreen(){
 	yourScoreDisplay.gameObject.SetActive(false);
 	highScoreDisplay.gameObject.SetActive(false);
 	replayButton.gameObject.SetActive(false);
+	HideOverlay();
 }
 
 
@@ -474,13 +507,15 @@ function UnPauseGame(){
 
 // Countdown the timer and display on the screen
 function RunTimer(){
-	if (timer > 0){
-		timer -= Time.deltaTime;
-		var secs: int = timer % 60;
-		var mins: int = timer / 60;
-		timeText.text = String.Format("{0:0}:{1:00}", mins, secs);
-	} else {
-		TimesUp();
+	if (!inCountdown) {
+		if (timer > 0){
+			timer -= Time.deltaTime;
+			var secs: int = timer % 60;
+			var mins: int = timer / 60;
+			timeText.text = String.Format("{0:0}:{1:00}", mins, secs);
+		} else {
+			TimesUp();
+		}
 	}
 }
 
@@ -517,6 +552,16 @@ function MakeInvincible(invincibleValue : float){
 function UpdateScores(){
 	yourScoreDisplay.text = score.ToString();
 	// TODO: Check if score is greater than stored high score
+}
+
+function EndCountdown() {
+	inCountdown = false;
+	HideOverlay();
+	countdownText.gameObject.SetActive(false);
+}
+
+function ChangePlaneColor( c : Color) {
+	GameObject.Find("Paper Plane Body").renderer.material.color = c;
 }
 
 
