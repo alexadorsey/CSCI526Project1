@@ -215,7 +215,6 @@ function Update() {
 	    
 	    
 	    
-	    
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
 	    	transform.Translate(2.5, 0, 0);

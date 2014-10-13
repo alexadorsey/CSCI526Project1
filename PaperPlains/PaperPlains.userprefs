@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Flight Scripts/Rotate Y.js">
     <Files>
-      <File FileName="Assets/Flight Scripts/Rotate Y.js" Line="254" Column="43" />
+      <File FileName="Assets/Flight Scripts/Rotate Y.js" Line="114" Column="30" />
       <File FileName="Assets/ClickEvent.js" Line="76" Column="2" />
       <File FileName="Assets/Flight Scripts/StaticObstacle.js" Line="1" Column="1" />
     </Files>
