@@ -76,6 +76,7 @@ function Start(){
 	countdownCounter = 0;
 	countdownTime = 3;
 	speed = 1.0;
+
 	rotateSpeed = 3.0;
 	
 	isGameWon = false;
@@ -225,6 +226,7 @@ function Update() {
 	    		transform.Translate(1.5, 0, 0);
 	    	}
 	    	 
+
 	    }
 	    if (speedBoostCounter >= speedBoostTime * 60) {
 	    	speedBoost = false;
@@ -287,15 +289,19 @@ function Update() {
 function FixedUpdate () {
 	if (!isGamePaused) {
 	//Check when spacebar is pushed
-//		if (Input.GetKeyDown (KeyCode.Space)) {		
-//			print("space bar pressed " + rigidbody);
-//			isFlyingUp = true;
-//			//rigidbody.velocity = Vector3(0, 20, 0);
-//		}
-		for(var i = 0; i < Input.touchCount; ++i){
-			if(Input.GetTouch(i).phase == TouchPhase.Began){
-				print("fly up");
-				isFlyingUp = true;
+
+		if (Input.GetKeyDown (KeyCode.Space)) {		
+			print("space bar pressed " + rigidbody);
+			isFlyingUp = true;
+			//rigidbody.velocity = Vector3(0, 20, 0);
+		}
+		if(Input.touchCount > 0) {
+			for(var i = 0; i < Input.touchCount; ++i){
+				if(Input.GetTouch(i).phase == TouchPhase.Began){
+					print("speed up");
+					isFlyingUp = true;
+				}
+		
 			}
 		}
 	}
