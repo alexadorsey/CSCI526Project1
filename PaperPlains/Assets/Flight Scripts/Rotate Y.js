@@ -1,7 +1,8 @@
-private var numRings : int;
+var numRings : int;
 var numRingsCounter : int;
 var maxHeight : int;
 var score : int;
+var ringScore : int;
 var lives : int;
 var speed : float;
 var rotateSpeed : float;
@@ -18,7 +19,11 @@ var updateScore = true;
 var invincibleMode = false;
 var isFlyingUp = false;
 var inCountdown = true;
-
+var AvenirNextUL : Font;
+var replayButton : Texture2D;
+var playButton : Texture2D;
+var overlay : Texture2D;
+var endStar : Texture2D;
 
 
 var startTime;
@@ -32,52 +37,47 @@ var countdownCounter : int;
 var countdownTime : int;
 
 
+
 // Gameplay displays
+
+var paperPlane : GameObject;
 var scoreText : GUIText;
 var timeText : GUIText;
 var plusText : GUIText;
 var countdownText : GUIText;
+var pauseButton : GUITexture;
 var heart1 : GUITexture;
 var heart2 : GUITexture;
 var heart3 : GUITexture;
 private var heart_disabled : Color = Color(1.0, 0.0, 0.0, 0.2);
 private var heart_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
 
-var overlay : GUITexture;
-private var gameStartColor : Color = Color(0.0, 0.0, 0.0, 0.2);
-private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 0.4);
-private var gameWonColor : Color = Color(0.3, 1.0, 0.3, 0.5);
+//var overlay : GUITexture;
+private var gameStartColor : Color = Color(0.0, 0.0, 0.0, 0.6);
+private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 1.0);
+private var gameWonColor : Color = Color(0.1, 0.5, 0.1, 1.0);
+private var gamePauseColor : Color = Color(0.3, 0.0, 0.4, 1.0);
 
-// Game Over displays
-var gameOverText : GUIText;
-var replayButton : GUITexture;
-var reasonText : GUIText;
-var yourScoreText : GUIText;
-var highScoreText : GUIText;
-var yourScoreDisplay : GUIText;
-var highScoreDisplay : GUIText;
-
-
-
+var gameEndTextStyle : GUIStyle;
+var reasonTextStyle : GUIStyle;
+var yourScoreTextStyle : GUIStyle;
 
 
 function Start(){
 	// Initialize the level
 	score = 0;
-	timer = 60;
 	lives = 3;
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
 	plusTextWaitTime = 0;
 	maxHeight = 120;
-	numRings = 9;
 	numRingsCounter = 0;
 	flyingUpCounter = 0;
 	countdownCounter = 0;
 	countdownTime = 3;
 	speed = 1.0;
 
-	rotateSpeed = 3.0;
+	rotateSpeed = 10.0;
 	
 	isGameWon = false;
 	isGameOver = false;
@@ -90,40 +90,154 @@ function Start(){
 	inCountdown = true;
 	
 	// Gameplay Text
+	paperPlane = GameObject.Find("Paper Plane Body");
 	scoreText = GameObject.Find("Score").guiText;
 	timeText = GameObject.Find("Time").guiText;
 	plusText = GameObject.Find("Plus Points Text").guiText;
 	countdownText = GameObject.Find("Countdown Text").guiText;
-	
+		
+	pauseButton = (GameObject.Find("Pause Button").GetComponent(GUITexture)as GUITexture);
 	heart1 = (GameObject.Find("heart1").GetComponent(GUITexture)as GUITexture);
 	heart2 = (GameObject.Find("heart2").GetComponent(GUITexture)as GUITexture);
 	heart3 = (GameObject.Find("heart3").GetComponent(GUITexture)as GUITexture);
 	
-	// Game Over Text
-	gameOverText = GameObject.Find("Game Over").guiText;
-	overlay = (GameObject.Find("Overlay").GetComponent(GUITexture)as GUITexture);
-	replayButton = (GameObject.Find("Replay Button").GetComponent(GUITexture)as GUITexture);
-	reasonText = GameObject.Find("Reason Text").guiText;
-	yourScoreText = GameObject.Find("Your Score").guiText;
-	highScoreText = GameObject.Find("High Score").guiText;
-	yourScoreDisplay = GameObject.Find("Your Score Display").guiText;
-	highScoreDisplay = GameObject.Find("High Score Display").guiText;
-	
 	// Show the start display
 	UpdateScore();
 	HideGameEndScreen();
-	ShowOverlay(gameStartColor);	
 	HidePlusText();	
+	
+	
+	// Pause Button
+	pauseButton.pixelInset.width = 0.08 * Screen.width;
+	pauseButton.pixelInset.height = pauseButton.pixelInset.width;
+	pauseButton.pixelInset.position.x = Screen.width/3 + 70;
+	pauseButton.pixelInset.position.y = Screen.height/3 - 40;
+	
+	
+	scoreText.fontSize = Mathf.Floor(Screen.dpi/5);
+	timeText.fontSize = Mathf.Floor(Screen.dpi/4);
+	plusText.fontSize = Mathf.Floor(Screen.dpi/7);
+	
+	// Countdown Text
+	countdownText.fontSize = Mathf.Floor(Screen.dpi/2);	
+	scoreText.pixelOffset.y = Screen.height/3 - 40;
+	timeText.pixelOffset.y = -Screen.height/3 - 50;
+	plusText.pixelOffset.x = Screen.height/5;
+	plusText.color = Color(0.0, 0.9, 0.4);
+	
+	heart1.pixelInset.width = 0.05 * Screen.width;
+	heart1.pixelInset.height = heart1.pixelInset.width;
+	heart2.pixelInset.width = heart1.pixelInset.width;
+	heart2.pixelInset.height = heart1.pixelInset.width;
+	heart3.pixelInset.width = heart1.pixelInset.width;
+	heart3.pixelInset.height = heart1.pixelInset.width;
+	
+	heart1.pixelInset.position.x = -heart2.pixelInset.width * 2 -heart1.pixelInset.width/2 + 20;
+	heart2.pixelInset.position.x = -heart1.pixelInset.width/2;
+	heart3.pixelInset.position.x = heart2.pixelInset.width * 2 -heart1.pixelInset.width/2 - 20;
+	
+	heart1.pixelInset.y = Screen.height/3 + 40;
+	heart2.pixelInset.y = heart1.pixelInset.y;
+	heart3.pixelInset.y = heart1.pixelInset.y;
+	
+	
+	
+	gameEndTextStyle = new GUIStyle();
+    gameEndTextStyle.fontSize = Mathf.Floor(Screen.dpi/2.5);
+    gameEndTextStyle.font = AvenirNextUL;
+    gameEndTextStyle.alignment = TextAnchor.MiddleCenter;
+    gameEndTextStyle.normal.textColor = Color.white;
+	
+	reasonTextStyle = new GUIStyle();
+    reasonTextStyle.fontSize = Mathf.Floor(Screen.dpi/5);
+    reasonTextStyle.font = AvenirNextUL;
+    reasonTextStyle.alignment = TextAnchor.MiddleCenter;
+    reasonTextStyle.normal.textColor = Color.white;
+    
+    yourScoreTextStyle = new GUIStyle();
+    yourScoreTextStyle.fontSize = Mathf.Floor(Screen.dpi/7);
+    yourScoreTextStyle.font = AvenirNextUL;
+    yourScoreTextStyle.alignment = TextAnchor.MiddleCenter;
+    yourScoreTextStyle.normal.textColor = Color.white;		
+}
+
+
+function OnGUI(){
+	if (isGameOver || isGameWon || isTimeUp || isGamePaused) {
+		if (isGameOver) {
+			// Overlay
+			GUI.color = gameOverColor;
+			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
+			GUI.color = Color(1.0, 0.68, 0.0, 1.0);
+			// Game Over Text
+			GUI.Label(Rect (Screen.width/2-50, Screen.height/4, 100, 50), "GAME OVER", gameEndTextStyle);
+			GUI.color = Color.white;
+			GUI.Label(Rect (Screen.width/2-50, Screen.height/2-95, 100, 50), "You hit the terrain!", reasonTextStyle);
+			
+		}
+		if (isGameWon){
+			GUI.color = gameWonColor;
+			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
+			GUI.color = Color(1.0, 0.68, 0.0, 1.0);
+			GUI.Label(Rect (Screen.width/2-50, Screen.height/4, 100, 50), "LEVEL COMPLETE", gameEndTextStyle);
+			GUI.color = Color.white;
+			GUI.Label(Rect (Screen.width/2-50, Screen.height/2-95, 100, 50), "You collected all the rings!", reasonTextStyle);
+		}
+		if (isTimeUp) {
+			GUI.color = gameWonColor;
+			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
+			GUI.color = Color(1.0, 0.68, 0.0, 1.0);
+			GUI.Label(Rect (Screen.width/2-50, Screen.height/4, 100, 50), "TIME'S UP!", gameEndTextStyle);
+			GUI.color = Color.white;
+		}
+		if (isGamePaused && (!isGameOver && !isGameWon && !isTimeUp)) {
+			GUI.color = gamePauseColor;
+			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
+			GUI.color = Color.white;
+			GUI.Label(Rect (Screen.width/2-50, Screen.height/3, 100, 50), "PAUSED", gameEndTextStyle);
+			if (GUI.Button (Rect (Screen.width/2 - 200,Screen.height * 3/5, 0.1 * Screen.width, 0.1 * Screen.width), replayButton, GUIStyle.none)) {
+        		UnPauseGame();
+				Application.LoadLevel(Application.loadedLevel);
+    		}
+    		if (GUI.Button (Rect (Screen.width/2 + 50,Screen.height * 3/5, 0.1 * Screen.width, 0.1 * Screen.width), playButton, GUIStyle.none)) {
+        		UnPauseGame();
+    		}
+		} else {
+			GUI.Label(Rect (Screen.width/4, Screen.height/2 + 20, 100, 50), "your score:", yourScoreTextStyle);
+			GUI.Label(Rect (Screen.width/2 - 50, Screen.height/2 + 20, 100, 50), score.ToString(), yourScoreTextStyle);
+			GUI.Label(Rect (Screen.width/4, Screen.height/2 + 100, 110, 50), "high score:", yourScoreTextStyle);
+			GUI.Label(Rect (Screen.width/2 - 50, Screen.height/2 + 110, 100, 50), "---", yourScoreTextStyle);
+			
+			// Replay		
+			if (GUI.Button (Rect (Screen.width/2 - 0.1 * Screen.width/2,Screen.height * 3/4, 0.1 * Screen.width, 0.1 * Screen.width), replayButton, GUIStyle.none)) {
+	        	UnPauseGame();
+				Application.LoadLevel(Application.loadedLevel);
+	    	}
+	    	
+	    	// Draw stars depending on the score
+			GUI.color = Color(1.0, 0.68, 0.0, 1.0);
+			if (score < ringScore/2) {
+				GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+			}
+			if (score >= ringScore/2 && score < ringScore) {
+				GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+				GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+			}	
+			if (score >= ringScore) {
+				GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+				GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+				GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+			}
+		}
+	}
 }
 
 // Check for collision with non-trigger objects -- for us, this is the terrain
 function OnCollisionEnter(collision : Collision) {
-
 	print("Collision with Terrain; Lives: " + lives);
 	if (!invincibleMode){
 		GameOver();
-	}
-	
+	}	
 }
  
  // Handles triggers with collisions
@@ -131,13 +245,15 @@ function OnCollisionEnter(collision : Collision) {
  function OnTriggerEnter (other : Collider) {
  	print("Collision with " + other.name);
  	
- 	if(other.tag == "Sphere1"){
+ 	if(other.tag == "Sphere"){
  		DecreaseLives(1);
- 		Destroy(other.gameObject);
+ 		ChangePlaneColor(Color.black);
+ 		yield WaitForSeconds(0.3);
+ 		ChangePlaneColor(Color.white);
+ 		//Destroy(other.gameObject);
  	} 	
  	if (other.transform.IsChildOf(transform))
-			return;
-			
+			return;			
 			
 	// If hits a ring
 	if (other.name == "Circle") {
@@ -171,10 +287,15 @@ function OnCollisionEnter(collision : Collision) {
 		}		
 	}
 	
-	// If hits a heart
+//	// If hits a heart
 	if (other.name == "Heart Body") {
 		IncreaseLives(1);
-		ShowPlusText("+1 Life");
+		if (lives == 3) {	
+			ShowPlusText("+100");
+			AddScore(100);	
+		} else {
+			ShowPlusText("+1 Life");
+		}
 		Destroy(other.gameObject);
 	}
 	
@@ -189,7 +310,7 @@ function OnCollisionEnter(collision : Collision) {
 	if (other.name == "Collectible Star"){
 		MakeInvincible(5);   
 		Destroy(other.gameObject);
-		ChangePlaneColor(Color.red);
+		ChangePlaneColor(Color(0.4, 0.0, 0.7, 1.0));
 	}
 	
 }
@@ -211,6 +332,7 @@ function Update() {
 	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
 	    	var h = Input.acceleration.y;
 	    	var v = Input.acceleration.x;
+	    	
 	    	transform.localEulerAngles.x = -v*60; // forth/back banking first!
 	    }
 	    
@@ -218,12 +340,12 @@ function Update() {
 	    
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
-	    	transform.Translate(2.5, 0, 0);
+	    	transform.Translate(4.5, 0, 0);
 	    } else {
 	    	if (inCountdown) {
 	    		transform.Translate(0, 0, 0);
 	    	} else{
-	    		transform.Translate(1.5, 0, 0);
+	    		transform.Translate(2, 0, 0);
 	    	}
 	    	 
 
@@ -247,7 +369,7 @@ function Update() {
 	    
 	    // Starting Countdown
 	    if (countdownTime > -1){
-		    if (countdownCounter % 60 == 0) {
+		    if (countdownCounter % 30 == 0) {
 		    	countdownText.text = countdownTime.ToString();
 		    	countdownTime--;
 		    }
@@ -265,31 +387,32 @@ function Update() {
 	    	transform.localEulerAngles.z = 20;
 	    	flyingUpCounter++;
 	    }	    
-	    if (flyingUpCounter >= 30) {
+	    if (flyingUpCounter >= 10) {
 	    	isFlyingUp = false;
 	    	flyingUpCounter = 0;
 	    }
     } else {
-    	if(Input.touchCount > 0){
-    		if(replayButton.HitTest(Input.GetTouch(0).position)){
-				if(Input.GetTouch(0).phase == TouchPhase.Began){
-					UnPauseGame();
-					Application.LoadLevel(Application.loadedLevel);
-				}
-			}
-    	}	
+//    	if(Input.touchCount > 0){
+//    		if(replayButton.HitTest(Input.GetTouch(0).position)){
+//				if(Input.GetTouch(0).phase == TouchPhase.Began){
+//					UnPauseGame();
+//					Application.LoadLevel(Application.loadedLevel);
+//				}
+//			}
+//	   	}	
     }
     // Keep plane from moving above max height
     if (rigidbody.position.y >= maxHeight) {
 		transform.position = Vector3 (rigidbody.position.x, maxHeight, rigidbody.position.z);
-	}	
+	}
+	
+	
 }
 
 
 function FixedUpdate () {
-	if (!isGamePaused) {
 	//Check when spacebar is pushed
-
+	if (!isGamePaused) {
 		if (Input.GetKeyDown (KeyCode.Space)) {		
 			print("space bar pressed " + rigidbody);
 			isFlyingUp = true;
@@ -297,85 +420,21 @@ function FixedUpdate () {
 		}
 		if(Input.touchCount > 0) {
 			for(var i = 0; i < Input.touchCount; ++i){
+				if(pauseButton.HitTest(Input.GetTouch(0).position)){
+					print("pause button");
+					if(Input.GetTouch(0).phase == TouchPhase.Began){
+						PauseGame();
+					}
+				}
 				if(Input.GetTouch(i).phase == TouchPhase.Began){
 					print("speed up");
 					isFlyingUp = true;
-				}
-		
+				}	
 			}
 		}
-	}
-	
+	}	
 }
  
- 
- 
- 
-function OnGUI(){
-	scoreText.fontSize = Mathf.Floor(Screen.dpi/5);
-	timeText.fontSize = Mathf.Floor(Screen.dpi/4.5);
-	plusText.fontSize = Mathf.Floor(Screen.dpi/5);
-	// Countdown Text
-	countdownText.fontSize = Mathf.Floor(Screen.dpi/2);
-	
-	scoreText.pixelOffset.y = Screen.height/3;
-	timeText.pixelOffset.y = -Screen.height/3 - 20;
-	
-	
-	heart1.pixelInset.width = 0.05 * Screen.width;
-	heart1.pixelInset.height = 0.05 * Screen.width;
-	heart2.pixelInset.width = 0.05 * Screen.width;
-	heart2.pixelInset.height = 0.05 * Screen.width;
-	heart3.pixelInset.width = 0.05 * Screen.width;
-	heart3.pixelInset.height = 0.05 * Screen.width;
-	
-	heart1.pixelInset.position.x = -heart2.pixelInset.width * 2 -heart1.pixelInset.width/2;
-	heart2.pixelInset.position.x = -heart1.pixelInset.width/2;
-	heart3.pixelInset.position.x = heart2.pixelInset.width * 2 -heart1.pixelInset.width/2;
-	
-	heart1.pixelInset.y = Screen.height/3 + 30;
-	heart2.pixelInset.y = Screen.height/3 + 30;
-	heart3.pixelInset.y = Screen.height/3 + 30;
-	
-	
-	
-	
-	// Game Over Text
-	gameOverText.fontSize = Mathf.Floor(Screen.dpi/2.5);
-	gameOverText.pixelOffset.y = Screen.height/4;
-	
-	// You hit the terrain!
-	reasonText.fontSize = Mathf.Floor(Screen.dpi/5);
-	reasonText.pixelOffset.y = gameOverText.pixelOffset.y - 150;
-	
-	// Your score:
-	yourScoreText.fontSize = Mathf.Floor(Screen.dpi/7);
-	yourScoreText.pixelOffset.x = -Screen.width/5;
-	yourScoreText.pixelOffset.y = 0;
-	
-	// 100
-	yourScoreDisplay.fontSize = Mathf.Floor(Screen.dpi/7);
-	yourScoreDisplay.pixelOffset.x = 0;
-	yourScoreDisplay.pixelOffset.y = yourScoreText.pixelOffset.y;
-	
-	// High score:
-	highScoreText.fontSize = yourScoreText.fontSize;
-	highScoreText.pixelOffset.x = yourScoreText.pixelOffset.x;
-	highScoreText.pixelOffset.y = yourScoreText.pixelOffset.y - 100;
-	
-	// 200
-	highScoreDisplay.fontSize = yourScoreDisplay.fontSize;
-	highScoreDisplay.pixelOffset.x = yourScoreDisplay.pixelOffset.x;
-	highScoreDisplay.pixelOffset.y = highScoreText.pixelOffset.y;
-	
-	// Replay
-	replayButton.pixelInset.width = 0.1 * Screen.width;
-	replayButton.pixelInset.height = replayButton.pixelInset.width;
-	replayButton.pixelInset.position.x = -replayButton.pixelInset.width/2;
-	replayButton.pixelInset.position.y = -Screen.height/2.5;
-
-}
-
 
 
  
@@ -413,6 +472,7 @@ function IncreaseLives (newLifeValue : int) {
 	    }
     }
 }
+
 
 // Increase the speed of the plane due to a lightning bolt
 function IncreaseSpeed() {
@@ -455,58 +515,37 @@ function GameOver(){
 }
 
 function ShowGameEndScreen() {
-	PauseGame();
-	UpdateScores();
-	if (isGameOver){
-		ShowOverlay(gameOverColor);
-		gameOverText.text = "GAME OVER";
-	}
-	if (isGameWon){
-		ShowOverlay(gameWonColor);
-		gameOverText.text = "LEVEL COMPLETE!";
-		reasonText.text = "You collected every ring";
-	}
-	if (isTimeUp) {
-		ShowOverlay(gameWonColor);
-		gameOverText.text = "TIME'S UP!";
-		reasonText.text = "";
-	}
-	
-	gameOverText.gameObject.SetActive(true);
-	reasonText.gameObject.SetActive(true);
-	yourScoreText.gameObject.SetActive(true);
-	highScoreText.gameObject.SetActive(true);
-	yourScoreDisplay.gameObject.SetActive(true);
-	highScoreDisplay.gameObject.SetActive(true);
-	replayButton.gameObject.SetActive(true);
-	
+	PauseGame();	
 	timeText.enabled = false;
 	scoreText.enabled = false;
 	heart1.enabled = false;
 	heart2.enabled = false;
 	heart3.enabled = false;
+	plusText.enabled = false;
+	pauseButton.enabled = false;
 }
 
 function HideGameEndScreen(){
-	gameOverText.gameObject.SetActive(false);
-	reasonText.gameObject.SetActive(false);
-	yourScoreText.gameObject.SetActive(false);
-	highScoreText.gameObject.SetActive(false);
-	yourScoreDisplay.gameObject.SetActive(false);
-	highScoreDisplay.gameObject.SetActive(false);
-	replayButton.gameObject.SetActive(false);
-	HideOverlay();
+
 }
+
 
 
 // Pause & unpause game
 function PauseGame() {
-	isGamePaused = true;
-	Time.timeScale=0;
+	if(isGamePaused){
+		pauseButton.enabled = false;
+		isGamePaused = false;
+		Time.timeScale=1;		
+	} else {
+		isGamePaused = true;
+		Time.timeScale=0;
+	}	
 }
 function UnPauseGame(){
 	isGamePaused = false;
 	Time.timeScale=1;
+	pauseButton.enabled = true;	
 }
 
 
@@ -527,11 +566,11 @@ function RunTimer(){
 
 // Show & hide game over/game won overlay
 function ShowOverlay(c : Color){
-	overlay.color = c;
-	overlay.enabled = true;
+	//overlay.color = c;
+	//overlay.enabled = true;
 }
 function HideOverlay(){
-	overlay.enabled = false;
+	//overlay.enabled = false;
 }
 
 
@@ -554,19 +593,14 @@ function MakeInvincible(invincibleValue : float){
 	invincibleMode = true;
 }
 
-function UpdateScores(){
-	yourScoreDisplay.text = score.ToString();
-	// TODO: Check if score is greater than stored high score
-}
-
 function EndCountdown() {
 	inCountdown = false;
-	HideOverlay();
-	countdownText.gameObject.SetActive(false);
+	//HideOverlay();
+	countdownText.enabled = false;
 }
 
 function ChangePlaneColor( c : Color) {
-	GameObject.Find("Paper Plane Body").renderer.material.color = c;
+	paperPlane.renderer.material.color = c;
 }
 
 

@@ -11,6 +11,8 @@ function Start () {
     }else if(objectName == "RandomObstacle2"){
     
     	pointB = pointA + Vector3(0.0f,0.0f,-20.0f);
+    } else if (objectName == "Level1SceneRandomObstacle"){
+    	pointB = pointA + Vector3(-20.0f,0.0f,0.0f);
     }
     
     

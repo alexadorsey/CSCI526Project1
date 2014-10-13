@@ -5,10 +5,9 @@
 -nowarn:BCW0016
 -nowarn:BCW0003
 -method:Main
--out:Temp/Assembly-UnityScript.dll
+-out:Temp/Assembly-UnityScript-Editor.dll
 -x-type-inference-rule-attribute:UnityEngineInternal.TypeInferenceRuleAttribute
 -debug
--pragmas:strict,downcast
 -define:UNITY_4_5_3
 -define:UNITY_4_5
 -define:UNITY_ANDROID
@@ -41,28 +40,25 @@
 -define:ENABLE_PROFILER
 -define:UNITY_EDITOR
 -define:UNITY_EDITOR_OSX
--define:UNITY_TEAM_LICENSE
--define:UNITY_PRO_LICENSE
+-define:ENABLE_DUCK_TYPING
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll'
 -r:'Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll'
 -r:'Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll'
--r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll'
+-r:'Library/ScriptAssemblies/Assembly-CSharp.dll'
+-r:'Library/ScriptAssemblies/Assembly-UnityScript.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll'
 -i:UnityEditor
-'Assets/BIG_Environment_Pack/Standard Assets/Scripts/Camera Scripts/FlyThrough.js'
-'Assets/ClickEvent.js'
-'Assets/Energy Effects/Scripts/CircleRotate1.js'
-'Assets/Energy Effects/Scripts/CircleRotate2.js'
-'Assets/Flight Scripts/A-D Only to Rotate Y.js'
-'Assets/Flight Scripts/Boost Q.js'
-'Assets/Flight Scripts/Boost Z.js'
-'Assets/Flight Scripts/Destroy When Hit.js'
-'Assets/Flight Scripts/Limited Pivot .js'
-'Assets/Flight Scripts/MoveObject.js'
-'Assets/Flight Scripts/Plane Destroy.js'
-'Assets/Flight Scripts/Rotate Y.js'
-'Assets/Flight Scripts/Smoke Trail.js'
-'Assets/Flight Scripts/SmoothFollow.js'
-'Assets/Flight Scripts/SmoothLookAt.js'
-'Assets/Flight Scripts/StaticObstacle.js'
-'Assets/Resize.js'
-'Assets/Rings.js'
+'Assets/Editor/Image Effects/AntialiasingAsPostEffectEditor.js'
+'Assets/Editor/Image Effects/BloomAndLensFlaresEditor.js'
+'Assets/Editor/Image Effects/BloomEditor.js'
+'Assets/Editor/Image Effects/CameraMotionBlurEditor.js'
+'Assets/Editor/Image Effects/ColorCorrectionCurvesEditor.js'
+'Assets/Editor/Image Effects/ColorCorrectionLutEditor.js'
+'Assets/Editor/Image Effects/DepthOfField34Editor.js'
+'Assets/Editor/Image Effects/DepthOfFieldScatterEditor.js'
+'Assets/Editor/Image Effects/EdgeDetectEffectNormalsEditor.js'
+'Assets/Editor/Image Effects/NoiseAndGrainEditor.js'
+'Assets/Editor/Image Effects/SunShaftsEditor.js'
+'Assets/Editor/Image Effects/TonemappingEditor.js'
+'Assets/Editor/Image Effects/VignettingEditor.js'

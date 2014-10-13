@@ -38,14 +38,7 @@
 -define:ENABLE_AUDIO
 -define:ENABLE_NAVMESH_CARVING
 -define:ENABLE_SINGLE_INSTANCE_BUILD_SETTING
--define:ENABLE_PROFILER
--define:UNITY_EDITOR
--define:UNITY_EDITOR_OSX
--define:UNITY_TEAM_LICENSE
--define:UNITY_PRO_LICENSE
--r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll'
--r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll'
--i:UnityEditor
+-r:'/Applications/Unity/Unity.app/Contents/PlaybackEngines/AndroidPlayer/Managed/UnityEngine.dll'
 'Assets/Standard Assets/Character Controllers/Sources/Scripts/CharacterMotor.js'
 'Assets/Standard Assets/Character Controllers/Sources/Scripts/FPSInputController.js'
 'Assets/Standard Assets/Character Controllers/Sources/Scripts/PlatformInputController.js'

@@ -1,4 +1,7 @@
-_11;
+8, tmpvar_8);
+  bvec4 tmpvar_10;
+  tmpvar_10 = lessThan (tmpvar_9, unity_ShadowSplitSqRadii);
+  lowp vec4 tmpvar_11;
   tmpvar_11 = vec4(tmpvar_10);
   cascadeWeights_3 = tmpvar_11;
   cascadeWeights_3.yzw = clamp ((cascadeWeights_3.yzw - cascadeWeights_3.xyz), 0.0, 1.0);
@@ -20632,7 +20635,7 @@ Dependency "Details1" = "Hidden/TerrainEngine/Details/WavingDoublePass"
 Dependency "Details2" = "Hidden/TerrainEngine/Details/BillboardWavingDoublePass"
 Dependency "Tree0" = "Hidden/TerrainEngine/BillboardTree"
 Fallback "Diffuse"
-}                       1       .       /       0       3             BillboardTree   P  Shader "Hidden/TerrainEngine/BillboardTree" {
+}                       2       /       0       1       4             BillboardTree   P  Shader "Hidden/TerrainEngine/BillboardTree" {
 Properties {
  _MainTex ("Base (RGB) Alpha (A)", 2D) = "white" {}
 }
@@ -24895,4 +24898,4 @@ h
 Hä
 @
 L
-pĞ|¨¬ı+ùÛöËĞó{ğğC$ísé¿ìåslåWèßíoPóxùGşg (|ÿ7PıWìùğô3ğçì'üéÛ\ê«Hì	ïŒñwÿ$ó‡ü`ôûÌõóúø÷û¤ú—ùÌûïöüSó<üï€üCë¬ş‡ç¨Èä	PâtHàx¸ŞÜˆİ¤øİ`Tà˜!å$Œë|(€òP-ù¬10ÿĞ4xœ5Ô\4üP2\40 D.ıD,Àùô*”ö0) õ€&Tôœ!dô€øô¤ĞöT	ú@Àı”ş# ¤úG ´ö;ÿ0óƒÿœğ³Lïwœï“<òÛ”ö	ûoìük€úgœô÷XíhæÓ`ßo˜Ø«!HÓ!8Ï8Í¿
+pĞ|¨¬ı+ùÛöËĞó{ğğC$ísé¿ìåslåWèßíoPóxùGşg (|ÿ7PıWìùğô3ğçì'üéÛ\ê«Hì	ïŒñwÿ$ó‡ü`ôûÌõóúø÷û¤ú—ùÌûïöüSó<üï€üCë¬ş‡ç¨Èä	PâtHàx¸ŞÜˆİ¤øİ`Tà˜!å$Œë|(€òP-ù¬10ÿĞ4xœ5Ô\4üP2\40 D.ıD,Àù
