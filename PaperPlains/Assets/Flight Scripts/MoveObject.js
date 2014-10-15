@@ -15,12 +15,12 @@ function Start () {
     	pointB = pointA + Vector3(-20.0f,0.0f,0.0f);
     }
     
-    
-    
-    
     while (true) {
-        yield MoveObject(transform, pointA, pointB, 1.0);
-        yield MoveObject(transform, pointB, pointA, 1.0);
+        
+    	transform.Translate(Mathf.Sin(Time.realtimeSinceStartup * 10),0,0);
+
+        //yield MoveObject(transform, pointA, pointB, 1.0);
+        //yield MoveObject(transform, pointB, pointA, 1.0);
     }
 }
  
