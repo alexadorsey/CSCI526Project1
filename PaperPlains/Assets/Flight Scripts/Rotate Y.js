@@ -325,13 +325,13 @@ function Update() {
 		// Character controls
 		if (!inCountdown){
 	    	var controller : CharacterController = GetComponent(CharacterController);
-	    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-	    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-	    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+//	    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+//	    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+//	    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
 	
-//	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-//	    	var h = Input.acceleration.y;
-//	    	var v = Input.acceleration.x;
+	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+	    	var h = Input.acceleration.y;
+	    	var v = Input.acceleration.x;
 	    	
 	    	transform.localEulerAngles.x = -v*60; // forth/back banking first!
 	    }
