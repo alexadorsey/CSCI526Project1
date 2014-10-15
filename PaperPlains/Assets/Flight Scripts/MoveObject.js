@@ -13,14 +13,17 @@ function Start () {
     	pointB = pointA + Vector3(0.0f,0.0f,-20.0f);
     } else if (objectName == "Level1SceneRandomObstacle"){
     	pointB = pointA + Vector3(-20.0f,0.0f,0.0f);
+    } else if (objectName == "TheShootObject"){
+    	pointB = pointA + Vector3(0.0f,0.0f,50.0f);
+    
     }
     
     
     
     
     while (true) {
-        yield MoveObject(transform, pointA, pointB, 1.0);
-        yield MoveObject(transform, pointB, pointA, 1.0);
+        yield MoveObject(transform, pointA, pointB, 4.0);
+        yield MoveObject(transform, pointB, pointA, 4.0);
     }
 }
  
