@@ -61,7 +61,7 @@ function Update () {
 	
 	if(level3.HitTest(Input.GetTouch(0).position)){
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			Application.LoadLevel("Tutorial");
+			Application.LoadLevel("LevelChong");
 		}
 	
 	}

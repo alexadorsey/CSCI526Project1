@@ -70,14 +70,13 @@ function Start(){
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
 	plusTextWaitTime = 0;
-	maxHeight = 120;
 	numRingsCounter = 0;
 	flyingUpCounter = 0;
 	countdownCounter = 0;
 	countdownTime = 3;
 	speed = 1.0;
 
-	rotateSpeed = 10.0;
+	rotateSpeed = 5.0;
 	
 	isGameWon = false;
 	isGameOver = false;
@@ -325,13 +324,13 @@ function Update() {
 		// Character controls
 		if (!inCountdown){
 	    	var controller : CharacterController = GetComponent(CharacterController);
-//	    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-//	    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-//	    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+	    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+	    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+	    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
 	
-	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-	    	var h = Input.acceleration.y;
-	    	var v = Input.acceleration.x;
+//	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+//	    	var h = Input.acceleration.y;
+//	    	var v = Input.acceleration.x;
 	    	
 	    	transform.localEulerAngles.x = -v*60; // forth/back banking first!
 	    }
@@ -384,10 +383,10 @@ function Update() {
 	    if (!isFlyingUp) {
 	    	transform.localEulerAngles.z = -5;  // left/right
 	    } else{
-	    	transform.localEulerAngles.z = 20;
+	    	transform.localEulerAngles.z = 15;
 	    	flyingUpCounter++;
 	    }	    
-	    if (flyingUpCounter >= 10) {
+	    if (flyingUpCounter >= 15) {
 	    	isFlyingUp = false;
 	    	flyingUpCounter = 0;
 	    }
