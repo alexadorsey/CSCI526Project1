@@ -37,7 +37,7 @@ private var plusTextWaitTime : float;
 private var invincibleTime : float;
 private var invincibleCounter : int;
 private var countdownCounter : int;
-private var countdownTime : int;
+private var countdownTime : float;
 
 
 
@@ -107,7 +107,6 @@ function Start(){
 	
 	// Show the start display
 	UpdateScore();
-	HideGameEndScreen();
 	HidePlusText();	
 	
 	
@@ -125,7 +124,7 @@ function Start(){
 	// Countdown Text
 	countdownText.fontSize = Mathf.Floor(Screen.dpi/2);	
 	scoreText.pixelOffset.y = Screen.height/3 - 40;
-	timeText.pixelOffset.y = -Screen.height/3 - 50;
+	timeText.pixelOffset.y = -Screen.height/3 - 70;
 	plusText.pixelOffset.x = Screen.height/5;
 	plusText.color = Color(0.0, 0.9, 0.4);
 	
@@ -335,26 +334,23 @@ function OnCollisionEnter(collision : Collision) {
  
 // Update function called every frame
 function Update() {
-	if (!isGamePaused) {
+	if (!isGamePaused && !inCountdown) {
 	
 		// Run the timer
-		RunTimer();		
-		
-		// Character controls
-		if (!inCountdown){
-	    	var controller : CharacterController = GetComponent(CharacterController);
-	    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-	    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-	    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
-	
-//	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-//	    	var h = Input.acceleration.y;
-//	    	var v = Input.acceleration.x;
-	    	
-	    	transform.localEulerAngles.x = -v*60; // forth/back banking first!
-	    }
-	    
-	    
+		RunTimer();
+
+		// Control the character
+    	var controller : CharacterController = GetComponent(CharacterController);
+    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+
+//	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+//	    var h = Input.acceleration.y;
+//	    var v = Input.acceleration.x;
+    	
+    	transform.localEulerAngles.x = -v*60; // forth/back banking first!
+
 	    
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
@@ -365,9 +361,9 @@ function Update() {
 	    	} else{
 	    		transform.Translate(2, 0, 0);
 	    	}
-	    	 
-
 	    }
+	    
+	    // Give a speedboost
 	    if (speedBoostCounter >= speedBoostTime * 60) {
 	    	speedBoost = false;
 	    	ChangePlaneColor(Color.white);
@@ -375,8 +371,9 @@ function Update() {
 	    } else {
 	    	speedBoostCounter++;
 	    }
-	      
-	    // Invincible Counter
+	     
+	       
+	    // Make invincible
 	    if (invincibleCounter >= invincibleTime * 60){
 	    	invincibleMode = false;
 	    	ChangePlaneColor(Color.white);
@@ -385,18 +382,6 @@ function Update() {
 	    	invincibleCounter++;
 	    }
 	    
-	    // Starting Countdown
-	    if (countdownTime > -1){
-		    if (countdownCounter % 30 == 0) {
-		    	countdownText.text = countdownTime.ToString();
-		    	countdownTime--;
-		    }
-		    countdownCounter++;
-		 } else {
-		 	EndCountdown();
-		 }
-	    
-	      
 	     
 	    // Move plane up (when spacebar is pressed)
 	    if (!isFlyingUp) {
@@ -409,22 +394,15 @@ function Update() {
 	    	isFlyingUp = false;
 	    	flyingUpCounter = 0;
 	    }
-    } else {
-//    	if(Input.touchCount > 0){
-//    		if(replayButton.HitTest(Input.GetTouch(0).position)){
-//				if(Input.GetTouch(0).phase == TouchPhase.Began){
-//					UnPauseGame();
-//					Application.LoadLevel(Application.loadedLevel);
-//				}
-//			}
-//	   	}	
+    } else {  
+    	RunCountdown();
     }
+    
+    
     // Keep plane from moving above max height
     if (rigidbody.position.y >= maxHeight) {
 		transform.position = Vector3 (rigidbody.position.x, maxHeight, rigidbody.position.z);
 	}
-	
-	
 }
 
 
@@ -462,15 +440,12 @@ function DecreaseLives (newLifeValue : int) {
     	lives -= newLifeValue;
     	if (lives == 2) {
     		heart3.enabled = false;	
-    		//heart3.color = heart_disabled;
     	}
 	    if (lives == 1) {
 	    	heart2.enabled = false;
-	    	//heart2.color = heart_disabled;
 	    }   
 	    if (lives == 0) {
 	    	heart1.enabled = false;
-	    	//heart1.color = heart_disabled;
 	    	GameOver();
 	    }
     }
@@ -483,15 +458,12 @@ function IncreaseLives (newLifeValue : int) {
 	    lives += newLifeValue;
 	    if (lives == 3) {
 	    	heart3.enabled = true;
-	    	//heart3.color = heart_enabled;
 	    }
 	    if (lives == 2) {
 	    	heart2.enabled = true;
-	    	//heart2.color = heart_enabled;
 	    }   
 	    if (lives == 1) {
 	    	heart1.enabled = true;
-	    	//heart1.color = heart_enabled;
 	    }
     }
 }
@@ -548,10 +520,6 @@ function ShowGameEndScreen() {
 	pauseButton.enabled = false;
 }
 
-function HideGameEndScreen(){
-
-}
-
 
 
 // Pause & unpause game
@@ -589,20 +557,10 @@ function RunTimer(){
 function RunCountdown(){
 	if (countdownTime > 0){
 		countdownTime -= Time.deltaTime;
-		countdownText.text = countdownTime.ToString();
+		countdownText.text = Mathf.Ceil(countdownTime).ToString();
 	} else {
 		EndCountdown();
 	}
-}
-
-
-// Show & hide game over/game won overlay
-function ShowOverlay(c : Color){
-	//overlay.color = c;
-	//overlay.enabled = true;
-}
-function HideOverlay(){
-	//overlay.enabled = false;
 }
 
 
@@ -633,7 +591,3 @@ function EndCountdown() {
 function ChangePlaneColor( c : Color) {
 	paperPlane.renderer.material.color = c;
 }
-
-
-
-
