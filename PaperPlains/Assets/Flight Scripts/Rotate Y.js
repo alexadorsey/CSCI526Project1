@@ -9,7 +9,6 @@ var rotateSpeed : float;
 var flyingUpCounter : int;
 
 
-
 // Game control booleans
 var isGameWon = false;
 var isGameOver = false;
@@ -71,7 +70,6 @@ function Start(){
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
 	plusTextWaitTime = 0;
-	maxHeight = 120;
 	numRingsCounter = 0;
 	flyingUpCounter = 0;
 	countdownCounter = 0;
@@ -104,6 +102,7 @@ function Start(){
 	
 	// Show the start display
 	UpdateScore();
+	HideGameEndScreen();
 	HidePlusText();	
 	
 	
@@ -333,14 +332,14 @@ function Update() {
 	    	var h = Input.acceleration.y;
 	    	var v = Input.acceleration.x;
 	    	
-	    	transform.localEulerAngles.x = -v*30; // forth/back banking first!
+	    	transform.localEulerAngles.x = -v*60; // forth/back banking first!
 	    }
 	    
 	    
 	    
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
-	    	transform.Translate(3.5, 0, 0);
+	    	transform.Translate(4.5, 0, 0);
 	    } else {
 	    	if (inCountdown) {
 	    		transform.Translate(0, 0, 0);
@@ -379,24 +378,28 @@ function Update() {
 		 }
 	    
 	      
-	     // Move plane up (when spacebar is pressed)
+	     
+	    // Move plane up (when spacebar is pressed)
 	    if (!isFlyingUp) {
 	    	transform.localEulerAngles.z = -5;  // left/right
-	    	//rigidbody.velocity = Vector3.zero;
 	    } else{
-	    	transform.localEulerAngles.z = 20;
+	    	transform.localEulerAngles.z = 15;
 	    	flyingUpCounter++;
-	    //	ForceMode.Impulse();
-	    //	rigidbody.AddForce(Vector3(0, 3, 0), ForceMode.Impulse);
 	    }	    
 	    if (flyingUpCounter >= 15) {
 	    	isFlyingUp = false;
 	    	flyingUpCounter = 0;
 	    }
-	    
-	    
-    } 
-    
+    } else {
+//    	if(Input.touchCount > 0){
+//    		if(replayButton.HitTest(Input.GetTouch(0).position)){
+//				if(Input.GetTouch(0).phase == TouchPhase.Began){
+//					UnPauseGame();
+//					Application.LoadLevel(Application.loadedLevel);
+//				}
+//			}
+//	   	}	
+    }
     // Keep plane from moving above max height
     if (rigidbody.position.y >= maxHeight) {
 		transform.position = Vector3 (rigidbody.position.x, maxHeight, rigidbody.position.z);
@@ -428,8 +431,6 @@ function FixedUpdate () {
 				}	
 			}
 		}
-		
-		
 	}	
 }
  
@@ -496,7 +497,7 @@ function UpdateScore() {
 // Call when level has been won
 function GameWon() {
 	isGameWon = true;
-	yield WaitForSeconds(0.5);
+	yield WaitForSeconds(1);
 	ShowGameEndScreen();
 }
 
@@ -522,6 +523,11 @@ function ShowGameEndScreen() {
 	plusText.enabled = false;
 	pauseButton.enabled = false;
 }
+
+function HideGameEndScreen(){
+
+}
+
 
 
 // Pause & unpause game
@@ -556,6 +562,17 @@ function RunTimer(){
 	}
 }
 
+
+// Show & hide game over/game won overlay
+function ShowOverlay(c : Color){
+	//overlay.color = c;
+	//overlay.enabled = true;
+}
+function HideOverlay(){
+	//overlay.enabled = false;
+}
+
+
 function ShowPlusText(plusValue : String){
 	plusText.enabled = false;
 	plusText.text = plusValue;
@@ -577,6 +594,7 @@ function MakeInvincible(invincibleValue : float){
 
 function EndCountdown() {
 	inCountdown = false;
+	//HideOverlay();
 	countdownText.enabled = false;
 }
 
