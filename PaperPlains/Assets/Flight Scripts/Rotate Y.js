@@ -65,6 +65,14 @@ private var gameEndTextStyle : GUIStyle;
 private var reasonTextStyle : GUIStyle;
 private var yourScoreTextStyle : GUIStyle;
 
+//Tutorial Use
+private var guidanceText: GUIText;
+private var guidanceState: int;
+private var isGuidanceShown:int;
+private var guidanceSetTimer:int;
+private var guidanceSetDistance:int;
+private var guidanceTexture :Texture2D;
+
 function Start(){
 	// Initialize the level
 	score = 0;
@@ -96,6 +104,15 @@ function Start(){
 	timeText = GameObject.Find("Time").guiText;
 	plusText = GameObject.Find("Plus Points Text").guiText;
 	countdownText = GameObject.Find("Countdown Text").guiText;
+	
+	//Tutorial Use
+	guidanceText = GameObject.Find("Guidance").guiText;
+	guidanceState = 1;//Start
+	guidanceSetTimer = 115;
+	guidanceSetDistance = 300;
+	guidanceText.fontSize = Mathf.Floor(Screen.dpi/4);
+	guidanceText.pixelOffset.y = Screen.height/2 - 200;
+	guidanceText.text = "Welcome to the world of paper plain\n";
 		
 	pauseButton = (GameObject.Find("Pause Button").GetComponent(GUITexture)as GUITexture);
 	heart1 = (GameObject.Find("heart1").GetComponent(GUITexture)as GUITexture);
@@ -194,15 +211,30 @@ function OnGUI(){
 			GUI.color = Color.white;
 		}
 		if (isGamePaused && (!isGameOver && !isGameWon && !isTimeUp)) {
-			GUI.color = gamePauseColor;
-			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
-			GUI.color = Color.white;
-			GUI.Label(Rect (Screen.width/2-50, Screen.height/3, 100, 50), "PAUSED", gameEndTextStyle);
+			//Tutorial Use
+			if(!isGuidanceShown){
+				GUI.color = gamePauseColor;
+				GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
+				GUI.color = Color.white;
+				GUI.Label(Rect (Screen.width/2-50, Screen.height/3, 100, 50), "PAUSED", gameEndTextStyle);
 
-			// Play button
-    		if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), playButton, GUIStyle.none)) {
-        		UnPauseGame();
-    		}
+				// Play button
+    			if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), playButton, GUIStyle.none)) {
+        			UnPauseGame();
+    			}
+				//Tutorial Use
+			} else {
+				GUI.Box(new Rect(Screen.width/2-200,Screen.height/2-150,400,200),"");
+			}
+			// GUI.color = gamePauseColor;
+// 			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
+// 			GUI.color = Color.white;
+// 			GUI.Label(Rect (Screen.width/2-50, Screen.height/3, 100, 50), "PAUSED", gameEndTextStyle);
+// 
+// 			// Play button
+//     		if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), playButton, GUIStyle.none)) {
+//         		UnPauseGame();
+//     		}
 		} else {
 			GUI.Label(Rect (Screen.width/4, Screen.height/2 + 20, 100, 50), "your score:", yourScoreTextStyle);
 			GUI.Label(Rect (Screen.width/2 - 50, Screen.height/2 + 20, 100, 50), score.ToString(), yourScoreTextStyle);
@@ -394,8 +426,30 @@ function Update() {
 	    	isFlyingUp = false;
 	    	flyingUpCounter = 0;
 	    }
+	    
+	    
+	    
+	    //Tutorial Use
+		//Show guidance in tutorial level	
+		if(guidanceState>0){
+			if(rigidbody.position.x>guidanceSetDistance){
+				guidanceState++;
+				guidanceSetDistance += 300;
+				if(guidanceState ==8){
+					guidanceSetDistance = 99999;
+				}
+				ShowGuidance();
+			}
+		}
     } else {  
-    	RunCountdown();
+    
+    	if(isGuidanceShown){		
+			if (Input.GetKeyDown (KeyCode.Space) ||Input.touchCount > 0) {	
+				hideGuidance();		
+			}
+		} else {
+			RunCountdown();
+		}
     }
     
     
@@ -590,4 +644,46 @@ function EndCountdown() {
 
 function ChangePlaneColor( c : Color) {
 	paperPlane.renderer.material.color = c;
+}
+
+
+
+//Tutorial Use
+////Show guidance in tutorial level
+function ShowGuidance(){
+	guidanceText.enabled = true;
+	PauseGame(); 
+	switch(guidanceState){
+		case 1:
+			guidanceText.text ="Welcome to the world of paper plain\n";
+			break;
+		case 2:
+			guidanceText.text = "Rotate your phone to turn left or right\n";
+			break;
+		case 3:
+			guidanceText.text = "Hitting Terrain is a disaster\nTap screen to fly up\n As a paper plane you cannot fly very high";
+			break;
+		case 4:
+			guidanceText.text = "Go across as many rings as possible to complete the level!";
+			break;
+		case 5:
+			guidanceText.text = "Those obstacles will damage the plane. Keep away from them";
+			break;
+		case 6:
+			guidanceText.text = "Heart items can replenish your heart";
+			break;
+		case 7:
+			guidanceText.text = "Lightning items can speed you up for a while";
+			break;
+		case 8:
+			guidanceText.text = "Star items will give you a shield to avoid obstacles";
+			break;
+	}
+	isGuidanceShown = 1;
+}
+
+function hideGuidance(){
+	guidanceText.enabled = false;
+	UnPauseGame();	
+	isGuidanceShown = 0;	
 }
