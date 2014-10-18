@@ -1,57 +1,55 @@
 var numRings : int;
+var numRingsCounter : int;
 var maxHeight : int;
-var timer : float;
+var score : int;
+var ringScore : int;
+var lives : int;
+var speed : float;
+var rotateSpeed : float;
+var flyingUpCounter : int;
+
+
+
+// Game control booleans
+var isGameWon = false;
+var isGameOver = false;
+var isTimeUp = false;
+var isGamePaused = false;
+var speedBoost = false;
+var updateScore = true;
+var invincibleMode = false;
+var isFlyingUp = false;
+var inCountdown = true;
 var AvenirNextUL : Font;
-var backButton : Texture2D;
-var nextButton : Texture2D;
 var replayButton : Texture2D;
 var playButton : Texture2D;
 var overlay : Texture2D;
 var endStar : Texture2D;
 
 
-private var numRingsCounter : int;
-private var score : int;
-private var ringScore : int;
-private var lives : int;
-private var speed : float;
-private var rotateSpeed : float;
-private var flyingUpCounter : int;
-
-
-// Game control booleans
-private var isGameWon = false;
-private var isGameOver = false;
-private var isTimeUp = false;
-private var isGamePaused = false;
-private var speedBoost = false;
-private var updateScore = true;
-private var invincibleMode = false;
-private var isFlyingUp = false;
-private var inCountdown = true;
-
-private var startTime;
-private var speedBoostCounter : int;
-private var speedBoostTime : int;
-private var plusTextWaitTime : float;
-private var invincibleTime : float;
-private var invincibleCounter : int;
-private var countdownCounter : int;
-private var countdownTime : int;
+var startTime;
+var timer : float;
+var speedBoostCounter : int;
+var speedBoostTime : int;
+var plusTextWaitTime : float;
+var invincibleTime : float;
+var invincibleCounter : int;
+var countdownCounter : int;
+var countdownTime : int;
 
 
 
 // Gameplay displays
 
-private var paperPlane : GameObject;
-private var scoreText : GUIText;
-private var timeText : GUIText;
-private var plusText : GUIText;
-private var countdownText : GUIText;
-private var pauseButton : GUITexture;
-private var heart1 : GUITexture;
-private var heart2 : GUITexture;
-private var heart3 : GUITexture;
+var paperPlane : GameObject;
+var scoreText : GUIText;
+var timeText : GUIText;
+var plusText : GUIText;
+var countdownText : GUIText;
+var pauseButton : GUITexture;
+var heart1 : GUITexture;
+var heart2 : GUITexture;
+var heart3 : GUITexture;
 private var heart_disabled : Color = Color(1.0, 0.0, 0.0, 0.2);
 private var heart_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
 
@@ -61,9 +59,9 @@ private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 1.0);
 private var gameWonColor : Color = Color(0.1, 0.5, 0.1, 1.0);
 private var gamePauseColor : Color = Color(0.3, 0.0, 0.4, 1.0);
 
-private var gameEndTextStyle : GUIStyle;
-private var reasonTextStyle : GUIStyle;
-private var yourScoreTextStyle : GUIStyle;
+var gameEndTextStyle : GUIStyle;
+var reasonTextStyle : GUIStyle;
+var yourScoreTextStyle : GUIStyle;
 
 
 function Start(){
@@ -73,7 +71,7 @@ function Start(){
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
 	plusTextWaitTime = 0;
-	//maxHeight = 120;
+	maxHeight = 120;
 	numRingsCounter = 0;
 	flyingUpCounter = 0;
 	countdownCounter = 0;
@@ -160,9 +158,7 @@ function Start(){
     yourScoreTextStyle.fontSize = Mathf.Floor(Screen.dpi/7);
     yourScoreTextStyle.font = AvenirNextUL;
     yourScoreTextStyle.alignment = TextAnchor.MiddleCenter;
-    yourScoreTextStyle.normal.textColor = Color.white;	
-    
-    	Time.timeScale = 1;	
+    yourScoreTextStyle.normal.textColor = Color.white;		
 }
 
 
@@ -199,9 +195,11 @@ function OnGUI(){
 			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
 			GUI.color = Color.white;
 			GUI.Label(Rect (Screen.width/2-50, Screen.height/3, 100, 50), "PAUSED", gameEndTextStyle);
-
-			// Play button
-    		if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), playButton, GUIStyle.none)) {
+			if (GUI.Button (Rect (Screen.width/2 - 200,Screen.height * 3/5, 0.1 * Screen.width, 0.1 * Screen.width), replayButton, GUIStyle.none)) {
+        		UnPauseGame();
+				Application.LoadLevel(Application.loadedLevel);
+    		}
+    		if (GUI.Button (Rect (Screen.width/2 + 50,Screen.height * 3/5, 0.1 * Screen.width, 0.1 * Screen.width), playButton, GUIStyle.none)) {
         		UnPauseGame();
     		}
 		} else {
@@ -209,6 +207,12 @@ function OnGUI(){
 			GUI.Label(Rect (Screen.width/2 - 50, Screen.height/2 + 20, 100, 50), score.ToString(), yourScoreTextStyle);
 			GUI.Label(Rect (Screen.width/4, Screen.height/2 + 100, 110, 50), "high score:", yourScoreTextStyle);
 			GUI.Label(Rect (Screen.width/2 - 50, Screen.height/2 + 110, 100, 50), "---", yourScoreTextStyle);
+			
+			// Replay		
+			if (GUI.Button (Rect (Screen.width/2 - 0.1 * Screen.width/2,Screen.height * 3/4, 0.1 * Screen.width, 0.1 * Screen.width), replayButton, GUIStyle.none)) {
+	        	UnPauseGame();
+				Application.LoadLevel(Application.loadedLevel);
+	    	}
 	    	
 	    	// Draw stars depending on the score
 			GUI.color = Color(1.0, 0.68, 0.0, 1.0);
@@ -224,27 +228,7 @@ function OnGUI(){
 				GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
 				GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
 			}
-			
-			// Next button
-			GUI.color = Color.white;
-    		if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), nextButton, GUIStyle.none)) {
-        		//UnPauseGame();
-    		}
 		}
-		
-		// Always draw the back & replay buttons
-		GUI.color = Color.white;
-		// Back button
-		if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) - Screen.width * 0.13 ,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), backButton, GUIStyle.none)) {
-        	//UnPauseGame();       	
-        	Application.LoadLevel("Levels");
-    	}
-		
-		// Replay		
-		if (GUI.Button (Rect (Screen.width/2 - 0.1 * Screen.width/2,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), replayButton, GUIStyle.none)) {
-	        UnPauseGame();
-			Application.LoadLevel(Application.loadedLevel);
-	    }
 	}
 }
 
@@ -341,13 +325,13 @@ function Update() {
 		// Character controls
 		if (!inCountdown){
 	    	var controller : CharacterController = GetComponent(CharacterController);
-	    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-	    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-	    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+//	    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+//	    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+//	    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
 	
-//	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-//	    	var h = Input.acceleration.y;
-//	    	var v = Input.acceleration.x;
+	    	transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+	    	var h = Input.acceleration.y;
+	    	var v = Input.acceleration.x;
 	    	
 	    	transform.localEulerAngles.x = -v*30; // forth/back banking first!
 	    }

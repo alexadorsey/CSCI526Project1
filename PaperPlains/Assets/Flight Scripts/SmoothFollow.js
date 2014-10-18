@@ -16,8 +16,8 @@ var distance = 10.0;
 // the height we want the camera to be above the target
 var height = 5.0;
 // How much we 
-var heightDamping : int; //= 2.0;
-var rotationDamping : int; //= 3.0;
+var heightDamping = 2.0;
+var rotationDamping = 3.0;
 
 // Place the script in the Camera-Control group in the component menu
 @script AddComponentMenu("Camera-Control/Smooth Follow")
