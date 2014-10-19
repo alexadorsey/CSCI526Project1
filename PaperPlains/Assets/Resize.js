@@ -7,7 +7,8 @@ var aboutButtonStyle : GUIStyle;
 
 function Start () {
 	paperPlains = GameObject.Find("Paper Plains").guiText;	
-	paperPlains.fontSize = Mathf.Floor(Screen.dpi/2);	
+	paperPlains.fontSize = Mathf.Floor(Screen.dpi/2.5);	
+	paperPlains.transform.position = new Vector3(0.5,0.7,0);
 	
 	startButtonStyle = new GUIStyle();
     startButtonStyle.fontSize = Mathf.Floor(Screen.dpi/4);
@@ -26,13 +27,13 @@ function Start () {
 }
 
 function OnGUI(){
-	var startButton = GUI.Button (Rect (Screen.width/2 - 50, Screen.height/2 - 10, 200, 30), "START", startButtonStyle);
+	var startButton = GUI.Button (Rect (Screen.width/2 - 50, (Screen.height/8) * 4, 200, 30), "START", startButtonStyle);
 	if (startButton) {
 		startButtonStyle.normal.textColor = Color.red;
 		Application.LoadLevel("Levels");
     }
     
-    if (GUI.Button (Rect (Screen.width/2 - 50, Screen.height/1.5, 200, 30), "ABOUT", aboutButtonStyle)) {
+    if (GUI.Button (Rect (Screen.width/2 - 50, (Screen.height / 4) * 3 , 200, 30), "ABOUT", aboutButtonStyle)) {
     	Application.LoadLevel("Levels");
     }
 	
