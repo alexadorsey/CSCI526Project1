@@ -1,5 +1,8 @@
-var numRings : int;
+var numEasy : int;
+var numMedium : int;
+var numHard : int;
 var maxHeight : int;
+var levelInt : int;
 var timer : float;
 var AvenirNextUL : Font;
 var backButton : Texture2D;
@@ -9,7 +12,7 @@ var playButton : Texture2D;
 var overlay : Texture2D;
 var endStar : Texture2D;
 
-
+private var numRings : int;
 private var numRingsCounter : int;
 private var score : int;
 private var ringScore : int;
@@ -42,20 +45,20 @@ private var countdownTime : float;
 
 
 // Gameplay displays
-
+private var numRingsText: GUIText;
 private var paperPlane : GameObject;
 private var scoreText : GUIText;
 private var timeText : GUIText;
 private var plusText : GUIText;
 private var countdownText : GUIText;
 private var pauseButton : GUITexture;
+private var numRingsImage : GUITexture;
 private var heart1 : GUITexture;
 private var heart2 : GUITexture;
 private var heart3 : GUITexture;
 private var heart_disabled : Color = Color(1.0, 0.0, 0.0, 0.2);
 private var heart_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
 
-//var overlay : GUITexture;
 private var gameStartColor : Color = Color(0.0, 0.0, 0.0, 0.6);
 private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 1.0);
 private var gameWonColor : Color = Color(0.1, 0.5, 0.1, 1.0);
@@ -73,9 +76,12 @@ private var guidanceSetTimer:int;
 private var guidanceSetDistance:int;
 private var guidanceTexture :Texture2D;
 
+
 function Start(){
 	// Initialize the level
 	score = 0;
+	numRings = numEasy + numMedium + numHard;
+	ringScore = (30 * numEasy) + (60 * numMedium) + (90 * numHard);
 	lives = 3;
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
@@ -85,7 +91,7 @@ function Start(){
 	countdownCounter = 0;
 	countdownTime = 3;
 	speed = 1.0;
-
+	
 	rotateSpeed = 5.0;
 	
 	isGameWon = false;
@@ -104,15 +110,22 @@ function Start(){
 	timeText = GameObject.Find("Time").guiText;
 	plusText = GameObject.Find("Plus Points Text").guiText;
 	countdownText = GameObject.Find("Countdown Text").guiText;
+	numRingsImage = (GameObject.Find("Ring Count Image").GetComponent(GUITexture)as GUITexture);
+	numRingsImage.color = Color.yellow;
+	numRingsText= GameObject.Find("Ring Count Text").guiText;
+	numRingsText.text = numRings.ToString();
+	numRingsText.color = Color.yellow;
 	
 	//Tutorial Use
-	guidanceText = GameObject.Find("Guidance").guiText;
-	guidanceState = 1;//Start
-	guidanceSetTimer = 115;
-	guidanceSetDistance = 300;
-	guidanceText.fontSize = Mathf.Floor(Screen.dpi/4);
-	guidanceText.pixelOffset.y = Screen.height/2 - 200;
-	guidanceText.text = "Welcome to the world of paper plain\n";
+	if (levelInt == 0) {
+		guidanceText = GameObject.Find("Guidance").guiText;
+		guidanceState = 1;//Start
+		guidanceSetTimer = 115;
+		guidanceSetDistance = 300;
+		guidanceText.fontSize = Mathf.Floor(Screen.dpi/4);
+		guidanceText.pixelOffset.y = Screen.height/2 - 200;
+		guidanceText.text = "Welcome to the world of paper plain\n";
+	}
 		
 	pauseButton = (GameObject.Find("Pause Button").GetComponent(GUITexture)as GUITexture);
 	heart1 = (GameObject.Find("heart1").GetComponent(GUITexture)as GUITexture);
@@ -125,6 +138,7 @@ function Start(){
 	// Show the start display
 	UpdateScore();
 	HidePlusText();	
+	UpdateRingCounter();
 	
 	
 	// Pause Button
@@ -132,6 +146,17 @@ function Start(){
 	pauseButton.pixelInset.height = pauseButton.pixelInset.width;
 	pauseButton.pixelInset.position.x = Screen.width/3 + 70;
 	pauseButton.pixelInset.position.y = Screen.height/3 - 40;
+	
+	//ring countdown text position
+	numRingsText.pixelOffset.x = -Screen.width/2 + 115;
+	numRingsText.pixelOffset.y = -Screen.height/3 - 80;
+	numRingsText.fontSize = Mathf.Floor(Screen.dpi/6);
+	
+	// ring countdown image position
+	numRingsImage.pixelInset.width = 0.04 * Screen.width;
+	numRingsImage.pixelInset.height = numRingsImage.pixelInset.width;
+	numRingsImage.pixelInset.x = -Screen.width/2 + 20;
+	numRingsImage.pixelInset.y = -Screen.height/3 - 110;
 	
 	
 	scoreText.fontSize = Mathf.Floor(Screen.dpi/5);
@@ -179,6 +204,8 @@ function Start(){
     yourScoreTextStyle.font = AvenirNextUL;
     yourScoreTextStyle.alignment = TextAnchor.MiddleCenter;
     yourScoreTextStyle.normal.textColor = Color.white;		
+    
+    UnPauseGame();
 }
 
 
@@ -212,20 +239,24 @@ function OnGUI(){
 		}
 		if (isGamePaused && (!isGameOver && !isGameWon && !isTimeUp)) {
 			//Tutorial Use
-			if(!isGuidanceShown){
-				GUI.color = gamePauseColor;
-				GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
-				GUI.color = Color.white;
-				GUI.Label(Rect (Screen.width/2-50, Screen.height/3, 100, 50), "PAUSED", gameEndTextStyle);
+			if (levelInt != 0) {
+			//	if(!isGuidanceShown){
+					GUI.color = gamePauseColor;
+					GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
+					GUI.color = Color.white;
+					GUI.Label(Rect (Screen.width/2-50, Screen.height/3, 100, 50), "PAUSED", gameEndTextStyle);
 
-				// Play button
-    			if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), playButton, GUIStyle.none)) {
-        			UnPauseGame();
-    			}
-				//Tutorial Use
+					// Play button
+	    			if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), playButton, GUIStyle.none)) {
+	        			UnPauseGame();
+	    			}
+					//Tutorial Use
+				//} else {
+					
 			} else {
-				GUI.Box(new Rect(Screen.width/2-200,Screen.height/2-150,400,200),"");
+				GUI.Box(new Rect(Screen.width/2-400,Screen.height/2-200,800,400),"");
 			}
+		//	}
 			// GUI.color = gamePauseColor;
 // 			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
 // 			GUI.color = Color.white;
@@ -243,23 +274,26 @@ function OnGUI(){
 	    	
 	    	// Draw stars depending on the score
 			GUI.color = Color(1.0, 0.68, 0.0, 1.0);
-			if (score < ringScore/2) {
-				GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+
+			if (!isGameOver) {
+				if (score < ringScore/2) {
+					GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+				}
+				if (score >= ringScore/2 && score < ringScore) {
+					GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+					GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+				}	
+				if (score >= ringScore) {
+					GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+					GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+					GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+				}
 			}
-			if (score >= ringScore/2 && score < ringScore) {
-				GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
-				GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
-			}	
-			if (score >= ringScore) {
-				GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
-				GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
-				GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
-			}
-			
 			// Next button
 			GUI.color = Color.white;
     		if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), nextButton, GUIStyle.none)) {
         		//UnPauseGame();
+        		LoadNextLevel();       		
     		}
 		}
 		
@@ -273,7 +307,7 @@ function OnGUI(){
 		
 		// Replay		
 		if (GUI.Button (Rect (Screen.width/2 - 0.1 * Screen.width/2,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), replayButton, GUIStyle.none)) {
-	        UnPauseGame();
+	        //UnPauseGame();
 			Application.LoadLevel(Application.loadedLevel);
 	    }
 	}
@@ -330,6 +364,7 @@ function OnCollisionEnter(collision : Collision) {
 			
 			ring.renderer.material.color = Color.red;
 			numRingsCounter++;
+			UpdateRingCounter();
 			if (numRingsCounter == numRings) {
 				GameWon();
 			}
@@ -373,13 +408,13 @@ function Update() {
 
 		// Control the character
     	var controller : CharacterController = GetComponent(CharacterController);
-    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+//    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+//    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+//    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
 
-//	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-//	    var h = Input.acceleration.y;
-//	    var v = Input.acceleration.x;
+	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+	    var h = Input.acceleration.y;
+	    var v = Input.acceleration.x;
     	
     	transform.localEulerAngles.x = -v*60; // forth/back banking first!
 
@@ -431,14 +466,16 @@ function Update() {
 	    
 	    //Tutorial Use
 		//Show guidance in tutorial level	
-		if(guidanceState>0){
-			if(rigidbody.position.x>guidanceSetDistance){
-				guidanceState++;
-				guidanceSetDistance += 300;
-				if(guidanceState ==8){
-					guidanceSetDistance = 99999;
+		if (levelInt == 0) {
+			if(guidanceState>0){
+				if(rigidbody.position.x>guidanceSetDistance){
+					guidanceState++;
+					guidanceSetDistance += 300;
+					if(guidanceState ==8){
+						guidanceSetDistance = 99999;
+					}
+					ShowGuidance();
 				}
-				ShowGuidance();
 			}
 		}
     } else {  
@@ -544,10 +581,15 @@ function UpdateScore() {
 	scoreText.text = score.ToString();
 }
 
+//updates ring counter text which shows number of rings left to collect
+function UpdateRingCounter(){
+	numRingsText.text= (numRings - numRingsCounter).ToString();
+}
+
 // Call when level has been won
 function GameWon() {
 	isGameWon = true;
-	yield WaitForSeconds(1);
+	yield WaitForSeconds(0.4);
 	ShowGameEndScreen();
 }
 
@@ -572,6 +614,8 @@ function ShowGameEndScreen() {
 	heart3.enabled = false;
 	plusText.enabled = false;
 	pauseButton.enabled = false;
+	numRingsText.enabled = false;
+	numRingsImage.enabled = false;
 }
 
 
@@ -644,6 +688,24 @@ function EndCountdown() {
 
 function ChangePlaneColor( c : Color) {
 	paperPlane.renderer.material.color = c;
+}
+
+
+
+function LoadPreviousLevel() {
+	if (levelInt == 0) {
+		Application.LoadLevel("Level3");
+	} else {
+		Application.LoadLevel("Level" + (levelInt-1).ToString());
+	}
+}
+
+function LoadNextLevel() {
+	if (levelInt == 3) {
+		Application.LoadLevel("Level0");
+	} else {
+		Application.LoadLevel("Level" + (levelInt+1).ToString());
+	}
 }
 
 
