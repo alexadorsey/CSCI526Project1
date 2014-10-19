@@ -1,9 +1,20 @@
 ﻿<Properties>
+<<<<<<< Updated upstream
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ClickEvent.js">
     <Files>
       <File FileName="Assets/ClickEvent.js" Line="65" Column="4" />
       <File FileName="Assets/sdf.js" Line="1" Column="1" />
+=======
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Flight Scripts/Rotate Y.js">
+    <Files>
+      <File FileName="Assets/Flight Scripts/Rotate Y.js" Line="406" Column="2" />
+      <File FileName="Assets/ClickEvent.js" Line="68" Column="2" />
+      <File FileName="Assets/Flight Scripts/MoveObject.js" Line="1" Column="1" />
+      <File FileName="Assets/Resize.js" Line="25" Column="110" />
+      <File FileName="Assets/FPS.js" Line="44" Column="2" />
+>>>>>>> Stashed changes
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

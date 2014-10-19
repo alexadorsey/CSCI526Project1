@@ -27,6 +27,7 @@ private var isGameWon = false;
 private var isGameOver = false;
 private var isTimeUp = false;
 private var isGamePaused = false;
+private var lostAllLives = false;
 private var speedBoost = false;
 private var updateScore = true;
 private var invincibleMode = false;
@@ -144,8 +145,8 @@ function Start(){
 	// Pause Button
 	pauseButton.pixelInset.width = 0.08 * Screen.width;
 	pauseButton.pixelInset.height = pauseButton.pixelInset.width;
-	pauseButton.pixelInset.position.x = Screen.width/3 + 70;
-	pauseButton.pixelInset.position.y = Screen.height/3 - 40;
+	pauseButton.pixelInset.position.x = -Screen.width/2 + 20;
+	pauseButton.pixelInset.position.y = Screen.height/4;
 	
 	//ring countdown text position
 	numRingsText.pixelOffset.x = -Screen.width/2 + 115;
@@ -165,6 +166,7 @@ function Start(){
 	
 	// Countdown Text
 	countdownText.fontSize = Mathf.Floor(Screen.dpi/2);	
+	scoreText.pixelOffset.x = -Screen.width/3 - 70;
 	scoreText.pixelOffset.y = Screen.height/3 - 40;
 	timeText.pixelOffset.y = -Screen.height/3 - 70;
 	plusText.pixelOffset.x = Screen.height/5;
@@ -219,7 +221,12 @@ function OnGUI(){
 			// Game Over Text
 			GUI.Label(Rect (Screen.width/2-50, Screen.height/4, 100, 50), "GAME OVER", gameEndTextStyle);
 			GUI.color = Color.white;
-			GUI.Label(Rect (Screen.width/2-50, Screen.height/2-95, 100, 50), "You hit the terrain!", reasonTextStyle);
+			if (lostAllLives) {
+				GUI.Label(Rect (Screen.width/2-50, Screen.height/2-95, 100, 50), "You lost all your lives!", reasonTextStyle);
+			} else {
+				GUI.Label(Rect (Screen.width/2-50, Screen.height/2-95, 100, 50), "You hit the terrain!", reasonTextStyle);
+			}
+			
 			
 		}
 		if (isGameWon){
@@ -421,7 +428,7 @@ function Update() {
 	    
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
-	    	transform.Translate(4.5, 0, 0);
+	    	transform.Translate(4, 0, 0);
 	    } else {
 	    	if (inCountdown) {
 	    		transform.Translate(0, 0, 0);
@@ -537,6 +544,7 @@ function DecreaseLives (newLifeValue : int) {
 	    }   
 	    if (lives == 0) {
 	    	heart1.enabled = false;
+	    	lostAllLives = true;
 	    	GameOver();
 	    }
     }

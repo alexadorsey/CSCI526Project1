@@ -33,8 +33,10 @@ function OnGUI(){
 		Application.LoadLevel("Levels");
     }
     
+
     if (GUI.Button (Rect (Screen.width/2 - 50, (Screen.height / 4) * 3 , 200, 30), "ABOUT", aboutButtonStyle)) {
     	Application.LoadLevel("Levels");
+
     }
 	
 }
