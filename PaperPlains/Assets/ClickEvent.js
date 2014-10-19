@@ -5,6 +5,12 @@ var level2 : GUITexture;
 var level3 : GUITexture;
 var level4 : GUITexture;
 
+var level0Push : Texture;
+var level1Push : Texture;
+var level2Push : Texture;
+var level3Push : Texture;
+var level4Push : Texture;
+
 function Start () {
 
 	levels = GameObject.Find("Levels").guiText;	
@@ -47,35 +53,52 @@ function Update () {
 
 	if(level0.HitTest(Input.GetTouch(0).position)){
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			Application.LoadLevel("Level0");
+			level0.texture = level0Push;
+			if (TouchPhase.Ended){
+				Application.LoadLevel("Level0");
+			}
+			
 		}
 	
 	}
 	
 	if(level1.HitTest(Input.GetTouch(0).position)){
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			Application.LoadLevel("Level1");
+			level1.texture = level1Push;
+			if(TouchPhase.Ended){
+				Application.LoadLevel("Level1");
+			}
+			
 		}
 	
 	}
 	
 	if(level2.HitTest(Input.GetTouch(0).position)){
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			Application.LoadLevel("Level2");
+			level2.texture = level2Push;
+			if (TouchPhase.Ended){
+				Application.LoadLevel("Level2");
+			}
 		}
 	
 	}
 	
 	if(level3.HitTest(Input.GetTouch(0).position)){
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			Application.LoadLevel("Level3");
+			level3.texture = level3Push;
+			if (TouchPhase.Ended){
+				Application.LoadLevel("Level3");
+			}
 		}
 	
 	}
 	
 	if(level4.HitTest(Input.GetTouch(0).position)){
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			Application.LoadLevel("Level3");
+			level4.texture = level4Push;
+			if (TouchPhase.Ended){
+				Application.LoadLevel("Level3");
+			}
 		}
 	
 	}

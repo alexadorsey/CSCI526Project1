@@ -1,13 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Flight Scripts/Rotate Y.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ClickEvent.js">
     <Files>
-      <File FileName="Assets/Flight Scripts/Rotate Y.js" Line="117" Column="36" />
-      <File FileName="Assets/ClickEvent.js" Line="71" Column="36" />
-      <File FileName="Assets/Flight Scripts/StaticObstacle.js" Line="1" Column="1" />
-      <File FileName="Assets/Flight Scripts/MoveObject.js" Line="1" Column="1" />
-      <File FileName="Assets/Resize.js" Line="1" Column="1" />
-      <File FileName="Assets/Flight Scripts/SmoothFollow.js" Line="1" Column="1" />
+      <File FileName="Assets/ClickEvent.js" Line="65" Column="4" />
+      <File FileName="Assets/sdf.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
