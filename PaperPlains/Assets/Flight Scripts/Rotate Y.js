@@ -11,6 +11,8 @@ var replayButton : Texture2D;
 var playButton : Texture2D;
 var overlay : Texture2D;
 var endStar : Texture2D;
+var endinvincibleTime = 10000;
+var endspeedBoostTime = 10000;
 
 private var numRings : int;
 private var numRingsCounter : int;
@@ -41,10 +43,11 @@ private var invincibleTime : float;
 private var invincibleCounter : int;
 private var countdownCounter : int;
 private var countdownTime : float;
-
-
+private var blinkflag : int;
 
 // Gameplay displays
+private var plane_shield: GameObject;
+
 private var numRingsText: GUIText;
 private var paperPlane : GameObject;
 private var scoreText : GUIText;
@@ -105,6 +108,9 @@ function Start(){
 	inCountdown = true;
 	
 	// Gameplay Text
+	plane_shield= GameObject.Find("Invincible Shield Body");
+	plane_shield.renderer.enabled= false;
+
 	paperPlane = GameObject.Find("Paper Plane Body");
 	scoreText = GameObject.Find("Score").guiText;
 	timeText = GameObject.Find("Time").guiText;
@@ -330,9 +336,10 @@ function OnCollisionEnter(collision : Collision) {
  	
  	if(other.tag == "Sphere"){
  		DecreaseLives(1);
- 		ChangePlaneColor(Color.black);
- 		yield WaitForSeconds(0.3);
- 		ChangePlaneColor(Color.white);
+ 		//ChangePlaneColor(Color.black);
+ 		//yield WaitForSeconds(0.3);
+ 		//ChangePlaneColor(Color.white);
+ 		StartCoroutine(Blink(2.0));
  		//Destroy(other.gameObject);
  	} 	
  	if (other.transform.IsChildOf(transform))
@@ -390,8 +397,9 @@ function OnCollisionEnter(collision : Collision) {
 		ChangePlaneColor(Color.yellow);
 	}
 	
-	// If hits a star
-	if (other.name == "Collectible Star"){
+	// If hits a shield
+	if (other.name == "Shield Body"){
+		plane_shield.renderer.enabled= true;
 		MakeInvincible(5);   
 		Destroy(other.gameObject);
 		ChangePlaneColor(Color(0.4, 0.0, 0.7, 1.0));
@@ -408,13 +416,13 @@ function Update() {
 
 		// Control the character
     	var controller : CharacterController = GetComponent(CharacterController);
-//    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-//    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-//    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
 
-	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-	    var h = Input.acceleration.y;
-	    var v = Input.acceleration.x;
+//	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+//	    var h = Input.acceleration.y;
+//	    var v = Input.acceleration.x;
     	
     	transform.localEulerAngles.x = -v*60; // forth/back banking first!
 
@@ -431,22 +439,32 @@ function Update() {
 	    }
 	    
 	    // Give a speedboost
-	    if (speedBoostCounter >= speedBoostTime * 60) {
+	    //if (speedBoostCounter >= speedBoostTime * 60) {
+	    if (Time.time >= endspeedBoostTime){
 	    	speedBoost = false;
 	    	ChangePlaneColor(Color.white);
-	    	speedBoostCounter = 0;
-	    } else {
-	    	speedBoostCounter++;
+	    	speedBoostTime = 10000;
 	    }
+	    
+	   /* if (invincibleCounter == (invincibleTime - 1) * 60){
+	    	StartCoroutine(Blink(2.0));
+	    }*/
 	     
 	       
 	    // Make invincible
-	    if (invincibleCounter >= invincibleTime * 60){
+	    if (Time.time >= endinvincibleTime){
+	    	plane_shield.renderer.enabled= false;
 	    	invincibleMode = false;
 	    	ChangePlaneColor(Color.white);
-	    	invincibleCounter = 0;
+	    	endinvincibleTime = 10000;
 	    } else {
-	    	invincibleCounter++;
+	    	if (Time.time >= (endinvincibleTime-3.0) && Time.time < (endinvincibleTime)){
+	    	if(blinkflag == 1)
+	    	{
+	    		StartCoroutine(Blink(2.0));
+	    		blinkflag = 0;
+	    	}
+	    	}
 	    }
 	    
 	     
@@ -562,6 +580,7 @@ function IncreaseLives (newLifeValue : int) {
 
 // Increase the speed of the plane due to a lightning bolt
 function IncreaseSpeed() {
+	endspeedBoostTime = Time.time+3.0;
 	speedBoost = true;
 
 }
@@ -677,8 +696,11 @@ function HidePlusText(){
 }
 
 function MakeInvincible(invincibleValue : float){
+	endinvincibleTime=Time.time + 5.0;
+	print(Time.time + endinvincibleTime);
 	invincibleTime = invincibleValue;
 	invincibleMode = true;
+	blinkflag = 1;
 }
 
 function EndCountdown() {
@@ -748,4 +770,24 @@ function hideGuidance(){
 	guidanceText.enabled = false;
 	UnPauseGame();	
 	isGuidanceShown = 0;	
+}
+
+function Blink(waitTime : float) {
+    var endTime=Time.time + waitTime;
+    while(Time.time<endTime){
+        paperPlane.renderer.enabled = false;
+        if(invincibleMode)
+        {
+        	plane_shield.renderer.enabled= false;
+        }
+        yield WaitForSeconds(0.2);
+        if(invincibleMode)
+        {
+        	plane_shield.renderer.enabled= true;
+        }
+        paperPlane.renderer.enabled = true;
+        yield WaitForSeconds(0.2);
+        
+        
+    }
 }
