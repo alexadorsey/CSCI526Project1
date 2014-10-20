@@ -102,6 +102,7 @@ function Start(){
 	isGameOver = false;
 	isTimeUp = false;
 	isGamePaused = false;
+	lostAllLives = false;
 	speedBoost = false;
 	updateScore = true;
 	invincibleMode = false;
@@ -132,6 +133,7 @@ function Start(){
 		guidanceSetDistance = 300;
 		guidanceText.fontSize = Mathf.Floor(Screen.dpi/7);
 		guidanceText.pixelOffset.y = 0;
+		guidanceText.color = Color.black;
 		guidanceText.text = "Welcome to the world of paper plain\n";
 	}
 		
@@ -153,7 +155,7 @@ function Start(){
 	pauseButton.pixelInset.width = 0.08 * Screen.width;
 	pauseButton.pixelInset.height = pauseButton.pixelInset.width;
 	pauseButton.pixelInset.position.x = Screen.width/3 + 70;
-	pauseButton.pixelInset.position.y = Screen.height/4;
+	pauseButton.pixelInset.position.y = Screen.height/2.9;
 	
 	//ring countdown text position
 	numRingsText.pixelOffset.x = -Screen.width/2 + 115;
@@ -173,8 +175,8 @@ function Start(){
 	
 	// Countdown Text
 	countdownText.fontSize = Mathf.Floor(Screen.dpi/2);	
-	scoreText.pixelOffset.x = -Screen.width/3 - 70;
-	scoreText.pixelOffset.y = Screen.height/4;
+	scoreText.pixelOffset.x = -Screen.width/3 - 90;
+	scoreText.pixelOffset.y = Screen.height/2.5;
 	timeText.pixelOffset.y = -Screen.height/3 - 70;
 	plusText.pixelOffset.x = Screen.height/5;
 	plusText.color = Color(0.0, 0.9, 0.4);
@@ -251,7 +253,7 @@ function OnGUI(){
 		}
 		if (isGamePaused && (!isGameOver && !isGameWon && !isTimeUp)) {
 			//Tutorial Use
-			if (levelInt != 0) {
+			if (!isGuidanceShown) {
 			//	if(!isGuidanceShown){
 					GUI.color = gamePauseColor;
 					GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
@@ -266,8 +268,10 @@ function OnGUI(){
 				//} else {
 					
 			} else {
+				GUI.color = Color.clear;
 				GUI.Box(new Rect(0,0,Screen.width,Screen.height),"");
 			}
+			
 		//	}
 			// GUI.color = gamePauseColor;
 // 			GUI.DrawTexture(Rect(0, 0, Screen.width, Screen.height), overlay);
@@ -424,25 +428,25 @@ function Update() {
 
 		// Control the character
     	var controller : CharacterController = GetComponent(CharacterController);
-    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+//    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+//    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+//    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
 
-//	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-//	    var h = Input.acceleration.y;
-//	    var v = Input.acceleration.x;
+	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+	    var h = Input.acceleration.y;
+	    var v = Input.acceleration.x;
     	
     	transform.localEulerAngles.x = -v*60; // forth/back banking first!
 
 	    
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
-	    	transform.Translate(4, 0, 0);
+	    	transform.Translate(3.8, 0, 0);
 	    } else {
 	    	if (inCountdown) {
 	    		transform.Translate(0, 0, 0);
 	    	} else{
-	    		transform.Translate(2, 0, 0);
+	    		transform.Translate(1.8, 0, 0);
 	    	}
 	    }
 	    
@@ -480,10 +484,10 @@ function Update() {
 	    if (!isFlyingUp) {
 	    	transform.localEulerAngles.z = -5;  // left/right
 	    } else{
-	    	transform.localEulerAngles.z = 15;
+	    	transform.localEulerAngles.z = 20;
 	    	flyingUpCounter++;
 	    }	    
-	    if (flyingUpCounter >= 15) {
+	    if (flyingUpCounter >= 18) {
 	    	isFlyingUp = false;
 	    	flyingUpCounter = 0;
 	    }
@@ -759,7 +763,7 @@ function ShowGuidance(){
 			guidanceText.text = "Going up \n \nYou can tap screen to fly up\n though there's a maximum height";
 			break;
 		case 4:
-			guidanceText.text = "Targets: Going through the rings\n \nAs many rings as possible in the limited time!\n";
+			guidanceText.text = "Targets: Go through the rings\n \nAs many rings as possible in the limited time!\n";
 			break;
 		case 5:
 			guidanceText.text = "Obstacles\n \nHitting obstacles will damage your paper plane\n(you lose heart)\n";
