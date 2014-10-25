@@ -4,7 +4,10 @@ var numHard : int;
 var maxHeight : int;
 var levelInt : int;
 var timer : float;
+var totalTime : float;
 var AvenirNextUL : Font;
+var AvenirNextHeavy : Font;
+var AvenirNextMedium : Font;
 var backButton : Texture2D;
 var nextButton : Texture2D;
 var replayButton : Texture2D;
@@ -16,8 +19,8 @@ var endspeedBoostTime = 10000;
 
 private var numRings : int;
 private var numRingsCounter : int;
-private var score : int;
-private var ringScore : int;
+//private var score : int;
+//private var ringScore : int;
 private var lives : int;
 private var speed : float;
 private var rotateSpeed : float;
@@ -31,7 +34,7 @@ private var isTimeUp = false;
 private var isGamePaused = false;
 private var lostAllLives = false;
 private var speedBoost = false;
-private var updateScore = true;
+//private var updateScore = true;
 private var invincibleMode = false;
 private var isFlyingUp = false;
 private var inCountdown = true;
@@ -51,7 +54,7 @@ private var plane_shield: GameObject;
 
 private var numRingsText: GUIText;
 private var paperPlane : GameObject;
-private var scoreText : GUIText;
+//private var scoreText : GUIText;
 private var timeText : GUIText;
 private var plusText : GUIText;
 private var countdownText : GUIText;
@@ -70,7 +73,7 @@ private var gamePauseColor : Color = Color(0.3, 0.0, 0.4, 1.0);
 
 private var gameEndTextStyle : GUIStyle;
 private var reasonTextStyle : GUIStyle;
-private var yourScoreTextStyle : GUIStyle;
+private var yourUsedTimeTextStyle : GUIStyle;
 
 //Tutorial Use
 private var guidanceText: GUIText;
@@ -83,9 +86,11 @@ private var guidanceTexture :Texture2D;
 
 function Start(){
 	// Initialize the level
-	score = 0;
+	//score = 0;
 	numRings = numEasy + numMedium + numHard;
-	ringScore = (30 * numEasy) + (60 * numMedium) + (90 * numHard);
+	//ringScore = (30 * numEasy) + (60 * numMedium) + (90 * numHard);
+	totalTime = 120;
+	timer = 120;
 	lives = 3;
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
@@ -104,7 +109,7 @@ function Start(){
 	isGamePaused = false;
 	lostAllLives = false;
 	speedBoost = false;
-	updateScore = true;
+	//updateScore = true;
 	invincibleMode = false;
 	isFlyingUp = false;
 	inCountdown = true;
@@ -114,7 +119,7 @@ function Start(){
 	plane_shield.renderer.enabled= false;
 
 	paperPlane = GameObject.Find("Paper Plane Body");
-	scoreText = GameObject.Find("Score").guiText;
+	//scoreText = GameObject.Find("Score").guiText;
 	timeText = GameObject.Find("Time").guiText;
 	plusText = GameObject.Find("Plus Points Text").guiText;
 	countdownText = GameObject.Find("Countdown Text").guiText;
@@ -146,7 +151,7 @@ function Start(){
 	heart3.color = heart_enabled;
 	
 	// Show the start display
-	UpdateScore();
+	//UpdateScore();
 	HidePlusText();	
 	UpdateRingCounter();
 	
@@ -169,14 +174,16 @@ function Start(){
 	numRingsImage.pixelInset.y = -Screen.height/3 - 110;
 	
 	
-	scoreText.fontSize = Mathf.Floor(Screen.dpi/5);
+	//scoreText.fontSize = Mathf.Floor(Screen.dpi/5);
 	timeText.fontSize = Mathf.Floor(Screen.dpi/4);
 	plusText.fontSize = Mathf.Floor(Screen.dpi/7);
 	
 	// Countdown Text
 	countdownText.fontSize = Mathf.Floor(Screen.dpi/2);	
-	scoreText.pixelOffset.x = -Screen.width/3 - 90;
-	scoreText.pixelOffset.y = Screen.height/2.5;
+	
+	//scoreText.pixelOffset.x = -Screen.width/3 - 90;
+	//scoreText.pixelOffset.y = Screen.height/2.5;
+	
 	timeText.pixelOffset.y = -Screen.height/3 - 70;
 	plusText.pixelOffset.x = Screen.height/5;
 	plusText.color = Color(0.0, 0.9, 0.4);
@@ -205,16 +212,16 @@ function Start(){
     gameEndTextStyle.normal.textColor = Color.white;
 	
 	reasonTextStyle = new GUIStyle();
-    reasonTextStyle.fontSize = Mathf.Floor(Screen.dpi/5);
-    reasonTextStyle.font = AvenirNextUL;
+    reasonTextStyle.fontSize = Mathf.Floor(Screen.dpi/4);
+    reasonTextStyle.font = AvenirNextMedium;
     reasonTextStyle.alignment = TextAnchor.MiddleCenter;
     reasonTextStyle.normal.textColor = Color.white;
     
-    yourScoreTextStyle = new GUIStyle();
-    yourScoreTextStyle.fontSize = Mathf.Floor(Screen.dpi/7);
-    yourScoreTextStyle.font = AvenirNextUL;
-    yourScoreTextStyle.alignment = TextAnchor.MiddleCenter;
-    yourScoreTextStyle.normal.textColor = Color.white;		
+    yourUsedTimeTextStyle = new GUIStyle();
+    yourUsedTimeTextStyle.fontSize = Mathf.Floor(Screen.dpi/4);
+    yourUsedTimeTextStyle.font = AvenirNextMedium;
+    yourUsedTimeTextStyle.alignment = TextAnchor.MiddleCenter;
+    yourUsedTimeTextStyle.normal.textColor = Color.white;		
     
     UnPauseGame();
 }
@@ -242,7 +249,7 @@ function OnGUI(){
 			GUI.color = Color(1.0, 0.68, 0.0, 1.0);
 			GUI.Label(Rect (Screen.width/2-50, Screen.height/4, 100, 50), "LEVEL COMPLETE", gameEndTextStyle);
 			GUI.color = Color.white;
-			GUI.Label(Rect (Screen.width/2-50, Screen.height/2-95, 100, 50), "You collected all the rings!", reasonTextStyle);
+			//GUI.Label(Rect (Screen.width/2-50, Screen.height/2-95, 100, 50), "You collected all the rings!", reasonTextStyle);
 		}
 		if (isTimeUp) {
 			GUI.color = gameWonColor;
@@ -283,28 +290,37 @@ function OnGUI(){
 //         		UnPauseGame();
 //     		}
 		} else {
-			GUI.Label(Rect (Screen.width/4, Screen.height/2 + 20, 100, 50), "your score:", yourScoreTextStyle);
-			GUI.Label(Rect (Screen.width/2 - 50, Screen.height/2 + 20, 100, 50), score.ToString(), yourScoreTextStyle);
-			GUI.Label(Rect (Screen.width/4, Screen.height/2 + 100, 110, 50), "high score:", yourScoreTextStyle);
-			GUI.Label(Rect (Screen.width/2 - 50, Screen.height/2 + 110, 100, 50), "---", yourScoreTextStyle);
+		
+			var usedTime = totalTime - timer;
+			var secs: int = usedTime % 60;
+			var mins: int = usedTime / 60;
+			var usedTimeString = String.Format("{0:0}:{1:00}", mins, secs);
+			
+			
+			GUI.Label(Rect (Screen.width*1/3 - 150, Screen.height/2 + 20, 100, 50), "Time elapsed:", yourUsedTimeTextStyle);
+			GUI.Label(Rect (Screen.width/2, Screen.height/2 + 20, 100, 50),  usedTimeString, yourUsedTimeTextStyle);
+			//GUI.Label(Rect (Screen.width/4, Screen.height/2 + 100, 110, 50), "total time:", yourUsedTimeTextStyle);
+			//GUI.Label(Rect (Screen.width/2 - 50, Screen.height/2 + 110, 100, 50), "---", yourUsedTimeTextStyle);
 	    	
 	    	// Draw stars depending on the score
 			GUI.color = Color(1.0, 0.68, 0.0, 1.0);
 
 			if (!isGameOver) {
-				if (score < ringScore/2) {
+				
+				if (usedTime <= totalTime  && usedTime > (totalTime / 4) * 3 ) {
 					GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
 				}
-				if (score >= ringScore/2 && score < ringScore) {
+				else if (usedTime <= (totalTime / 4) * 3 && usedTime > totalTime/2) {
 					GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
-					GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
-				}	
-				if (score >= ringScore) {
+					GUI.DrawTexture(Rect(Screen.width*2/3 - 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+				}else if (usedTime <= totalTime / 2 ) {
 					GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
-					GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
 					GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
+					GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.06 * Screen.width, 0.06 * Screen.width), endStar);
 				}
+				
 			}
+
 			// Next button
 			GUI.color = Color.white;
     		if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) + Screen.width * 0.13,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), nextButton, GUIStyle.none)) {
@@ -363,6 +379,8 @@ function OnCollisionEnter(collision : Collision) {
 		
 		// If ring is not red already, change it red
 		if (ring.renderer.material.color != Color.red){
+		
+			/*
 			if (ring.name == "Ring Medium"){
 				AddScore(60);
 				ShowPlusText("+60");
@@ -378,7 +396,7 @@ function OnCollisionEnter(collision : Collision) {
 			if (ring.name == "Ring"){
 				AddScore(30);
 				ShowPlusText("+30");
-			}
+			}*/
 			
 			ring.renderer.material.color = Color.red;
 			numRingsCounter++;
@@ -389,12 +407,12 @@ function OnCollisionEnter(collision : Collision) {
 		}		
 	}
 	
-//	// If hits a heart
+	// If hits a heart
 	if (other.name == "Heart Body") {
 		IncreaseLives(1);
 		if (lives == 3) {	
-			ShowPlusText("+100");
-			AddScore(100);	
+			//ShowPlusText("+100");
+			//AddScore(100);	
 		} else {
 			ShowPlusText("+1 Life");
 		}
@@ -436,7 +454,8 @@ function Update() {
 	    var h = Input.acceleration.y;
 	    var v = Input.acceleration.x;
     	
-    	transform.localEulerAngles.x = -v*60; // forth/back banking first!
+    	// forth/back banking first!
+    	transform.localEulerAngles.x = -v*60; 
 
 	    
 	    // Move the plane forward at a constant speed
@@ -539,13 +558,13 @@ function FixedUpdate () {
 		if(Input.touchCount > 0) {
 			for(var i = 0; i < Input.touchCount; ++i){
 				if(pauseButton.HitTest(Input.GetTouch(0).position)){
-					print("pause button");
+					//print("pause button");
 					if(Input.GetTouch(0).phase == TouchPhase.Began){
 						PauseGame();
 					}
 				}
 				if(Input.GetTouch(i).phase == TouchPhase.Began){
-					print("speed up");
+					//print("speed up");
 					isFlyingUp = true;
 				}	
 			}
@@ -599,7 +618,7 @@ function IncreaseSpeed() {
 
 }
 
-
+/*
 // Adds newScoreValue to the current score
 function AddScore (newScoreValue : int) {
     score += newScoreValue;
@@ -613,7 +632,7 @@ function AddScore (newScoreValue : int) {
 function UpdateScore() {
 	scoreText.text = score.ToString();
 }
-
+*/
 //updates ring counter text which shows number of rings left to collect
 function UpdateRingCounter(){
 	numRingsText.text= (numRings - numRingsCounter).ToString();
@@ -641,7 +660,7 @@ function GameOver(){
 function ShowGameEndScreen() {
 	PauseGame();	
 	timeText.enabled = false;
-	scoreText.enabled = false;
+	//scoreText.enabled = false;
 	heart1.enabled = false;
 	heart2.enabled = false;
 	heart3.enabled = false;
@@ -703,6 +722,7 @@ function ShowPlusText(plusValue : String){
 	yield WaitForSeconds(plusTextWaitTime);
 	HidePlusText();
 }
+
 
 function HidePlusText(){
 	plusText.enabled = false;
