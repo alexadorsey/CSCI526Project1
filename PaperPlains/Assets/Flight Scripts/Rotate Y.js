@@ -3,6 +3,7 @@ var numMedium : int;
 var numHard : int;
 var maxHeight : int;
 var levelInt : int;
+var boostCount : int;
 var timer : float;
 var totalTime : float;
 var AvenirNextUL : Font;
@@ -70,6 +71,10 @@ private var heart2 : GUITexture;
 private var heart3 : GUITexture;
 private var heart_disabled : Color = Color(1.0, 0.0, 0.0, 0.2);
 private var heart_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
+//boost variables
+private var boost : GUITexture;
+private var boost_disabled : Color = Color(1.0, 0.0, 0.0, 0.2);
+private var boost_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
 
 private var gameStartColor : Color = Color(0.0, 0.0, 0.0, 0.6);
 private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 1.0);
@@ -97,6 +102,7 @@ function Start(){
 	totalTime = 120;
 	timer = 120;
 	lives = 3;
+	boostCount = 0;
 	speedBoostCounter = 0;
 	speedBoostTime = 5;
 	plusTextWaitTime = 0;
@@ -148,6 +154,7 @@ function Start(){
 	}
 		
 	pauseButton = (GameObject.Find("Pause Button").GetComponent(GUITexture)as GUITexture);
+	boost = (GameObject.Find("boost").GetComponent(GUITexture)as GUITexture);
 	heart1 = (GameObject.Find("heart1").GetComponent(GUITexture)as GUITexture);
 	heart2 = (GameObject.Find("heart2").GetComponent(GUITexture)as GUITexture);
 	heart3 = (GameObject.Find("heart3").GetComponent(GUITexture)as GUITexture);
@@ -166,6 +173,14 @@ function Start(){
 	pauseButton.pixelInset.height = pauseButton.pixelInset.width;
 	pauseButton.pixelInset.position.x = Screen.width/3 + 70;
 	pauseButton.pixelInset.position.y = Screen.height/2.9;
+	
+	//boost
+	boost.pixelInset.width = 0.08 * Screen.width;
+	boost.pixelInset.height = boost.pixelInset.width;
+	boost.pixelInset.position.x = -Screen.width/3 - 110;;
+	boost.pixelInset.y = Screen.height/2.9;
+	boost.enabled = false;
+
 	
 	//ring countdown text position
 	numRingsText.pixelOffset.x = -Screen.width/2 + 115;
@@ -426,9 +441,10 @@ function OnCollisionEnter(collision : Collision) {
 	
 	// If hits a lightning bolt
 	if (other.name == "Lightning Body"){
-		IncreaseSpeed();   
+		//IncreaseSpeed();   
+		saveboost();
 		Destroy(other.gameObject);
-		ChangePlaneColor(Color.yellow);
+		//ChangePlaneColor(Color.yellow);
 	}
 	
 
@@ -451,13 +467,13 @@ function Update() {
 
 		// Control the character
     	var controller : CharacterController = GetComponent(CharacterController);
-//    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
-//    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-//    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+    	transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
+    	var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
+    	var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
 
-	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-	    var h = Input.acceleration.y;
-	    var v = Input.acceleration.x;
+//	    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+//	    var h = Input.acceleration.y;
+//	    var v = Input.acceleration.x;
     	
     	// forth/back banking first!
     	transform.localEulerAngles.x = -v*60; 
@@ -573,6 +589,20 @@ function FixedUpdate () {
 			isFlyingUp = true;
 			//rigidbody.velocity = Vector3(0, 20, 0);
 		}
+		//boost activate when 'B' is pressed
+		if (Input.GetKeyDown (KeyCode.B)) {		
+			print("Boost pressed " + rigidbody);
+			if(boostCount>0){
+				boostCount--;
+				IncreaseSpeed();
+			}
+			if(boostCount == 0){
+				boost.enabled = false;
+				boost.color = boost_enabled;
+			}
+			//rigidbody.velocity = Vector3(0, 20, 0);
+		}
+
 		if(Input.touchCount > 0) {
 			for(var i = 0; i < Input.touchCount; ++i){
 				if(pauseButton.HitTest(Input.GetTouch(0).position)){
@@ -581,7 +611,18 @@ function FixedUpdate () {
 						PauseGame();
 					}
 				}
-				if(Input.GetTouch(i).phase == TouchPhase.Began){
+				if(boost.HitTest(Input.GetTouch(0).position)){
+					print("boost button");
+					if(boostCount>0){
+						boostCount--;
+						IncreaseSpeed();
+					}
+					if(boostCount == 0){
+						boost.enabled = false;
+						boost.color = boost_enabled;
+					}
+				}
+				else if(Input.GetTouch(i).phase == TouchPhase.Began){
 					//print("speed up");
 					isFlyingUp = true;
 				}	
@@ -635,6 +676,15 @@ function IncreaseSpeed() {
 	speedBoost = true;
 
 }
+
+function saveboost () {
+	if(boostCount == 0) {
+		boost.enabled = true;
+		boost.color = boost_enabled;
+	}
+	boostCount++;
+}
+
 
 /*
 // Adds newScoreValue to the current score
