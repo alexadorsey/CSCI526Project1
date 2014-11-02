@@ -129,6 +129,9 @@
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>/Users/chongli/GitHub/CSCI526Project1/PaperPlains/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
+ <Reference Include="Assembly-UnityScript">
+ <HintPath>/Users/chongli/GitHub/CSCI526Project1/PaperPlains/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll</HintPath>
  </Reference>
