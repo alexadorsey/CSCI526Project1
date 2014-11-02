@@ -12,7 +12,7 @@ function OnTriggerEnter (other : Collider) {
 		other.renderer.material.color = Color.red;
 	}
 
-	var ringgroup:String[] = ["ring1","ring2","ring3","ring4","ring5","ring6","lastring"];
+	var ringgroup:String[] = ["ring0","ring","ring1","ring2","ring3","ring4","ring5","ring6","lastring"];
 	var objectName = this.transform.parent.name;
 	
 	
