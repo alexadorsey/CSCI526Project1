@@ -80,6 +80,11 @@ function OnCollisionEnter(collision : Collision) {
 			if (LevelControls.numRingsCounter == LevelControls.numRings) {
 				LevelControls.GameWon();
 			}
+			
+			if(other.transform.parent.name =="lastring"){
+				Debug.Log("!!!!!!!!!!");
+				LevelControls.GameWon();
+			}
 		}		
 	}
 	
