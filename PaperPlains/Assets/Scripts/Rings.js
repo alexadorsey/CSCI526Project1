@@ -29,16 +29,16 @@ function OnTriggerEnter (other : Collider) {
 			
 			var currentGameObject = GameObject.Find(ringgroup[nextIndex]);
 			if (currentGameObject.name != "lastring"){
-			
 				
-				var currentGameObject2 = GameObject.Find(ringgroup[nextIndex + 1]);
-				currentGameObject.GetComponent(MeshRenderer).enabled = true;
-				currentGameObject2.GetComponent(MeshRenderer).enabled = true;
-				//wait for 4 seconds
-				yield WaitForSeconds(4);
-				currentGameObject.GetComponent(MeshRenderer).enabled = false;
-				currentGameObject2.GetComponent(MeshRenderer).enabled = false;
-				
+				if(currIndex % 2 == 0){
+					var currentGameObject2 = GameObject.Find(ringgroup[nextIndex + 1]);
+					currentGameObject.GetComponent(MeshRenderer).enabled = true;
+					currentGameObject2.GetComponent(MeshRenderer).enabled = true;
+					//wait for 4 seconds
+					yield WaitForSeconds(4);
+					currentGameObject.GetComponent(MeshRenderer).enabled = false;
+					currentGameObject2.GetComponent(MeshRenderer).enabled = false;
+				}
 			}else {
 				currentGameObject.GetComponent(MeshRenderer).enabled = true;
 				//wait for 4 seconds
