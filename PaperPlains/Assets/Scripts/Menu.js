@@ -3,6 +3,7 @@
 var AvenirNextH : Font;
 
 var startButtonStyle : GUIStyle;
+var settingsButtonStyle : GUIStyle;
 var aboutButtonStyle : GUIStyle;
 
 function Start () {
@@ -16,6 +17,11 @@ function Start () {
     startButtonStyle.alignment = TextAnchor.MiddleCenter;
     startButtonStyle.normal.textColor = Color.white;
     
+    settingsButtonStyle = new GUIStyle();
+    settingsButtonStyle.fontSize = Mathf.Floor(Screen.dpi/4);
+    settingsButtonStyle.font = AvenirNextH;
+    settingsButtonStyle.alignment = TextAnchor.MiddleCenter;
+    settingsButtonStyle.normal.textColor = Color.white; 
     
     aboutButtonStyle = new GUIStyle();
     aboutButtonStyle.fontSize = Mathf.Floor(Screen.dpi/4);
@@ -27,14 +33,20 @@ function Start () {
 }
 
 function OnGUI(){
-	var startButton = GUI.Button (Rect (Screen.width/2 - 50, Screen.height * 1/2, 200, 50), "START", startButtonStyle);
+	var startButton = GUI.Button (Rect (Screen.width/2 - 50, Screen.height * 3/6, 200, 50), "START", startButtonStyle);
 	if (startButton) {
 		startButtonStyle.normal.textColor = Color.red;
 		Application.LoadLevel("Levels");
     }
     
+    var settingsButton = GUI.Button (Rect (Screen.width/2 - 50, Screen.height * 4/6 , 200, 50), "SETTINGS", settingsButtonStyle);
+    if (settingsButton) {
+    	settingsButtonStyle.normal.textColor = Color.yellow;
+    	Application.LoadLevel("Settings");
+    }
+    
 
-    if (GUI.Button (Rect (Screen.width/2 - 50, Screen.height * 4/6 , 200, 50), "ABOUT", aboutButtonStyle)) {
+    if (GUI.Button (Rect (Screen.width/2 - 50, Screen.height * 5/6 , 200, 50), "ABOUT", startButtonStyle)) {
     	Application.LoadLevel("Levels");
 
     }
