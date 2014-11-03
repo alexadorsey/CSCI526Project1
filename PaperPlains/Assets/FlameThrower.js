@@ -24,7 +24,7 @@ function HandleFlame()
 	}
 	else
 	{
-		torch.emissionRate = 1500.0f;
+		torch.emissionRate = 200.0f;
 		flamecollider.GetComponent(Collider).enabled = true;
 		flag = true;
 	}
