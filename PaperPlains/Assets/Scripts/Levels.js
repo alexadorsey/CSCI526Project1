@@ -4,11 +4,14 @@ var level1 : GUITexture;
 var level2 : GUITexture;
 var level3 : GUITexture;
 var level4 : GUITexture;
+var level5 : GUITexture;
 var level0Push : Texture;
 var level1Push : Texture;
 var level2Push : Texture;
 var level3Push : Texture;
 var level4Push : Texture;
+var level5Push : Texture;
+
 
 function Start () {
 	levels = GameObject.Find("Levels").guiText;	
@@ -18,6 +21,7 @@ function Start () {
 	level2 = (GameObject.Find("Level2").GetComponent(GUITexture)as GUITexture);
 	level3 = (GameObject.Find("Level3").GetComponent(GUITexture)as GUITexture);
 	level4 = (GameObject.Find("Level4").GetComponent(GUITexture)as GUITexture);
+	level5 = (GameObject.Find("Level5").GetComponent(GUITexture)as GUITexture);
 	}
 function OnGUI() {
 	level2.pixelInset.width = level0.pixelInset.width;
@@ -35,6 +39,12 @@ function OnGUI() {
 	level4.pixelInset.width = level0.pixelInset.width;
 	level4.pixelInset.height = level0.pixelInset.width;
 	level4.pixelInset.x = level3.pixelInset.x + 250;
+	
+	level5.pixelInset.width = level0.pixelInset.width;
+	level5.pixelInset.height = level0.pixelInset.width;
+	level5.pixelInset.x = level0.pixelInset.x ;
+	//level5.pixelInset.y = level2.pixelInset.y + 150;
+
 }
 
 function Update () {
@@ -76,6 +86,14 @@ function Update () {
 			level4.texture = level4Push;
 			if (TouchPhase.Ended){
 				Application.LoadLevel("Level4");
+			}
+		}
+	}
+	if(level5.HitTest(Input.GetTouch(0).position)){
+		if(Input.GetTouch(0).phase == TouchPhase.Began){
+			level5.texture = level4Push;
+			if (TouchPhase.Ended){
+				Application.LoadLevel("Level5");
 			}
 		}
 	}

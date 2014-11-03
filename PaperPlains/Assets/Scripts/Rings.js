@@ -19,7 +19,7 @@ function OnTriggerEnter (other : Collider) {
 	if (objectName.Substring(0,objectName.length-1) == "ring"){
 		Debug.Log("Collision with ring");
 		
-		var currIndex = ArrayUtility.IndexOf(ringgroup,objectName);
+		var currIndex = System.Array.IndexOf(ringgroup,objectName);
 		
 		
 		if (currIndex + 1< ringgroup.Length){
@@ -35,14 +35,14 @@ function OnTriggerEnter (other : Collider) {
 					currentGameObject.GetComponent(MeshRenderer).enabled = true;
 					currentGameObject2.GetComponent(MeshRenderer).enabled = true;
 					//wait for 4 seconds
-					yield WaitForSeconds(4);
+					yield WaitForSeconds(10);
 					currentGameObject.GetComponent(MeshRenderer).enabled = false;
 					currentGameObject2.GetComponent(MeshRenderer).enabled = false;
 				}
 			}else {
 				currentGameObject.GetComponent(MeshRenderer).enabled = true;
 				//wait for 4 seconds
-				yield WaitForSeconds(4);
+				yield WaitForSeconds(10);
 				currentGameObject.GetComponent(MeshRenderer).enabled = false;
 				
 			}
