@@ -36,8 +36,6 @@
 -define:ENABLE_PROFILER
 -define:UNITY_EDITOR
 -define:UNITY_EDITOR_OSX
--define:UNITY_TEAM_LICENSE
--define:UNITY_PRO_LICENSE
 'Assets/Standard Assets/Character Controllers/Sources/Scripts/MouseLook.cs'
 'Assets/Standard Assets/Character Controllers/Sources/plane.cs'
 'Assets/Standard Assets/Image Effects (Pro Only)/BlurEffect.cs'

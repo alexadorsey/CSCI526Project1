@@ -38,11 +38,10 @@
 -define:ENABLE_PROFILER
 -define:UNITY_EDITOR
 -define:UNITY_EDITOR_OSX
--define:UNITY_TEAM_LICENSE
--define:UNITY_PRO_LICENSE
 'Assets/BIG_Environment_Pack/Atmo_System/AtmoXfade.cs'
 'Assets/BIG_Environment_Pack/FX/Fire/Fire/FlickerLight.cs'
 'Assets/BIG_Environment_Pack/Standard Assets/Scripts/RenderQueue/SetRenderQueue.cs'
 'Assets/NewBehaviourScript.cs'
+'Assets/SimpleParticlePack/Scripts/ParticleTester.cs'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Xml.Linq.dll'

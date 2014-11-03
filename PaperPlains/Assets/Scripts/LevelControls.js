@@ -157,7 +157,7 @@ function UpdateRingCounter(){
 
 // Runs the timer
 function RunTimer(){
-	if (!inCountdown) {
+	if (!(inCountdown || isGameOver || isGameWon || isGamePaused)) {
 		if (timer > 0){
 			timer -= Time.deltaTime;
 			var secs: int = timer % 60;

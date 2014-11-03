@@ -168,33 +168,46 @@ function DrawTimeAndStars(){
 	
 	//load best time of a certain level
 	var level = "bestTimeL" + LevelControls.levelInt;
+	//PlayerPrefs.DeleteAll();
 	if(PlayerPrefs.HasKey(level)){
 		bestTime = PlayerPrefs.GetFloat(level);
-	} else {		
-		PlayerPrefs.SetFloat(level, 0);
-		bestTime = 0;
+	} else {
+		if (!LevelControls.isGameOver){
+			print("used time: " + usedTime);
+			bestTime = usedTime;
+		} else {
+			bestTime = -1;
+		}
 	}
-	
-	if(bestTime < 1 || usedTime <= bestTime) {			
-		PlayerPrefs.SetFloat(level,usedTime);
-	}
-	bestTime = PlayerPrefs.GetFloat(level);
-	
-	var bsecs: int = bestTime % 60;
-	var bmins: int = bestTime / 60;
+		
 	var bestTimeString = "";
-	if (bmins > 0) {
-		bestTimeString = bmins.ToString() + " min " + bsecs.ToString() + " sec";
-	}  else {
-		bestTimeString = bsecs.ToString() + " sec";
+	if (bestTime == -1) {
+		bestTimeString = "---";
+	} else {
+		if(!LevelControls.isGameOver && usedTime <= bestTime) {			
+			PlayerPrefs.SetFloat(level,usedTime);
+			PlayerPrefs.Save();
+		}
+		bestTime = PlayerPrefs.GetFloat(level);
+			
+		var bsecs: int = bestTime % 60;
+		var bmins: int = bestTime / 60;
+		
+		if (bmins > 0) {
+			bestTimeString = bmins.ToString() + " min " + bsecs.ToString() + " sec";
+		}  else {
+			bestTimeString = bsecs.ToString() + " sec";
+		}
 	}
-
+	
+	
 	GUI.Label(Rect (Screen.width*1/3 - 150, Screen.height/1.7, 100, 50), "Best Time: ", yourUsedTimeTextStyle);
 	GUI.Label(Rect (Screen.width/2, Screen.height/1.7, 100, 50), bestTimeString , yourUsedTimeTextStyle);
 
 
 	// Draw stars depending on the time
-	GUI.color = Color(1.0, 0.68, 0.0, 1.0);
+	if (!LevelControls.isGameOver){
+		GUI.color = Color(1.0, 0.68, 0.0, 1.0);
 		// Stars for used time
 		if (usedTime <= LevelControls.totalTime  && usedTime > (LevelControls.totalTime / 4) * 3 ) {
 			GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
@@ -207,7 +220,9 @@ function DrawTimeAndStars(){
 			GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 		}
-		
+	}
+	
+	if (bestTime != -1) {	
 		// Stars for best time
 		GUI.color = Color.blue;
 		if (bestTime <= LevelControls.totalTime  && bestTime > (LevelControls.totalTime / 4) * 3 ) {
@@ -220,7 +235,9 @@ function DrawTimeAndStars(){
 			GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
-		}	
+		}
+	}	
+	
 }
 
 
