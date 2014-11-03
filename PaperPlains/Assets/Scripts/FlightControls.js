@@ -82,7 +82,6 @@ function OnCollisionEnter(collision : Collision) {
 			}
 			
 			if(other.transform.parent.name =="lastring"){
-				Debug.Log("!!!!!!!!!!");
 				LevelControls.GameWon();
 			}
 		}		
