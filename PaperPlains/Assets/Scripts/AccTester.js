@@ -1,6 +1,16 @@
-﻿var LevelControls : LevelControls;
+﻿// GameObjects
+private var plane_shield: GameObject;
+private var paperPlane : GameObject;
+
+// Buttons
+var backButton : GUITexture;
+
+// Text Objects
+var title : GUIText;
+var instructions : GUIText;
 
 var touchOn;
+
 
 // Accelerometer Variables
 private var init : float;
@@ -13,19 +23,37 @@ private var flag: boolean;
 // TO-DO: Touch Variables
 
 
-
 function Start () {
 
-	// Level Initializations
-	if(PlayerPrefs.HasKey("touchOn")){
-		touchOn = PlayerPrefs.GetInt("touchOn");
-	} else {		
-		PlayerPrefs.SetInt("touchOn", 0);
+	// Level Initializations	
+	backButton = (GameObject.Find("BackButton").GetComponent(GUITexture)as GUITexture);
+	backButton.pixelInset.width = 0.1 * Screen.width;
+	backButton.pixelInset.height = backButton.pixelInset.width;
+	
+	paperPlane = GameObject.Find("Paper Plane Body");
+	plane_shield= GameObject.Find("Invincible Shield Body");
+	plane_shield.renderer.enabled= false;
+	
+	title = GameObject.Find("ControlTitle").guiText;
+	title.fontSize = Mathf.Floor(Screen.dpi/5);
+	
+	instructions = GameObject.Find("ControlInstructions").guiText;
+	instructions.fontSize = Mathf.Floor(Screen.dpi/7);
+	
+	touchOn = PlayerPrefs.GetInt("touchOn");
+	if (touchOn) {
+		title.text = "Touch";
+		instructions.text = "Hold the left side of the screen to move down\nand the right to move up";
+	} else {
+		title.text = "Accelerometer";
+		instructions.text = "Tilt the phone to move up and down";
 	}
+	
+	
 	if (touchOn) {
 	
 		// TO-DO: Touch Initializations
-	
+		
 	} else {
 		// Accelerometer Initializations
 		Screen.orientation = ScreenOrientation.LandscapeLeft;
@@ -41,23 +69,18 @@ function Start () {
 		rotateSpeed = 5.0;
 	}
 	
-	
-
-	
-
-	
-	
-	
+	Time.timeScale=1;
 }
 
-
 function Update () {
-	if (!LevelControls.isGamePaused && !LevelControls.inCountdown) {
+
 	
-		if (touchOn) {
+	if (touchOn) {
+	
+			// TO-DO: Touch Update
 		
 		} else {
-			/**********************/
+
 			// Accelerometer Update	
 			var gap : float;
 			if(flag)
@@ -88,6 +111,19 @@ function Update () {
 
 			// forth/back banking
 			transform.localEulerAngles.x = -v * tiltAngle;  //left or right
+		}
+	
+	// Level Updates
+	
+	// Move the plane forward at a constant speed
+	transform.Translate(1.8, 0, 0);
+	
+	// Back Button Listener
+	if(backButton.HitTest(Input.GetTouch(0).position)){
+		if(Input.GetTouch(0).phase == TouchPhase.Began){
+			if(TouchPhase.Ended){
+				Application.LoadLevel("Settings");
+			}
 		}
 	}
 }

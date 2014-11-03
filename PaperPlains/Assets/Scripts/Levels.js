@@ -1,4 +1,5 @@
-﻿var levels : GUIText;
+﻿var backButton : GUITexture;
+var levels : GUIText;
 var level0 : GUITexture;
 var level1 : GUITexture;
 var level2 : GUITexture;
@@ -22,7 +23,12 @@ function Start () {
 	level3 = (GameObject.Find("Level3").GetComponent(GUITexture)as GUITexture);
 	level4 = (GameObject.Find("Level4").GetComponent(GUITexture)as GUITexture);
 	level5 = (GameObject.Find("Level5").GetComponent(GUITexture)as GUITexture);
-	}
+	
+	backButton = (GameObject.Find("BackButton").GetComponent(GUITexture)as GUITexture);
+	backButton.pixelInset.width = 0.1 * Screen.width;
+	backButton.pixelInset.height = backButton.pixelInset.width;
+}
+
 function OnGUI() {
 	level2.pixelInset.width = level0.pixelInset.width;
 	level2.pixelInset.height = level0.pixelInset.width;
@@ -48,6 +54,14 @@ function OnGUI() {
 }
 
 function Update () {
+	if(backButton.HitTest(Input.GetTouch(0).position)){
+		if(Input.GetTouch(0).phase == TouchPhase.Began){
+			if(TouchPhase.Ended){
+				Application.LoadLevel("Menu");
+			}
+		}
+	}
+
 	if(level0.HitTest(Input.GetTouch(0).position)){
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
 			level0.texture = level0Push;
@@ -91,7 +105,7 @@ function Update () {
 	}
 	if(level5.HitTest(Input.GetTouch(0).position)){
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			level5.texture = level4Push;
+			level5.texture = level5Push;
 			if (TouchPhase.Ended){
 				Application.LoadLevel("Level5");
 			}

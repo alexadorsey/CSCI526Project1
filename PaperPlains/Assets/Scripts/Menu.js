@@ -46,7 +46,7 @@ function OnGUI(){
     }
     
 
-    if (GUI.Button (Rect (Screen.width/2 - 50, Screen.height * 5/6 , 200, 50), "ABOUT", startButtonStyle)) {
+    if (GUI.Button (Rect (Screen.width/2 - 50, Screen.height * 5/6 , 200, 50), "ABOUT", aboutButtonStyle)) {
     	Application.LoadLevel("Levels");
 
     }
