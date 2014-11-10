@@ -47,8 +47,8 @@ function Start () {
 		PlayerPrefs.SetInt("flag", 0);
 	if(flag == 0)
 	{
-		PlayerPrefs.SetInt("unlocked", 1);
-		PlayerPrefs.SetString("level1", "nostar");
+		PlayerPrefs.SetInt("unlocked", 2);
+		PlayerPrefs.SetString("level1", "2star");
 		PlayerPrefs.SetString("level2", "nostar");
 		PlayerPrefs.SetString("level3", "nostar");
 		PlayerPrefs.SetString("level4", "nostar");
