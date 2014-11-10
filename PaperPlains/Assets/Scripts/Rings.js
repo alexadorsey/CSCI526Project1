@@ -3,6 +3,7 @@
 
 public var LevelControls : LevelControls;
 
+var impact : AudioClip;
 
 function OnTriggerEnter (other : Collider) {
  
@@ -11,7 +12,8 @@ function OnTriggerEnter (other : Collider) {
 		print("Collision with Ring");
 		other.renderer.material.color = Color.red;
 	}
-
+	
+	audio.PlayOneShot(impact, 70);
 	var ringgroup:String[] = ["ring0","ring","ring1","ring2","ring3","ring4","ring5","ring6","lastring"];
 	var objectName = this.transform.parent.name;
 	

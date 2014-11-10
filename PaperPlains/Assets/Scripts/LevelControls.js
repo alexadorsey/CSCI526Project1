@@ -95,10 +95,12 @@ function LoadPreviousLevel() {
 	if(isGamePaused){
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		LevelDisplay.pauseButton.enabled = false;
+		//AudioListener.pause = false;
 		isGamePaused = false;
 		Time.timeScale=1;		
 	} else {
 		isGamePaused = true;
+		//AudioListener.pause = true;
 		Time.timeScale=0;
 	}	
 }
@@ -108,6 +110,7 @@ function UnPauseGame(){
 	isGamePaused = false;
 	Time.timeScale=1;
 	LevelDisplay.pauseButton.enabled = true;	
+	//AudioListener.pause = false;
 	Screen.sleepTimeout = SleepTimeout.NeverSleep;	
 }
 

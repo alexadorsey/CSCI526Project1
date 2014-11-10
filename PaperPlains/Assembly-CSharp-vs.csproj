@@ -50,6 +50,7 @@
      <Compile Include="Assets\BIG_Environment_Pack\FX\Fire\Fire\FlickerLight.cs" />
      <Compile Include="Assets\BIG_Environment_Pack\Standard Assets\Scripts\RenderQueue\SetRenderQueue.cs" />
      <Compile Include="Assets\NewBehaviourScript.cs" />
+     <Compile Include="Assets\SimpleParticlePack\Scripts\ParticleTester.cs" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\NoiseEffectShaderRGB.shader" />

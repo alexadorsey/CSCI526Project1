@@ -49,6 +49,9 @@
      <Compile Include="Assets\BIG_Environment_Pack\Standard Assets\Scripts\Camera Scripts\FlyThrough.js" />
      <Compile Include="Assets\Energy Effects\Scripts\CircleRotate1.js" />
      <Compile Include="Assets\Energy Effects\Scripts\CircleRotate2.js" />
+     <Compile Include="Assets\FlameThrower.js" />
+     <Compile Include="Assets\LevelSelect.js" />
+     <Compile Include="Assets\Scripts\AccTester.js" />
      <Compile Include="Assets\Scripts\Boxes.js" />
      <Compile Include="Assets\Scripts\EndScreenDisplay.js" />
      <Compile Include="Assets\Scripts\FPS.js" />

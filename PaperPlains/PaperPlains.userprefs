@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Rings.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LevelControls.js">
     <Files>
-      <File FileName="Assets/Scripts/Rings.js" Line="30" Column="63" />
-      <File FileName="Assets/Scripts/LevelControls.js" Line="115" Column="22" />
+      <File FileName="Assets/Scripts/PlaneMovement.js" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Rings.js" Line="11" Column="29" />
+      <File FileName="Assets/Scripts/LevelControls.js" Line="113" Column="4" />
       <File FileName="Assets/Scripts/FlightControls.js" Line="85" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
