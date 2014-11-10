@@ -6,9 +6,9 @@ public var LevelControls : LevelControls;
 var impact : AudioClip;
 
 function OnTriggerEnter (other : Collider) {
- 
+ 	Debug.Log(other.name);
 	
-	if (other.name == "Ring") {
+	if (other.name == "Ring"  ) {
 		print("Collision with Ring");
 		other.renderer.material.color = Color.red;
 	}
