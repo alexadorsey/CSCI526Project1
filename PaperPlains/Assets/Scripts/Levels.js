@@ -66,7 +66,7 @@ function Update () {
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
 			level0.texture = level0Push;
 			if (TouchPhase.Ended){
-				Application.LoadLevel("Level0");
+				Application.LoadLevel("Level6");
 			}
 		}
 	}
@@ -75,7 +75,7 @@ function Update () {
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
 			level1.texture = level1Push;
 			if(TouchPhase.Ended){
-				Application.LoadLevel("Level1");
+				Application.LoadLevel("Moon-1");
 			}
 		}
 	}
@@ -83,7 +83,7 @@ function Update () {
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
 			level2.texture = level2Push;
 			if (TouchPhase.Ended){
-				Application.LoadLevel("Level2");
+				Application.LoadLevel("Level7");
 			}
 		}
 	}
@@ -91,7 +91,7 @@ function Update () {
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
 		level3.texture = level3Push;
 			if (TouchPhase.Ended){
-				Application.LoadLevel("Level3");
+				Application.LoadLevel("Level1");
 			}
 		}
 	}
@@ -99,7 +99,7 @@ function Update () {
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
 			level4.texture = level4Push;
 			if (TouchPhase.Ended){
-				Application.LoadLevel("Level4");
+				Application.LoadLevel("Level2");
 			}
 		}
 	}
@@ -107,7 +107,7 @@ function Update () {
 		if(Input.GetTouch(0).phase == TouchPhase.Began){
 			level5.texture = level5Push;
 			if (TouchPhase.Ended){
-				Application.LoadLevel("Level5");
+				Application.LoadLevel("Level7");
 			}
 		}
 	}
