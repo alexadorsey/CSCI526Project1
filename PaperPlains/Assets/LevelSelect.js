@@ -20,7 +20,7 @@ var spriterender7nostar : SpriteRenderer;
 //player saved data
 
 var unlocked;
-var flag;
+var flag : int;
 var level1;
 var level2;
 var level3;
@@ -43,8 +43,11 @@ function Start () {
 	//spriterender8 = GameObject.Find("l8locked").GetComponent(SpriteRenderer);
 	//spriterender9 = GameObject.Find("l9locked").GetComponent(SpriteRenderer);
 	//spriterender10 = GameObject.Find("l10locked").GetComponent(SpriteRenderer);
+	
 	if(!(PlayerPrefs.HasKey("flag")))
-		PlayerPrefs.SetInt("flag", 0);
+			PlayerPrefs.SetInt("flag", 0);
+	flag = PlayerPrefs.GetInt("flag");
+	print(flag);
 	if(flag == 0)
 	{
 		PlayerPrefs.SetInt("unlocked", 2);
@@ -58,10 +61,9 @@ function Start () {
 		PlayerPrefs.SetString("level8", "nostar");
 		PlayerPrefs.SetString("level9", "nostar");
 		PlayerPrefs.SetString("level10", "nostar");
-	}
-	
-	if(flag == 0)
 		PlayerPrefs.SetInt("flag", 1);
+	}
+		
 		
 	EnableSprites(1, PlayerPrefs.GetString("level1"));
 	EnableSprites(2, PlayerPrefs.GetString("level2"));
