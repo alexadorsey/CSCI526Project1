@@ -45,9 +45,13 @@ function Start(){
 
 // Collision with non-trigger objects -- for us, this is the terrain
 function OnCollisionEnter(collision : Collision) {
-	print("Collision with Terrain; Lives: " + lives);
+	//print("Collision with " + collision);
+	//print("Collision with Terrain; Lives: " + lives);
 	if (!invincibleMode){
-		LevelControls.GameOver();
+		DecreaseLives(1);
+ 		StartCoroutine(Blink(2.0));
+ 		//GameObject.Find("Plane").rigidbody.freezeRotation = true;
+		//LevelControls.GameOver();
 	}	
 }
  
@@ -58,8 +62,10 @@ function OnCollisionEnter(collision : Collision) {
  	
  	// Collision with Obstacle Sphere
  	if(other.tag == "Sphere"){
- 		DecreaseLives(1);
- 		StartCoroutine(Blink(2.0));
+ 		if (!invincibleMode){
+	 		DecreaseLives(1);
+	 		StartCoroutine(Blink(2.0));
+	 	}
  	} 	
  	if (other.transform.IsChildOf(transform))
 			return;			
