@@ -9,6 +9,7 @@ var overlay : Texture2D;
 var AvenirNextUL : Font;
 var AvenirNextHeavy : Font;
 var AvenirNextMedium : Font;
+//var unlockedlevel :int;
 
 var backButton : Texture2D;
 var nextButton : Texture2D;
@@ -29,9 +30,17 @@ private var gameOverColor : Color = Color(0.0, 0.0, 0.36, 1.0);
 private var gameWonColor : Color = Color(0.1, 0.5, 0.1, 1.0);
 private var gamePauseColor : Color = Color(0.3, 0.0, 0.4, 1.0);
 
+	var spriterender2 : SpriteRenderer;
+	var spriterender3 : SpriteRenderer;
+	var spriterender4 : SpriteRenderer;
+	var spriterender5 : SpriteRenderer;
+	var spriterender6 : SpriteRenderer;
+	var spriterender7 : SpriteRenderer;
+	var spriterender8 : SpriteRenderer;
+	var spriterender9 : SpriteRenderer;
+	var spriterender10 : SpriteRenderer;
+
 function Start() {
-
-
 	// Styles
 	gameEndTextStyle = new GUIStyle();
     gameEndTextStyle.fontSize = Mathf.Floor(Screen.dpi/2.5);
@@ -92,6 +101,9 @@ function ShowGameWon(){
 	ShowReplayButton();
 	ShowNextButton();
 	DrawTimeAndStars();
+	
+
+	//Application.LoadLevel("LevelCleared");
 }
 
 function ShowGameOver(){
@@ -207,18 +219,32 @@ function DrawTimeAndStars(){
 
 	// Draw stars depending on the time
 	if (!LevelControls.isGameOver){
+		var unlockedlevel = 0;
 		GUI.color = Color(1.0, 0.68, 0.0, 1.0);
+		var a = LevelControls.levelInt + 1;
+		var levelh = "level"+a;
+		unlockedlevel = LevelControls.levelInt+2;
+		//print(levelh);
 		// Stars for used time
 		if (usedTime <= LevelControls.totalTime  && usedTime > (LevelControls.totalTime / 4) * 3 ) {
 			GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			PlayerPrefs.SetInt("unlocked", unlockedlevel);
+			PlayerPrefs.SetString(levelh, "1star");
 		}
 		else if (usedTime <= (LevelControls.totalTime / 4) * 3 && usedTime > LevelControls.totalTime/2) {
 			GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			GUI.DrawTexture(Rect(Screen.width*2/3 - 130, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			PlayerPrefs.SetInt("unlocked", unlockedlevel);
+			PlayerPrefs.SetString(levelh, "2star");
 		}  else if (usedTime <= LevelControls.totalTime / 2 ) {
 			GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			PlayerPrefs.SetInt("unlocked", unlockedlevel);
+			print("pushing stars");
+			print(levelh);
+			PlayerPrefs.SetString(levelh, "3star");
+			print(PlayerPrefs.GetString("level3"));
 		}
 	}
 	
