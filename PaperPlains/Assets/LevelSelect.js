@@ -98,14 +98,15 @@ function Update () {
          var level = hit.transform.gameObject.name;
          
          if(level == "l1collider")
-         	Application.LoadLevel("Level6");
-         if(level == "l2collider" && !(spriterender2.isVisible))
+         	Application.LoadLevel("GreenLevel1");
+         //if(level == "l2collider" && !(spriterender2.isVisible))
+         if(level == "l2collider")
          {
-         	DontDestroyOnLoad(spriterender2);
-         	DontDestroyOnLoad(spriterender3);
+         	//DontDestroyOnLoad(spriterender2);
+         	//DontDestroyOnLoad(spriterender3);
          	Application.LoadLevel("Moon-1");
          }
-         if(level == "l3collider" && !(spriterender3.isVisible))
+         if(level == "l3collider")// && !(spriterender3.isVisible))
          	Application.LoadLevel("Level7");
          if(level == "l4collider" && !(spriterender4.isVisible))
          	Application.LoadLevel("Level2");
@@ -113,7 +114,8 @@ function Update () {
          	Application.LoadLevel("Level3");
          if(level == "l6collider" && !(spriterender6.isVisible))
          	Application.LoadLevel("Level5");
-         if(level == "backbutton" && !(spriterender7.isVisible))
+         if(level == "backbutton")
+         //if(level == "backbutton" && !(spriterender7.isVisible))
          	Application.LoadLevel("Menu");
      }
 	}

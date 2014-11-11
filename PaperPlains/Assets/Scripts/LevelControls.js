@@ -49,7 +49,7 @@ function Update() {
 		// Run the timer
 		RunTimer();
 	} else {
-		Screen.sleepTimeout = SleepTimeout.SystemSetting;
+	//	Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		// Don't run countdown if in tutorial, otherwise run countdown at start of each level
     	if(isGuidanceShown){
     		if(levelInt == 0){			
@@ -93,7 +93,7 @@ function LoadPreviousLevel() {
  // Pause level
  function PauseGame() {
 	if(isGamePaused){
-		Screen.sleepTimeout = SleepTimeout.SystemSetting;
+		//Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		LevelDisplay.pauseButton.enabled = false;
 		AudioListener.pause = false;
 		isGamePaused = false;

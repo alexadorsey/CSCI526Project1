@@ -16,7 +16,7 @@ function Update () {
 			distance = direction.magnitude;
 			
 			if(rings.gameObject.transform.parent.renderer.material.color != Color.red){
-    			if(distance < 100 && angle > 150)
+    			if(distance < 100 && angle > 160)
     				rings.gameObject.transform.parent.renderer.material.color = Color.green;
     			else
     				rings.gameObject.transform.parent.renderer.material.color = Color32(255,216,0,1);

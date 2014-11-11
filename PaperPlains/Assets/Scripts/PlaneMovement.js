@@ -90,10 +90,10 @@ function Update () {
 			if(Mathf.Abs( gap ) < 0.03){
 				transform.localEulerAngles.z = 5;  // default angle
 			} else {
-				if (gap * tiltAngle >= 30)
-					transform.localEulerAngles.z = 30;
-				else if (gap * tiltAngle <= -30)
-					transform.localEulerAngles.z = -30;
+				if (gap * tiltAngle >= 45)
+					transform.localEulerAngles.z = 45;
+				else if (gap * tiltAngle <= -45)
+					transform.localEulerAngles.z = -45;
 				else
 					transform.localEulerAngles.z = Mathf.Lerp(0, gap ,Time.time) * tiltAngle;
 			}
