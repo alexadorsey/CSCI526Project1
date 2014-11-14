@@ -22,7 +22,8 @@ private var blinkflag : int;
 private var plane_shield: GameObject;
 private var paperPlane : GameObject;
 
-
+private var isCircleCollision = false;
+private var isRingCollision = false;
 
 function Start(){
 	// Initialize the plane	
@@ -72,25 +73,19 @@ function OnCollisionEnter(collision : Collision) {
 			
 	
 	
-	// Collision with Ring's circle
+	//Collision with actual outer ring
+	if(other.tag == "OuterRing"){
+		isRingCollision= true;
+ 		print("Did not pass through ring");
+  	} 	
+	
+	
+	// Collision with Ring's inner circle
 	if (other.name == "Circle") {
-		print("Root is " + other.transform.root.name);
+		//print("Root is " + other.transform.root.name);
 		var ring : Transform = other.transform.parent;
-		
-		// If ring is not red already, change it red
-		if (ring.renderer.material.color != Color.red){
-		
+		isCircleCollision= true;
 			
-			ring.renderer.material.color = Color.red;
-			LevelControls.UpdateRingCounter();
-			if (LevelControls.numRingsCounter == LevelControls.numRings) {
-				LevelControls.GameWon();
-			}
-			
-			if(other.transform.parent.name =="lastring"){
-				LevelControls.GameWon();
-			}
-		}		
 	}
 	
 	
@@ -118,6 +113,28 @@ function OnCollisionEnter(collision : Collision) {
 		//ChangePlaneColor(Color(0.4, 0.0, 0.7, 1.0));
 	}
 	
+}
+
+function OnTriggerExit (other : Collider) {
+			
+		if(other.name =="Circle")
+		{
+			var ring : Transform = other.transform.parent;
+				if(!isRingCollision)
+				{
+					print("Passed through ring");
+		 			// If ring is not red already, change it red
+					if (ring.renderer.material.color != Color.red){
+						ring.renderer.material.color = Color.red;
+						LevelControls.UpdateRingCounter();
+						if (LevelControls.numRingsCounter == LevelControls.numRings) {
+							LevelControls.GameWon();
+						}
+					}	
+				}
+		}
+		isCircleCollision=false;
+		isRingCollision=false;
 }
  
 // Update function called every frame
