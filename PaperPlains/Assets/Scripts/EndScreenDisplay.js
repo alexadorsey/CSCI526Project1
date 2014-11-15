@@ -133,6 +133,7 @@ function ShowGameOver(){
 function ShowBackButton(){
 	GUI.color = Color.white;
 	if (GUI.Button (Rect ((Screen.width/2 - 0.1 * Screen.width/2) - Screen.width * 0.13 ,Screen.height * 4/6, 0.1 * Screen.width, 0.1 * Screen.width), backButton, GUIStyle.none)) {
+        AudioListener.pause = false;
         Application.LoadLevel("Levels");
     }
 }
