@@ -222,9 +222,9 @@ function DrawTimeAndStars(){
 	if (!LevelControls.isGameOver){
 		var unlockedlevel = 0;
 		GUI.color = Color(1.0, 0.68, 0.0, 1.0);
-		var a = LevelControls.levelInt + 1;
+		var a = LevelControls.levelInt;
 		var levelh = "level"+a;
-		unlockedlevel = LevelControls.levelInt+2;
+		unlockedlevel = LevelControls.levelInt+1;
 		//print(levelh);
 		// Stars for used time
 		if (usedTime <= LevelControls.totalTime  && usedTime > (LevelControls.totalTime / 4) * 3 ) {
