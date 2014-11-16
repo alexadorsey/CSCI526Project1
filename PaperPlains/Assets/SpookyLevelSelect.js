@@ -65,11 +65,11 @@ function Start () {
 	}
 		
 		
-	EnableSprites(1, PlayerPrefs.GetString("level1"));
-	EnableSprites(2, PlayerPrefs.GetString("level2"));
+	EnableSprites(1, PlayerPrefs.GetString("level4"));
+	EnableSprites(2, PlayerPrefs.GetString("level5"));
 	print("in level select");
 	print(PlayerPrefs.GetString("level3"));
-	EnableSprites(3, PlayerPrefs.GetString("level3"));
+	EnableSprites(3, PlayerPrefs.GetString("level6"));
 	/*EnableSprites(4, PlayerPrefs.GetString("level4"));
 	EnableSprites(5, PlayerPrefs.GetString("level5"));
 	EnableSprites(6, PlayerPrefs.GetString("level6"));
@@ -101,20 +101,20 @@ function Update () {
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level1");
+         	Application.LoadLevel("Level4");
          }
          //if(level == "l2collider" && !(spriterender2.isVisible))
          if(level == "l2collider")
          {
             loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level2");
+         	Application.LoadLevel("Level5");
          }
          if(level == "l3collider")// && !(spriterender3.isVisible))
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level3");
+         	Application.LoadLevel("Level6");
          }
          	
          if(level == "l4collider" && !(spriterender4.isVisible))
@@ -173,16 +173,17 @@ var s1 = "l";
 	print(lockedsprite);
 	print(sprite);
 	var lev = PlayerPrefs.GetInt("unlocked");
-	if(level <= lev)
+	print(lev);
+	if((level+3) <= lev)
 	{
 		print("Inside");
 		var spriterender = GameObject.Find(sprite).GetComponent(SpriteRenderer);
 		spriterender.enabled = true;
-		if(level > 1)
-		{
+		//if(level > 1)
+		//{
 			spriterender = GameObject.Find(lockedsprite).GetComponent(SpriteRenderer);
 			spriterender.enabled = false;
-		}
+		//}
 	}
 	
 }
