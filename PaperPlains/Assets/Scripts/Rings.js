@@ -2,6 +2,7 @@
 
 
 public var LevelControls : LevelControls;
+var soundEffectsOn;
 
 var impact : AudioClip;
 
@@ -13,7 +14,16 @@ function OnTriggerEnter (other : Collider) {
 		other.renderer.material.color = Color.red;
 	}
 	
-	audio.PlayOneShot(impact, 70);
+	if(PlayerPrefs.HasKey("soundEffectsOn")){
+		soundEffectsOn = PlayerPrefs.GetInt("soundEffectsOn");
+	} else {
+		PlayerPrefs.SetInt("soundEffectsOn", 1);
+		soundEffectsOn = 1;		
+	}
+	if (soundEffectsOn) {
+		audio.PlayOneShot(impact, 70);
+	}
+	
 	var ringgroup:String[] = ["ring0","ring","ring1","ring2","ring3","ring4","ring5","ring6","lastring"];
 	var objectName = this.transform.parent.name;
 	

@@ -1,4 +1,6 @@
-﻿var paperPlains : GUIText;
+﻿var bgMusic : GameObject;
+
+var paperPlains : GUIText;
 
 var AvenirNextH : Font;
 
@@ -28,8 +30,6 @@ function Start () {
     aboutButtonStyle.font = AvenirNextH;
     aboutButtonStyle.alignment = TextAnchor.MiddleCenter;
     aboutButtonStyle.normal.textColor = Color.white;
-
-	
 }
 
 function OnGUI(){
@@ -50,5 +50,33 @@ function OnGUI(){
     	Application.LoadLevel("Levels");
 
     }
+}
+
+function Awake() {
+	bgMusic = GameObject.Find("BGMusic");
+	var musicOn;
+	var soundEffectsOn;
+	if(PlayerPrefs.HasKey("soundEffectsOn")){
+		soundEffectsOn = PlayerPrefs.GetInt("soundEffectsOn");
+	} else {
+		PlayerPrefs.SetInt("soundEffectsOn", 1);		
+	}
+
+	if(PlayerPrefs.HasKey("musicOn")){	
+		musicOn = PlayerPrefs.GetInt("musicOn");	
+	} else {
+		PlayerPrefs.SetInt("musicOn", 1);
+		bgMusic.audio.Play();
+		musicOn = 1;
+	}
+	PlayerPrefs.Save();
+	
+//	if (musicOn) {
+//		//
+//	} else {
+//		bgMusic.audio.Stop();
+//	}
+	
+	DontDestroyOnLoad(bgMusic);
 	
 }

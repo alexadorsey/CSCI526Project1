@@ -1,4 +1,7 @@
-﻿var settings : GUIText;
+﻿//var BGMusic : BGMusic;
+var bgMusic : GameObject;
+
+var settings : GUIText;
 var controls : GUIText;
 var soundEffects : GUIText;
 var music : GUIText;
@@ -14,7 +17,11 @@ var touchOn;
 var soundEffectsOn;
 var musicOn;
 
+
+
 function Start(){
+
+	bgMusic = GameObject.Find("BGMusic");
 
 	if(PlayerPrefs.HasKey("touchOn")){
 		touchOn = PlayerPrefs.GetInt("touchOn");
@@ -104,11 +111,13 @@ function Update() {
 			if (touchOn) {
 				onOffControls.color = Color.black;
 				onOffControls.text = "Accelerometer";
-				PlayerPrefs.SetInt("touchOn", 0);			
+				PlayerPrefs.SetInt("touchOn", 0);
+				touchOn = 0;			
 			} else {
 				onOffControls.color = Color.black;
 				onOffControls.text = "Touch";
-				PlayerPrefs.SetInt("touchOn", 1);		
+				PlayerPrefs.SetInt("touchOn", 1);	
+				touchOn = 1;	
 			}
 			PlayerPrefs.Save();
 			Application.LoadLevel("AccTester");
@@ -119,11 +128,13 @@ function Update() {
 			if (soundEffectsOn) {
 				onOffSoundEffects.color = Color.red;
 				onOffSoundEffects.text = "Off";
-				PlayerPrefs.SetInt("soundEffectsOn", 0);			
+				PlayerPrefs.SetInt("soundEffectsOn", 0);
+				soundEffectsOn = 0;			
 			} else {
 				onOffSoundEffects.color = Color.black;
 				onOffSoundEffects.text = "On";
-				PlayerPrefs.SetInt("soundEffectsOn", 1);			
+				PlayerPrefs.SetInt("soundEffectsOn", 1);
+				soundEffectsOn = 1;				
 			}
 			PlayerPrefs.Save();
 		}
@@ -133,13 +144,24 @@ function Update() {
 			if (musicOn) {
 				onOffMusic.color = Color.red;
 				onOffMusic.text = "Off";
-				PlayerPrefs.SetInt("musicOn", 0);		
+				PlayerPrefs.SetInt("musicOn", 0);
+				bgMusic.audio.Stop();
+				musicOn = 0;
+				//BGMusic.StopBGMusic();		
 			} else {
 				onOffMusic.color = Color.black;
 				onOffMusic.text = "On";
-				PlayerPrefs.SetInt("musicOn", 1);		
+				PlayerPrefs.SetInt("musicOn", 1);
+				bgMusic.audio.Play();
+				musicOn = 1;
+				//BGMusic.PlayBGMusic();		
 			}
 			PlayerPrefs.Save();
 		}
 	}
+}
+
+
+function Awake() {
+	DontDestroyOnLoad(bgMusic);
 }
