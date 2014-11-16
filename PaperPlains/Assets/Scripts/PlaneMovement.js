@@ -17,6 +17,10 @@ private var upAngle : float;
 
 function Start () {
 
+	//Rigidbody is set for collision effect
+	transform.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+	transform.rigidbody.mass = 100;
+	
 	// Level Initializations
 	if(PlayerPrefs.HasKey("touchOn")){
 		touchOn = PlayerPrefs.GetInt("touchOn");
@@ -103,10 +107,10 @@ function Update () {
 			// var controller : CharacterController = GetComponent(CharacterController);
 			// transform.Rotate(0, Input.GetAxis ("Horizontal") * rotateSpeed, 0);
 			// var h = Input.GetAxis("Vertical"); // use the same axis that move back/forth
-			// var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
-
+			 var v = Input.GetAxis("Horizontal"); // use the same axis that turns left/right
+			//transform.Rotate(0, v * rotateSpeed, 0);
 		    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
-		    var v = Input.acceleration.x;
+		    v = Input.acceleration.x;
 
 			// forth/back banking
 			transform.localEulerAngles.x = -v * tiltAngle;  //left or right
