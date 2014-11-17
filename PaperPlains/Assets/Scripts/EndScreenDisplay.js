@@ -70,10 +70,10 @@ function OnGUI(){
 		}		
 	}
 	if (LevelControls.isGameOver) {
-		//ShowGameOver();
+		ShowGameOver();
 	}
 	if (LevelControls.isGameWon) {
-		//ShowGameWon();
+		ShowGameWon();
 	}
 }
 
@@ -91,7 +91,7 @@ function ShowPause(){
 }
 
 function ShowGameWon(){
-	ShowOverlay(gameWonColor);
+	/*ShowOverlay(gameWonColor);
 	GUI.color = Color(1.0, 0.68, 0.0, 1.0);
 	GUI.Label(Rect (Screen.width/2-50, Screen.height/4, 100, 50), "LEVEL COMPLETE", gameEndTextStyle);
 	GUI.color = Color.white;
@@ -99,8 +99,10 @@ function ShowGameWon(){
 	
 	ShowBackButton();
 	ShowReplayButton();
-	ShowNextButton();
+	ShowNextButton();*/
 	DrawTimeAndStars();
+	
+	//LevelCleared();
 	
 
 	//Application.LoadLevel("LevelCleared");
@@ -176,8 +178,8 @@ function DrawTimeAndStars(){
 	}
 	//var usedTimeString = String.Format("{0:0}:{1:00}", mins, secs);
 		
-	GUI.Label(Rect (Screen.width*1/3 - 150, Screen.height/2, 100, 50), "Time Elapsed: ", yourUsedTimeTextStyle);
-	GUI.Label(Rect (Screen.width/2, Screen.height/2, 100, 50),  usedTimeString, yourUsedTimeTextStyle);
+	//GUI.Label(Rect (Screen.width*1/3 - 150, Screen.height/2, 100, 50), "Time Elapsed: ", yourUsedTimeTextStyle);
+	//GUI.Label(Rect (Screen.width/2, Screen.height/2, 100, 50),  usedTimeString, yourUsedTimeTextStyle);
 	
 	//load best time of a certain level
 	var level = "bestTimeL" + LevelControls.levelInt;
@@ -214,8 +216,8 @@ function DrawTimeAndStars(){
 	}
 	
 	
-	GUI.Label(Rect (Screen.width*1/3 - 150, Screen.height/1.7, 100, 50), "Best Time: ", yourUsedTimeTextStyle);
-	GUI.Label(Rect (Screen.width/2, Screen.height/1.7, 100, 50), bestTimeString , yourUsedTimeTextStyle);
+	//GUI.Label(Rect (Screen.width*1/3 - 150, Screen.height/1.7, 100, 50), "Best Time: ", yourUsedTimeTextStyle);
+//	GUI.Label(Rect (Screen.width/2, Screen.height/1.7, 100, 50), bestTimeString , yourUsedTimeTextStyle);
 
 
 	// Draw stars depending on the time
@@ -298,14 +300,6 @@ function DrawTimeAndStars(){
 	}	
 	
 }
-
-
-
- 
- 
-
-
-
 
 //var LevelControls : LevelControls;
 //
