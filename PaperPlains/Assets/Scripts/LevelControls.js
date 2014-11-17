@@ -35,7 +35,6 @@ function Start(){
 	
 	numRingsCounter = 0;
 	countdownTime = 3;
-	timer = 120;
 	totalTime = timer;
 	
 	// Set the ring counter
@@ -157,7 +156,8 @@ function TimesUp(){
 
 
 function ShowGameEndScreen() {
-	PauseGame();	
+	isGamePaused = true;
+	Time.timeScale=0;	
 	LevelDisplay.timeText.enabled = false;
 	LevelDisplay.heart1.enabled = false;
 	LevelDisplay.heart2.enabled = false;

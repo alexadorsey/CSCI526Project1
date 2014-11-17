@@ -66,14 +66,14 @@ function Start() {
 function OnGUI(){
 	if (LevelControls.isGamePaused) {
 		if (LevelControls.isGuidanceShown == 0 && !LevelControls.isGameOver && !LevelControls.isGameWon) {
-			ShowPause();
+			//ShowPause();
 		}		
 	}
 	if (LevelControls.isGameOver) {
-		ShowGameOver();
+		//ShowGameOver();
 	}
 	if (LevelControls.isGameWon) {
-		ShowGameWon();
+		//ShowGameWon();
 	}
 }
 
