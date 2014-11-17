@@ -66,13 +66,11 @@ function Start() {
 function OnGUI(){
 	if (LevelControls.isGamePaused) {
 		if (LevelControls.isGuidanceShown == 0 && !LevelControls.isGameOver && !LevelControls.isGameWon) {
-			//ShowPause();
+			ShowPause();
 		}		
 	}
 	if (LevelControls.isGameOver) {
-		//ShowGameOver();
-		print("inside gameover");
-		Application.LoadLevel("GameOver");
+		ShowGameOver();
 	}
 	if (LevelControls.isGameWon) {
 		ShowGameWon();
@@ -125,9 +123,9 @@ function ShowGameOver(){
 		}
 	}
 		
-	//ShowBackButton();
-	//ShowReplayButton();
-	//ShowNextButton();
+	ShowBackButton();
+	ShowReplayButton();
+	ShowNextButton();
 	DrawTimeAndStars();
 }
 	
@@ -289,15 +287,15 @@ function DrawTimeAndStars(){
 		// Stars for best time
 		GUI.color = Color.blue;
 		if (bestTime <= LevelControls.totalTime  && bestTime > (LevelControls.totalTime / 4) * 3 ) {
-			GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			//GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 		}
 		else if (bestTime <= (LevelControls.totalTime / 4) * 3 && usedTime > LevelControls.totalTime/2) {
-			GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
-			GUI.DrawTexture(Rect(Screen.width*2/3 - 130, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			//GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			//GUI.DrawTexture(Rect(Screen.width*2/3 - 130, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 		}  else if (bestTime <= LevelControls.totalTime / 2 ) {
-			GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
-			GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
-			GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			//GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			//GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
+			//GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/1.7, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 		}
 	}	
 	

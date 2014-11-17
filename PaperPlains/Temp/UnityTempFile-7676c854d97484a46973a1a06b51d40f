@@ -41,19 +41,23 @@
 -define:ENABLE_PROFILER
 -define:UNITY_EDITOR
 -define:UNITY_EDITOR_OSX
--define:UNITY_TEAM_LICENSE
--define:UNITY_PRO_LICENSE
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll'
 -r:'Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll'
 -r:'Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll'
 -i:UnityEditor
+'Assets/BGMusicControl.js'
 'Assets/BIG_Environment_Pack/Standard Assets/Scripts/Camera Scripts/FlyThrough.js'
 'Assets/Energy Effects/Scripts/CircleRotate1.js'
 'Assets/Energy Effects/Scripts/CircleRotate2.js'
 'Assets/FlameThrower.js'
+'Assets/GameOver.js'
+'Assets/LevelCleared.js'
 'Assets/LevelSelect.js'
+'Assets/MenuSelect.js'
+'Assets/MoonLevelSelect.js'
 'Assets/Scripts/AccTester.js'
+'Assets/Scripts/BGMusic.js'
 'Assets/Scripts/Boxes.js'
 'Assets/Scripts/EndScreenDisplay.js'
 'Assets/Scripts/FPS.js'
@@ -75,4 +79,6 @@
 'Assets/Scripts/SpinObject.js'
 'Assets/Scripts/Tutorial.js'
 'Assets/Scripts/indicator.js'
+'Assets/SpookyLevelSelect.js'
+'Assets/TerrainSelect.js'
 'Assets/ringgroup.js'
