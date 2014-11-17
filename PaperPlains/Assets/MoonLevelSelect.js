@@ -50,7 +50,7 @@ function Start () {
 	print(flag);
 	if(flag == 0)
 	{
-		PlayerPrefs.SetInt("unlocked", 1);
+		PlayerPrefs.SetInt("unlockedMoon", 1);
 		PlayerPrefs.SetString("level1", "nostar");
 		PlayerPrefs.SetString("level2", "nostar");
 		PlayerPrefs.SetString("level3", "nostar");
@@ -172,9 +172,9 @@ var s1 = "l";
 	//int l = level;
 	print(lockedsprite);
 	print(sprite);
-	var lev = PlayerPrefs.GetInt("unlocked");
+	var lev = PlayerPrefs.GetInt("unlockedMoon");
 	print(lev);
-	if((level+6) <= lev)
+	if((level) <= lev)
 	{
 		print("Inside");
 		var spriterender = GameObject.Find(sprite).GetComponent(SpriteRenderer);
