@@ -226,6 +226,7 @@ function DrawTimeAndStars(){
 		var levelh = "level"+a;
 		var stars = PlayerPrefs.GetString(levelh);
 		unlockedlevel = LevelControls.levelInt+1;
+		PlayerPrefs.SetInt("currentlevel", a);
 		//print(levelh);
 		// Stars for used time
 		if (usedTime <= LevelControls.totalTime  && usedTime > (LevelControls.totalTime / 4) * 3 ) {
