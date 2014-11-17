@@ -190,7 +190,7 @@ function RunTimer(){
 			var mins: int = timer / 60;
 			LevelDisplay.timeText.text = String.Format("{0:0}:{1:00}", mins, secs);
 		} else {
-			TimesUp();
+			GameOver();
 		}
 	}
 }

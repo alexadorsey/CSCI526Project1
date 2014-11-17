@@ -70,7 +70,9 @@ function OnGUI(){
 		}		
 	}
 	if (LevelControls.isGameOver) {
-		ShowGameOver();
+		//ShowGameOver();
+		print("inside gameover");
+		Application.LoadLevel("GameOver");
 	}
 	if (LevelControls.isGameWon) {
 		ShowGameWon();
@@ -123,9 +125,9 @@ function ShowGameOver(){
 		}
 	}
 		
-	ShowBackButton();
-	ShowReplayButton();
-	ShowNextButton();
+	//ShowBackButton();
+	//ShowReplayButton();
+	//ShowNextButton();
 	DrawTimeAndStars();
 }
 	
