@@ -13,9 +13,7 @@ function FixedUpdate () {
 		transform.RotateAround(startPosition+ new Vector3(20,0,0), Vector3.forward, 90.0f* Time.deltaTime);
 	}else if (transform.tag == "line2ring"){
 		transform.RotateAround(startPosition- new Vector3(20,0,0), Vector3.forward, -90.0f* Time.deltaTime);
-	}else if (transform.tag == "line3ring"){
+	}else if (transform.tag == "line3ring" || transform.GetChild(0).tag == "line3ring"){
 		transform.RotateAround(startPosition- (new Vector3(0,20,0)), this.transform.up, -90.0f* Time.deltaTime);
 	}
-	
-	
 }

@@ -1,5 +1,6 @@
 ﻿var LevelControls : LevelControls;
 var LevelDisplay : LevelDisplay;
+var indicator : indicator;
 
 var boostCount : int;
 var endinvincibleTime = 10000;
@@ -98,7 +99,9 @@ function OnCollisionEnter(collision : Collision) {
 					print("Passed through ring");
 		 								
 					if(ring.renderer.enabled == true)
-					{
+					{				
+						ring.renderer.material.color = Color.red;
+						//indicator.indicatorSet = true;
 						var PS = ring.Find("ParticleSystem");
 						//PS.active= true;
 						PS.particleEmitter.Emit();

@@ -1,5 +1,6 @@
 ﻿var LevelDisplay : LevelDisplay;
 var Tutorial : Tutorial;
+var bgLevelMusic: AudioClip;
 
 var levelInt : int;
 var numRings : int;
@@ -12,6 +13,8 @@ public var isGameOver;
 public var isTimeUp;
 public var inCountdown;
 public var isGuidanceShown : int;
+var bgMusic : GameObject;
+
 
 
 public var lostAllLives;
@@ -40,6 +43,22 @@ function Start(){
 	numRingsCounter = 0;
 	// Unpause the game
     UnPauseGame();
+    
+    //var bgMusic : GameObject;
+   // bgMusic = GameObject.Find("BGMusic");
+   // print(bgMusic);
+   // if (levelInt >= 0 || levelInt <= 3) {
+   //	bgMusic.audio.Stop();
+  //  bgMusic.audio.clip = bgLevelMusic;
+   // bgMusic.audio.Play();
+   /* }
+    if (levelInt >= 0 || levelInt <= 3) {
+    	
+    }
+    if (levelInt >= 0 || levelInt <= 3) {
+    	
+    }
+    */
 }
 
 function Update() {
@@ -202,4 +221,6 @@ function EndCountdown() {
 function Awake () {
 	// Make the game run as fast as possible in the web player
 	Application.targetFrameRate = 60;
+	
+	
 }

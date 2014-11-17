@@ -1,6 +1,9 @@
 ﻿#pragma strict
 
+
 function Start () {
+
+
 
 }
 
@@ -16,8 +19,9 @@ function Update () {
          	Application.LoadLevel("Levels");
          if(menu == "setting")
          	Application.LoadLevel("Settings");
-         if(menu == "about")
+         //if(menu == "about")
          	//Application.LoadLevel("Levels3");	
      }
 	}
 }
+
