@@ -48,12 +48,19 @@ function Start(){
 function OnCollisionEnter(collision : Collision) {
 	//print("Collision with " + collision);
 	//print("Collision with Terrain; Lives: " + lives);
-	if (!invincibleMode){
-		DecreaseLives(1);
- 		StartCoroutine(Blink(2.0));
- 		//GameObject.Find("Plane").rigidbody.freezeRotation = true;
-		//LevelControls.GameOver();
-	}	
+	if(collision.gameObject.tag =="OuterRing")
+	{
+		isRingCollision= true;
+	}
+	else
+	{
+		if (!invincibleMode){
+			DecreaseLives(1);
+	 		StartCoroutine(Blink(2.0));
+	 		//GameObject.Find("Plane").rigidbody.freezeRotation = true;
+			//LevelControls.GameOver();
+		}	
+	}
 }
  
 // Collisions with trigger objects
@@ -83,8 +90,26 @@ function OnCollisionEnter(collision : Collision) {
 	// Collision with Ring's inner circle
 	if (other.name == "Circle") {
 		//print("Root is " + other.transform.root.name);
-		var ring : Transform = other.transform.parent;
 		isCircleCollision= true;
+		
+		var ring : Transform = other.transform.parent;
+				if(!isRingCollision)
+				{
+					print("Passed through ring");
+		 								
+					if(ring.renderer.enabled == true)
+					{
+						var PS = ring.Find("ParticleSystem");
+						//PS.active= true;
+						PS.particleEmitter.Emit();
+					
+						ring.renderer.enabled=false;
+						LevelControls.UpdateRingCounter();
+						if (LevelControls.numRingsCounter == LevelControls.numRings) {
+							LevelControls.GameWon();
+						}
+					}	
+				}
 			
 	}
 	
@@ -115,26 +140,14 @@ function OnCollisionEnter(collision : Collision) {
 	
 }
 
+//function OnCollisionExit(collisionInfo : Collision) {
+//		print("No longer in contact with " + collisionInfo.transform.name);
+//		isRingCollision= false;	
+//	}
+
 function OnTriggerExit (other : Collider) {
 			
-		if(other.name =="Circle")
-		{
-			var ring : Transform = other.transform.parent;
-				if(!isRingCollision)
-				{
-					print("Passed through ring");
-		 			// If ring is not red already, change it red
-					if (ring.renderer.material.color != Color.red){
-						ring.renderer.material.color = Color.red;
-						LevelControls.UpdateRingCounter();
-						if (LevelControls.numRingsCounter == LevelControls.numRings) {
-							LevelControls.GameWon();
-						}
-					}	
-				}
-		}
-		isCircleCollision=false;
-		isRingCollision=false;
+		isRingCollision= false;
 }
  
 // Update function called every frame
