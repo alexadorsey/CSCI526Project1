@@ -114,19 +114,22 @@ function ShowGameOver(){
 	GUI.Label(Rect (Screen.width/2-50, Screen.height/4, 100, 50), "GAME OVER", gameEndTextStyle);
 	GUI.color = Color.white;
 	if (LevelControls.lostAllLives) {
-		GUI.Label(Rect (Screen.width/2-50, Screen.height/2.5, 100, 50), "You lost all your lives!", reasonTextStyle);
+		//GUI.Label(Rect (Screen.width/2-50, Screen.height/2.5, 100, 50), "You lost all your lives!", reasonTextStyle);
+		PlayerPrefs.SetString("gameovertext", "You lost all your lives");
 	}  else {
 		if (LevelControls.isTimeUp) {
-			GUI.Label(Rect (Screen.width/2-50, Screen.height/2.6, 100, 50), "Time is up!", reasonTextStyle);
+			//GUI.Label(Rect (Screen.width/2-50, Screen.height/2.6, 100, 50), "Time is up!", reasonTextStyle);
+			PlayerPrefs.SetString("gameovertext", "Time is UP!!");
 		}  else {
-			GUI.Label(Rect (Screen.width/2-50, Screen.height/2.6, 100, 50), "You hit the terrain!", reasonTextStyle);
+			//GUI.Label(Rect (Screen.width/2-50, Screen.height/2.6, 100, 50), "You hit the terrain!", reasonTextStyle);
+			PlayerPrefs.SetString("gameovertext", "You hit the terrain");
 		}
 	}
-		
-	ShowBackButton();
+	Application.LoadLevel("GameOver");	
+	/*ShowBackButton();
 	ShowReplayButton();
 	ShowNextButton();
-	DrawTimeAndStars();
+	DrawTimeAndStars();*/
 }
 	
 
