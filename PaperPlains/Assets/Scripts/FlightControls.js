@@ -94,25 +94,30 @@ function OnCollisionEnter(collision : Collision) {
 		isCircleCollision= true;
 		
 		var ring : Transform = other.transform.parent;
-				if(!isRingCollision)
-				{
-					print("Passed through ring");
-		 								
-					if(ring.renderer.enabled == true)
-					{				
-						ring.renderer.material.color = Color.red;
-						//indicator.indicatorSet = true;
-						var PS = ring.Find("ParticleSystem");
-						//PS.active= true;
-						PS.particleEmitter.Emit();
+		if(!isRingCollision)
+		{
+			print("Passed through ring");
+ 								
+			if(ring.renderer.enabled == true)
+			{				
+				ring.renderer.material.color = Color.red;
+				//indicator.indicatorSet = true;
+				var PS = ring.Find("ParticleSystem");
+				//PS.active= true;
+				PS.particleEmitter.Emit();
+				
+				if (ring.name != "ring0"){
+					ring.renderer.enabled=false;
 					
-						ring.renderer.enabled=false;
-						LevelControls.UpdateRingCounter();
-						if (LevelControls.numRingsCounter == LevelControls.numRings) {
-							LevelControls.GameWon();
-						}
-					}	
 				}
+				
+				
+				LevelControls.UpdateRingCounter();
+				if (LevelControls.numRingsCounter == LevelControls.numRings) {
+					LevelControls.GameWon();
+				}
+			}	
+		}
 			
 	}
 	

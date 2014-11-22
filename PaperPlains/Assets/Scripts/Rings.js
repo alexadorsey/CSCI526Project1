@@ -33,7 +33,6 @@ function OnTriggerEnter (other : Collider) {
 		
 		var currIndex = System.Array.IndexOf(ringgroup,objectName);
 		
-		
 		if (currIndex + 1< ringgroup.Length){
 			var nextIndex = currIndex + 2;
 			nextIndex = nextIndex - nextIndex % 2;
@@ -78,6 +77,10 @@ function Start () {
 //	
 	var gos2 : GameObject[];
 	gos2 = GameObject.FindGameObjectsWithTag("ringgroup");
+	var ring = GameObject.Find("ring0");
+	var PS = ring.Find("ParticleSystem");
+	//PS.active= true;
+	PS.particleEmitter.enabled = false;
 	
 	for (var i in gos2){
 		Debug.Log(i.gameObject.name);
@@ -89,7 +92,15 @@ function Start () {
 	
 }
 
+
+
 function Update () {
+	var gos2 : GameObject[];
+	gos2 = GameObject.FindGameObjectsWithTag("ringgroup");
 	
+	if (gos2.Length == 0) {
+		Debug.Log("no more ringgroup, load start ring again");
+		
+	}
 
 }
