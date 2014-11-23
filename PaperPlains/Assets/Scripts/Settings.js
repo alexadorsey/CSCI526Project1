@@ -1,14 +1,12 @@
 ﻿//var BGMusic : BGMusic;
 var bgMusic : GameObject;
 
-var settings : GUIText;
-var controls : GUIText;
-var soundEffects : GUIText;
-var music : GUIText;
-var onOffControls : GUIText;
-var onOffSoundEffects : GUIText;
-var onOffMusic : GUIText;
-var backButton : GUITexture;
+var touch : SpriteRenderer;
+var accelerometer : SpriteRenderer;
+var onSE : SpriteRenderer;
+var offSE : SpriteRenderer;
+var onmusic : SpriteRenderer;
+var offmusic : SpriteRenderer;
 
 var controlsFontSize : float;
 var OnOffColor = Color.blue;
@@ -42,123 +40,72 @@ function Start(){
 	}
 	PlayerPrefs.Save();
 	
-	
-	backButton = (GameObject.Find("BackButton").GetComponent(GUITexture)as GUITexture);
-	backButton.pixelInset.width = 0.1 * Screen.width;
-	backButton.pixelInset.height = backButton.pixelInset.width;
-
-	settings = GameObject.Find("Settings").guiText;
-	settings.fontSize = Mathf.Floor(Screen.dpi/2);
-	
-	controlsFontSize = Mathf.Floor(Screen.dpi/5);
-	controls = GameObject.Find("Controls").guiText;
-	controls.fontSize = controlsFontSize;
-	
-	soundEffects = GameObject.Find("Sound Effects").guiText;
-	soundEffects.fontSize = controlsFontSize;
-	
-	music = GameObject.Find("Music").guiText;
-	music.fontSize = controlsFontSize;
-	
-	
-	onOffControls = GameObject.Find("OnOffControls").guiText;
-	onOffControls.fontSize = controlsFontSize;
-	
-	onOffSoundEffects = GameObject.Find("OnOffSoundEffects").guiText;
-	onOffSoundEffects.fontSize = controlsFontSize;
-	
-	onOffMusic = GameObject.Find("OnOffMusic").guiText;
-	onOffMusic.fontSize = controlsFontSize;	
-	
-	
-	// Set the on/off colors
-	if (touchOn) {
-		onOffControls.color = Color.black;
-		onOffControls.text = "Touch";
-	} else {
-		onOffControls.color = Color.black;
-		onOffControls.text = "Accelerometer";
-	}
-	if (soundEffectsOn) {
-		onOffSoundEffects.color = Color.black;
-		onOffSoundEffects.text = "On";
-	} else {
-		onOffSoundEffects.color = Color.red;
-		onOffSoundEffects.text = "Off";
-	}
-	if (musicOn) {
-		onOffMusic.color = Color.black;
-		onOffMusic.text = "On";
-	} else {
-		onOffMusic.color = Color.red;
-		onOffMusic.text = "Off";
-	}
+	touch = GameObject.Find("touch").GetComponent(SpriteRenderer);
+	accelerometer = GameObject.Find("accelerometer").GetComponent(SpriteRenderer);
+	onSE = GameObject.Find("OnSE").GetComponent(SpriteRenderer);
+	offSE = GameObject.Find("OffSE").GetComponent(SpriteRenderer);
+	onmusic = GameObject.Find("Onmusic").GetComponent(SpriteRenderer);
+	offmusic = GameObject.Find("Offmusic").GetComponent(SpriteRenderer);
 }
 
 
 function Update() {
-
-	if(backButton.HitTest(Input.GetTouch(0).position)){
-		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			if(TouchPhase.Ended){
-				Application.LoadLevel("Menu");
-			}
-		}
-	}
-
-	if(onOffControls.HitTest(Input.GetTouch(0).position)){		
-		if(Input.GetTouch(0).phase == TouchPhase.Began){
+if((Input.GetMouseButtonDown(0)) || ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began))) {
+     var wp : Vector3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+     var touchPos : Vector2 = new Vector2(wp.x, wp.y);
+     var hit = Physics2D.OverlapPoint(touchPos);
+      if(hit){
+         var setting = hit.transform.gameObject.name;
+         if(setting == "control collider")
+         {
 			if (touchOn) {
-				onOffControls.color = Color.black;
-				onOffControls.text = "Accelerometer";
+				touch.enabled = false;
+				accelerometer.enabled = true;
 				PlayerPrefs.SetInt("touchOn", 0);
 				touchOn = 0;			
 			} else {
-				onOffControls.color = Color.black;
-				onOffControls.text = "Touch";
+				touch.enabled = true;
+				accelerometer.enabled = false;
 				PlayerPrefs.SetInt("touchOn", 1);	
 				touchOn = 1;	
 			}
 			PlayerPrefs.Save();
-			Application.LoadLevel("AccTester");
-		}
-	}
-	if(onOffSoundEffects.HitTest(Input.GetTouch(0).position)){			
-		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			if (soundEffectsOn) {
-				onOffSoundEffects.color = Color.red;
-				onOffSoundEffects.text = "Off";
-				PlayerPrefs.SetInt("soundEffectsOn", 0);
-				soundEffectsOn = 0;			
-			} else {
-				onOffSoundEffects.color = Color.black;
-				onOffSoundEffects.text = "On";
-				PlayerPrefs.SetInt("soundEffectsOn", 1);
-				soundEffectsOn = 1;				
-			}
-			PlayerPrefs.Save();
-		}
-	}
-	if(onOffMusic.HitTest(Input.GetTouch(0).position)){		
-		if(Input.GetTouch(0).phase == TouchPhase.Began){
-			if (musicOn) {
-				onOffMusic.color = Color.red;
-				onOffMusic.text = "Off";
-				PlayerPrefs.SetInt("musicOn", 0);
-				bgMusic.audio.Stop();
-				musicOn = 0;
-				//BGMusic.StopBGMusic();		
-			} else {
-				onOffMusic.color = Color.black;
-				onOffMusic.text = "On";
-				PlayerPrefs.SetInt("musicOn", 1);
-				bgMusic.audio.Play();
-				musicOn = 1;
-				//BGMusic.PlayBGMusic();		
-			}
-			PlayerPrefs.Save();
-		}
-	}
+        }
+        
+        if(setting == "SEcollider"){
+				if (soundEffectsOn) {
+					onSE.enabled = false;
+					offSE.enabled = true;
+					PlayerPrefs.SetInt("soundEffectsOn", 0);
+					soundEffectsOn = 0;			
+				} else {
+					onSE.enabled = true;
+					offSE.enabled = false;
+					PlayerPrefs.SetInt("soundEffectsOn", 1);
+					soundEffectsOn = 1;				
+				}
+				PlayerPrefs.Save();
+        }
+        
+        if(setting == "musiccollider"){
+				if (soundEffectsOn) {
+					onmusic.enabled = false;
+					offmusic.enabled = true;
+					PlayerPrefs.SetInt("soundEffectsOn", 0);
+					soundEffectsOn = 0;			
+				} else {
+					onmusic.enabled = true;
+					offmusic.enabled = false;
+					PlayerPrefs.SetInt("soundEffectsOn", 1);
+					soundEffectsOn = 1;				
+				}
+				PlayerPrefs.Save();
+        }
+        
+        if(setting == "backbutton")
+         	Application.LoadLevel("Menu");
+    }
+}
 }
 
 
