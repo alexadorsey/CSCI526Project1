@@ -38,18 +38,35 @@ function Update () {
 					}
 					ShowGuidance();
 				}
+				
+			}
+			
+		}else if(LevelControls.isGamePaused && LevelDisplay.guidanceText.enabled){
+			for(var i = 0; i < Input.touchCount; ++i){
+				// Back Button Listener   
+				/*if(backButton.HitTest(Input.GetTouch(0).position)){
+					if(Input.GetTouch(0).phase == TouchPhase.Began){
+						if(TouchPhase.Ended){
+							Application.LoadLevel("Settings");
+						}
+					}
+				}*/
+				if(Input.GetTouch(i).phase == TouchPhase.Began){
+					HideGuidance();
+				
+				}
 			}
 		}
 	}
 }
 
-
+//Timer for automatically closing the instruction
 function GuidanceTimer() {
-	if(guidanceSetTimer>0){
+	/*if(guidanceSetTimer>0){
 		guidanceSetTimer --;
 	} else {
 		HideGuidance();
-	}
+	}*/
 }
 
 function HideGuidance() {
