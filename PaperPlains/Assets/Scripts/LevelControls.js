@@ -43,6 +43,7 @@ function Start(){
 	// Unpause the game
     UnPauseGame();
     
+    // blah blah blah
     //var bgMusic : GameObject;
    // bgMusic = GameObject.Find("BGMusic");
    // print(bgMusic);
