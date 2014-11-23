@@ -15,9 +15,9 @@ function Update () {
       if(hit){
          var menu = hit.transform.gameObject.name;
          
-         if(menu == "start")
+         if(menu == "plainbasestart")
          	Application.LoadLevel("Levels");
-         if(menu == "setting")
+         if(menu == "plainbasesetting")
          	Application.LoadLevel("Settings");
          //if(menu == "about")
          	//Application.LoadLevel("Levels3");	
