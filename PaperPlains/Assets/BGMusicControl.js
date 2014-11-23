@@ -9,6 +9,7 @@ function Update () {
 
 }
 
+// blah blah blah 
 function Awake() {
 	print("in awake");
 	bgMusic = GameObject.Find("BGMusic");

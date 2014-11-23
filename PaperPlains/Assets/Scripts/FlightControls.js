@@ -26,6 +26,16 @@ private var paperPlane : GameObject;
 private var isCircleCollision = false;
 private var isRingCollision = false;
 
+/*-------------------------------------------------------------------------*/
+/*added by Jing for mini map*/	
+private var tex2d : Texture2D;	//map texture
+private var mapSize = Screen.width * 0.15;	//map size, proportional to terrain
+private var oldX : int;
+private var oldY : int;
+private var plane : GameObject;
+/*-------------------------------------------------------------------------*/
+
+
 function Start(){
 	// Initialize the plane	
 	paperPlane = GameObject.Find("Paper Plane Body");
@@ -41,14 +51,45 @@ function Start(){
 	speedBoost = false;
 	invincibleMode = false;
 	
+/*-------------------------------------------------------------------------*/
+/*added by Jing for mini map*/	
+	//create a mini map
+	var map : GameObject = new GameObject("Mini Map");
+	map.AddComponent("GUITexture");
+	map.guiTexture.transform.localScale =  Vector3.zero;
+	map.guiTexture.pixelInset = new Rect(Screen.width * 0.75,Screen.width * 0.01, mapSize, mapSize);
+	tex2d = new Texture2D(mapSize, mapSize);
+	for (var y : int = 0; y < mapSize; ++y) {
+		for (var x : int = 0; x < mapSize; ++x) 
+			tex2d.SetPixel (x, y, Color.black);
+	}
+	tex2d.Apply();
+	map.guiTexture.texture = tex2d;
+	
+	//set plane position
+	var plane : GameObject = GameObject.Find("Plane");
+	var px : int = mapSize * plane.transform.position.x / 1000;	//project to x axis
+	var py : int = mapSize * plane.transform.position.z / 1000;	//project z axis to y axis
+	draw(px, py, 3, Color.white);
+	//record the last position
+	oldX = px;
+	oldY = py;
+	
+	//set all rings in the mini map
+	var allRings = GameObject.FindGameObjectsWithTag("Circle");
+	for(var target in allRings){
+		var rx : int = mapSize * target.transform.position.x / 1000;	//project to x axis
+		var ry : int = mapSize * target.transform.position.z / 1000;	//project z axis to y axis
+		draw(rx,ry,2,Color.yellow);
+	}
+	
+/*----------------------------------------------------------------------------*/
 }
 
 
 
 // Collision with non-trigger objects -- for us, this is the terrain
 function OnCollisionEnter(collision : Collision) {
-	//print("Collision with " + collision);
-	//print("Collision with Terrain; Lives: " + lives);
 	if(collision.gameObject.tag =="OuterRing")
 	{
 		isRingCollision= true;
@@ -58,11 +99,10 @@ function OnCollisionEnter(collision : Collision) {
 		if (!invincibleMode){
 			DecreaseLives(1);
 	 		StartCoroutine(Blink(2.0));
-	 		//GameObject.Find("Plane").rigidbody.freezeRotation = true;
-			//LevelControls.GameOver();
 		}	
 	}
 }
+ 
  
 // Collisions with trigger objects
  function OnTriggerEnter (other : Collider) {
@@ -87,8 +127,7 @@ function OnCollisionEnter(collision : Collision) {
  		print("Did not pass through ring");
   	} 	
 	
-	
-	// Collision with Ring's inner circle
+
 	if (other.name == "Circle") {
 		//print("Root is " + other.transform.root.name);
 		isCircleCollision= true;
@@ -101,16 +140,19 @@ function OnCollisionEnter(collision : Collision) {
 			if(ring.renderer.enabled == true)
 			{				
 				ring.renderer.material.color = Color.red;
-				//indicator.indicatorSet = true;
+/*-------------------------------------------------------------------------*/
+/*added by Jing for mini map*/
+/*diasble the ring in the mini map*/
+				var rx : int = mapSize * other.transform.position.x / 1000;
+				var ry : int = mapSize * other.transform.position.z / 1000;
+				draw(rx,ry,3,Color.black);
+/*-------------------------------------------------------------------------*/
 				var PS = ring.Find("ParticleSystem");
-				//PS.active= true;
 				PS.particleEmitter.Emit();
 				
 				if (ring.name != "ring0"){
-					ring.renderer.enabled=false;
-					
+					ring.renderer.enabled=false;	
 				}
-				
 				
 				LevelControls.UpdateRingCounter();
 				if (LevelControls.numRingsCounter == LevelControls.numRings) {
@@ -148,21 +190,13 @@ function OnCollisionEnter(collision : Collision) {
 	
 }
 
-//function OnCollisionExit(collisionInfo : Collision) {
-//		print("No longer in contact with " + collisionInfo.transform.name);
-//		isRingCollision= false;	
-//	}
-
 function OnTriggerExit (other : Collider) {
-			
 		isRingCollision= false;
 }
  
 // Update function called every frame
 function Update() {
 	if (!LevelControls.isGamePaused && !LevelControls.inCountdown) {
-
-	    
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
 	    	transform.Translate(3.8, 0, 0);
@@ -179,13 +213,7 @@ function Update() {
 	    	speedBoost = false;
 	    	ChangePlaneColor(Color.white);
 	    	speedBoostTime = 10000;
-	    }
-	    
-	   /* if (invincibleCounter == (invincibleTime - 1) * 60){
-	    	StartCoroutine(Blink(2.0));
-	    }*/
-	     
-	       
+	    }       
 	    // Make invincible
 	    if (Time.time >= endinvincibleTime){
 	    	plane_shield.renderer.enabled= false;
@@ -201,8 +229,29 @@ function Update() {
 	    	}
 	    }  
     }
+/*-------------------------------------------------------------------------*/
+/*added by Jing for mini map*/
+/*track position of the plane in the mini map*/
+	draw(oldX,oldY,4,Color.black);
+	var plane : GameObject = GameObject.Find("Plane");
+	var px : int = mapSize * plane.transform.position.x / 1000;	//project to x axis
+	var py : int = mapSize * plane.transform.position.z / 1000;	//project to y axis
+	draw(px,py,4,Color.white);
+	oldX = px;
+	oldY = py;
+/*------------------------------------------------------------------------*/
 }
 
+/*-------------------------------------------------------------------------*/
+/*added by Jing for mini map*/
+function draw(x : int, y : int, psize : int, color: Color){
+		for(var i = -psize; i <= psize; i++)
+			for(var j = -psize; j <= psize; j++)
+				tex2d.SetPixel(x + i,y + j,color);
+        tex2d.Apply();
+}
+
+/*--------------------------------------------------------------------------*/
 
 function FixedUpdate () {
 	if (!LevelControls.isGamePaused) {		
