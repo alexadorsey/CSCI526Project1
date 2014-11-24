@@ -1,7 +1,8 @@
 fileFormatVersion: 2
 guid: 2401d566251fdeb4a93c06feef4ccb94
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: paper_plane-med
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

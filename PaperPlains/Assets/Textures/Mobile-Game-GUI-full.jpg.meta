@@ -1,7 +1,8 @@
 fileFormatVersion: 2
 guid: 340ae8e205ad7524b95e637f1b9cca6b
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Mobile-Game-GUI-full
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
