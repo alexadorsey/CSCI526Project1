@@ -43,6 +43,32 @@ function Start(){
 	// Unpause the game
     UnPauseGame();
     
+    var musicOn;
+	var soundEffectsOn;
+    if(PlayerPrefs.HasKey("soundEffectsOn")){
+		soundEffectsOn = PlayerPrefs.GetInt("soundEffectsOn");
+	} else {
+		PlayerPrefs.SetInt("soundEffectsOn", 1);		
+	}
+	
+	print("music on: " + musicOn);
+
+	if(PlayerPrefs.HasKey("musicOn")){	
+		musicOn = PlayerPrefs.GetInt("musicOn");	
+	} else {
+		PlayerPrefs.SetInt("musicOn", 1);
+		bgMusic.audio.Play();
+		musicOn = 1;
+	}
+	PlayerPrefs.Save();
+	
+	print("music on: " + musicOn);
+	
+	if (musicOn) {
+		bgMusic.audio.Play();
+	}
+    
+    
     // blah blah blah
     //var bgMusic : GameObject;
    // bgMusic = GameObject.Find("BGMusic");

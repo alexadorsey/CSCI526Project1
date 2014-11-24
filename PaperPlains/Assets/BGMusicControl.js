@@ -1,16 +1,13 @@
 ﻿#pragma strict
 var bgMusic : GameObject;
 
-function Start () {
-
-}
 
 function Update () {
 
 }
 
 // blah blah blah 
-function Awake() {
+function Start() {
 	print("in awake");
 	bgMusic = GameObject.Find("BGMusic");
 	print(bgMusic);
@@ -30,13 +27,24 @@ function Awake() {
 		musicOn = 1;
 	}
 	PlayerPrefs.Save();
-	bgMusic.audio.Play();
+	
+	print("music on: " + musicOn);
+	
+	if (musicOn) {
+		bgMusic.audio.Play();
+	}
+	
+	//bgMusic.audio.Play();
 //	if (musicOn) {
 //		//
 //	} else {
 //		bgMusic.audio.Stop();
 //	}
 	
-	DontDestroyOnLoad(bgMusic);
 	
+	
+}
+
+function Awake() {
+	DontDestroyOnLoad(bgMusic);
 }

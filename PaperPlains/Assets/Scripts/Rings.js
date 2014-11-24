@@ -1,6 +1,6 @@
 ﻿#pragma strict
 
-
+/*
 public var LevelControls : LevelControls;
 var soundEffectsOn;
 
@@ -63,7 +63,7 @@ function OnTriggerEnter (other : Collider) {
 	}
 	
 }
-
+*/
 function Start () {
 	gameObject.renderer.material.color.a = 0.0;
 	
@@ -75,6 +75,7 @@ function Start () {
 	//Debug.Log(index);
 //	
 //	
+/*
 	var gos2 : GameObject[];
 	gos2 = GameObject.FindGameObjectsWithTag("ringgroup");
 	var ring = GameObject.Find("ring0");
@@ -87,13 +88,13 @@ function Start () {
 		i.GetComponent(MeshRenderer).enabled = false;
 		
 	}
-	
+	*/
 	
 	
 }
 
 
-
+/*
 function Update () {
 	var gos2 : GameObject[];
 	gos2 = GameObject.FindGameObjectsWithTag("ringgroup");
@@ -104,3 +105,4 @@ function Update () {
 	}
 
 }
+*/

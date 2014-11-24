@@ -1,10 +1,12 @@
 ﻿var LevelControls : LevelControls;
 var LevelDisplay : LevelDisplay;
 var indicator : indicator;
-
 var boostCount : int;
 var endinvincibleTime = 10000;
 var endspeedBoostTime = 10000;
+
+private var counter :int;
+
 
 private var lives : int;
 private var speed : float;
@@ -33,14 +35,18 @@ private var mapSize = Screen.width * 0.15;	//map size, proportional to terrain
 private var oldX : int;
 private var oldY : int;
 private var plane : GameObject;
+private var terrainSize : int;
+private var backgroundColor : Color = new Color32(255, 255, 255, 100);
 /*-------------------------------------------------------------------------*/
 
 
 function Start(){
-	// Initialize the plane	
+// Initialize the plane	
 	paperPlane = GameObject.Find("Paper Plane Body");
 	plane_shield= GameObject.Find("Invincible Shield Body");
 	plane_shield.renderer.enabled= false;
+	
+	counter = 0;
 	
 	lives = 3;
 	boostCount = 0;
@@ -55,22 +61,24 @@ function Start(){
 /*added by Jing for mini map*/	
 	//create a mini map
 	var map : GameObject = new GameObject("Mini Map");
+	var land : Terrain = GameObject.Find("Terrain").GetComponent("Terrain");
+	terrainSize = land.terrainData.size.x;
 	map.AddComponent("GUITexture");
 	map.guiTexture.transform.localScale =  Vector3.zero;
 	map.guiTexture.pixelInset = new Rect(Screen.width * 0.75,Screen.width * 0.01, mapSize, mapSize);
 	tex2d = new Texture2D(mapSize, mapSize);
 	for (var y : int = 0; y < mapSize; ++y) {
 		for (var x : int = 0; x < mapSize; ++x) 
-			tex2d.SetPixel (x, y, Color.black);
+			tex2d.SetPixel (x, y, backgroundColor);
 	}
 	tex2d.Apply();
 	map.guiTexture.texture = tex2d;
 	
 	//set plane position
 	var plane : GameObject = GameObject.Find("Plane");
-	var px : int = mapSize * plane.transform.position.x / 1000;	//project to x axis
-	var py : int = mapSize * plane.transform.position.z / 1000;	//project z axis to y axis
-	draw(px, py, 3, Color.white);
+	var px : int = mapSize * plane.transform.position.x / terrainSize;	//project to x axis
+	var py : int = mapSize * plane.transform.position.z / terrainSize;	//project z axis to y axis
+	drawPlane(px, py, 3, Color.white);
 	//record the last position
 	oldX = px;
 	oldY = py;
@@ -78,9 +86,9 @@ function Start(){
 	//set all rings in the mini map
 	var allRings = GameObject.FindGameObjectsWithTag("Circle");
 	for(var target in allRings){
-		var rx : int = mapSize * target.transform.position.x / 1000;	//project to x axis
-		var ry : int = mapSize * target.transform.position.z / 1000;	//project z axis to y axis
-		draw(rx,ry,2,Color.yellow);
+		var rx : int = mapSize * target.transform.position.x / terrainSize;	//project to x axis
+		var ry : int = mapSize * target.transform.position.z / terrainSize;	//project z axis to y axis
+		draw(rx,ry,4,Color.yellow);
 	}
 	
 /*----------------------------------------------------------------------------*/
@@ -143,16 +151,20 @@ function OnCollisionEnter(collision : Collision) {
 /*-------------------------------------------------------------------------*/
 /*added by Jing for mini map*/
 /*diasble the ring in the mini map*/
-				var rx : int = mapSize * other.transform.position.x / 1000;
-				var ry : int = mapSize * other.transform.position.z / 1000;
-				draw(rx,ry,3,Color.black);
+				var rx : int = mapSize * other.transform.position.x / terrainSize;
+				var ry : int = mapSize * other.transform.position.z / terrainSize;
+				draw(rx,ry,4,backgroundColor);
 /*-------------------------------------------------------------------------*/
 				var PS = ring.Find("ParticleSystem");
 				PS.particleEmitter.Emit();
 				
+				/*
 				if (ring.name != "ring0"){
-					ring.renderer.enabled=false;	
+					ring.renderer.enabled=false;
+					
 				}
+				*/
+				ring.renderer.enabled=false;
 				
 				LevelControls.UpdateRingCounter();
 				if (LevelControls.numRingsCounter == LevelControls.numRings) {
@@ -196,6 +208,8 @@ function OnTriggerExit (other : Collider) {
  
 // Update function called every frame
 function Update() {
+
+	counter++;
 	if (!LevelControls.isGamePaused && !LevelControls.inCountdown) {
 	    // Move the plane forward at a constant speed
 	    if (speedBoost) {
@@ -232,13 +246,17 @@ function Update() {
 /*-------------------------------------------------------------------------*/
 /*added by Jing for mini map*/
 /*track position of the plane in the mini map*/
-	draw(oldX,oldY,4,Color.black);
-	var plane : GameObject = GameObject.Find("Plane");
-	var px : int = mapSize * plane.transform.position.x / 1000;	//project to x axis
-	var py : int = mapSize * plane.transform.position.z / 1000;	//project to y axis
-	draw(px,py,4,Color.white);
-	oldX = px;
-	oldY = py;
+	if (counter % 15 == 0) {
+		drawPlane(oldX,oldY,3,backgroundColor);
+		var plane : GameObject = GameObject.Find("Plane");
+		var px : int = mapSize * plane.transform.position.x / terrainSize;	//project to x axis
+		var py : int = mapSize * plane.transform.position.z / terrainSize;	//project to y axis
+		//print("x:" + px);
+		drawPlane(px,py,3,Color.white);
+		oldX = px;
+		oldY = py;
+	}
+		
 /*------------------------------------------------------------------------*/
 }
 
@@ -246,9 +264,20 @@ function Update() {
 /*added by Jing for mini map*/
 function draw(x : int, y : int, psize : int, color: Color){
 		for(var i = -psize; i <= psize; i++)
-			for(var j = -psize; j <= psize; j++)
-				tex2d.SetPixel(x + i,y + j,color);
+			for(var j = -psize; j <= psize; j++){
+				tex2d.SetPixel(x + i,y + j, color);
+			}
         tex2d.Apply();
+}
+
+function drawPlane(x : int, y : int, radius : int, color: Color){
+	for(var i = x-radius; i <= x + radius; i++)
+			for(var j = y -radius; j <= y + radius; j++){
+				//if(Mathf.Pow( Mathf.Abs(i - x) * 1.0 ,2.0) + Mathf.Pow( Mathf.Abs(j - y) * 1.0, 2.0) < Mathf.Pow(radius* 1.0, 2.0))
+					if(tex2d.GetPixel(i,j) != Color.yellow)
+						tex2d.SetPixel(i,j, color);
+			}
+       tex2d.Apply();
 }
 
 /*--------------------------------------------------------------------------*/

@@ -25,20 +25,26 @@ function Start(){
 		touchOn = PlayerPrefs.GetInt("touchOn");
 	} else {		
 		PlayerPrefs.SetInt("touchOn", 0);
+		touchOn = 0;
 	}
 
 	if(PlayerPrefs.HasKey("soundEffectsOn")){
 		soundEffectsOn = PlayerPrefs.GetInt("soundEffectsOn");
 	} else {
-		PlayerPrefs.SetInt("soundEffectsOn", 1);		
+		PlayerPrefs.SetInt("soundEffectsOn", 1);	
+		soundEffectsOn = 1;	
 	}
 
 	if(PlayerPrefs.HasKey("musicOn")){	
 		musicOn = PlayerPrefs.GetInt("musicOn");	
 	} else {
 		PlayerPrefs.SetInt("musicOn", 1);
+		musicOn = 1;
 	}
 	PlayerPrefs.Save();
+	
+	
+	print("Music on: " + musicOn);
 	
 	touch = GameObject.Find("touch").GetComponent(SpriteRenderer);
 	accelerometer = GameObject.Find("accelerometer").GetComponent(SpriteRenderer);
@@ -46,6 +52,14 @@ function Start(){
 	offSE = GameObject.Find("OffSE").GetComponent(SpriteRenderer);
 	onmusic = GameObject.Find("Onmusic").GetComponent(SpriteRenderer);
 	offmusic = GameObject.Find("Offmusic").GetComponent(SpriteRenderer);
+	
+	if (musicOn) {
+		onmusic.enabled = true;
+		offmusic.enabled = false;
+	} else {
+		onmusic.enabled = false;
+		offmusic.enabled = true;
+	}
 }
 
 
@@ -88,16 +102,18 @@ if((Input.GetMouseButtonDown(0)) || ((Input.touchCount > 0) && (Input.GetTouch(0
         }
         
         if(setting == "musiccollider"){
-				if (soundEffectsOn) {
+				if (musicOn) {
 					onmusic.enabled = false;
 					offmusic.enabled = true;
-					PlayerPrefs.SetInt("soundEffectsOn", 0);
-					soundEffectsOn = 0;			
+					PlayerPrefs.SetInt("musicOn", 0);
+					musicOn = 0;	
+					bgMusic.audio.Pause();		
 				} else {
 					onmusic.enabled = true;
 					offmusic.enabled = false;
-					PlayerPrefs.SetInt("soundEffectsOn", 1);
-					soundEffectsOn = 1;				
+					PlayerPrefs.SetInt("musicOn", 1);
+					musicOn = 1;	
+					bgMusic.audio.Play();			
 				}
 				PlayerPrefs.Save();
         }
@@ -110,5 +126,5 @@ if((Input.GetMouseButtonDown(0)) || ((Input.touchCount > 0) && (Input.GetTouch(0
 
 
 function Awake() {
-	DontDestroyOnLoad(bgMusic);
+	//DontDestroyOnLoad(bgMusic);
 }
