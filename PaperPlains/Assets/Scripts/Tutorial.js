@@ -90,8 +90,8 @@ function ShowGuidance(){
 		case 2:
 			LevelDisplay.guidanceText.text = "Controls:\nRotate your phone to turn left, right, up, or down\n";
 			break;
-		case 3:
-			LevelDisplay.guidanceText.text = "But don't go crazy:\nHitting the terrain means game over\n";
+		case 3:     
+			LevelDisplay.guidanceText.text = "See the health bar?\n It will always be going down, but when you go through a ring, it will go up\n";
 			break;
 		case 4:
 			LevelDisplay.guidanceText.text = "Your Goal: Go through the rings!\nGet as many as possible in the limited time!\n";
