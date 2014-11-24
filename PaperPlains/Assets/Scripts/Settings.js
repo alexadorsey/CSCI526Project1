@@ -53,6 +53,23 @@ function Start(){
 	onmusic = GameObject.Find("Onmusic").GetComponent(SpriteRenderer);
 	offmusic = GameObject.Find("Offmusic").GetComponent(SpriteRenderer);
 	
+	if (touchOn) {
+		touch.enabled = true;
+		accelerometer.enabled = false;
+	} else {
+		touch.enabled = false;
+		accelerometer.enabled = true;
+	}
+	
+	
+	if (soundEffectsOn) {
+		onSE.enabled = true;
+		offSE.enabled = false;
+	} else {
+		onSE.enabled = false;
+		offSE.enabled = true;
+	}
+	
 	if (musicOn) {
 		onmusic.enabled = true;
 		offmusic.enabled = false;
@@ -60,6 +77,7 @@ function Start(){
 		onmusic.enabled = false;
 		offmusic.enabled = true;
 	}
+	
 }
 
 

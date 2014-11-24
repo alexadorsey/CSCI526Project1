@@ -61,6 +61,9 @@ function Start () {
 		PlayerPrefs.SetString("level8", "nostar");
 		PlayerPrefs.SetString("level9", "nostar");
 		PlayerPrefs.SetString("level10", "nostar");
+		PlayerPrefs.SetString("level11", "nostar");
+		PlayerPrefs.SetString("level12", "nostar");
+		PlayerPrefs.SetString("level13", "nostar");
 		PlayerPrefs.SetInt("flag", 1);
 	}
 		
@@ -70,6 +73,7 @@ function Start () {
 	print("in level select");
 	print(PlayerPrefs.GetString("level3"));
 	EnableSprites(3, PlayerPrefs.GetString("level3"));
+	EnableSprites(4, PlayerPrefs.GetString("level4"));
 	/*EnableSprites(4, PlayerPrefs.GetString("level4"));
 	EnableSprites(5, PlayerPrefs.GetString("level5"));
 	EnableSprites(6, PlayerPrefs.GetString("level6"));
@@ -123,6 +127,7 @@ function Update () {
          	loading.enabled = true;
          	Application.LoadLevel("Level4");
          }
+         /*
          if(level == "l5collider" && !(spriterender5.isVisible))
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
@@ -153,6 +158,31 @@ function Update () {
          	loading.enabled = true;
          	Application.LoadLevel("Level9");
          }
+         if(level == "l10collider" && !(spriterender6.isVisible))
+         {
+         	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
+         	loading.enabled = true;
+         	Application.LoadLevel("Level10");
+         }
+         if(level == "l11collider" && !(spriterender6.isVisible))
+         {
+         	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
+         	loading.enabled = true;
+         	Application.LoadLevel("Level11");
+         }
+         if(level == "l12collider" && !(spriterender6.isVisible))
+         {
+         	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
+         	loading.enabled = true;
+         	Application.LoadLevel("Level12");
+         }
+         if(level == "l13collider" && !(spriterender6.isVisible))
+         {
+         	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
+         	loading.enabled = true;
+         	Application.LoadLevel("Level13");
+         }
+         */
          if(level == "backbutton")
          	Application.LoadLevel("Levels");
      }

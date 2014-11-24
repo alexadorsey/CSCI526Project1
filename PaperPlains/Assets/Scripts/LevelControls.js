@@ -49,6 +49,7 @@ function Start(){
 	// Unpause the game
     UnPauseGame();
     
+    // Play the music
     var musicOn;
 	var soundEffectsOn;
     if(PlayerPrefs.HasKey("soundEffectsOn")){
@@ -57,40 +58,21 @@ function Start(){
 		PlayerPrefs.SetInt("soundEffectsOn", 1);		
 	}
 	
-	print("music on: " + musicOn);
-
 	if(PlayerPrefs.HasKey("musicOn")){	
 		musicOn = PlayerPrefs.GetInt("musicOn");	
 	} else {
 		PlayerPrefs.SetInt("musicOn", 1);
-		bgMusic.audio.Play();
 		musicOn = 1;
 	}
 	PlayerPrefs.Save();
 	
-	print("music on: " + musicOn);
 	bgMusic = GameObject.Find("BGMusic");
 	if (musicOn) {
+		bgMusic.audio.clip = bgLevelMusic;
 		bgMusic.audio.Play();
 	}
     
     
-    // blah blah blah
-    //var bgMusic : GameObject;
-   // bgMusic = GameObject.Find("BGMusic");
-   // print(bgMusic);
-   // if (levelInt >= 0 || levelInt <= 3) {
-   //	bgMusic.audio.Stop();
-  //  bgMusic.audio.clip = bgLevelMusic;
-   // bgMusic.audio.Play();
-   /* }
-    if (levelInt >= 0 || levelInt <= 3) {
-    	
-    }
-    if (levelInt >= 0 || levelInt <= 3) {
-    	
-    }
-    */
 }
 
 function Update() {
@@ -127,7 +109,7 @@ function LoadPreviousLevel() {
  
  // Load next level
  function LoadNextLevel() {
- 	if (levelInt == 4) {
+ 	if (levelInt >= 9) {
  		Application.LoadLevel("Level0");
  	} else {
  		Application.LoadLevel("Level" + (levelInt+1).ToString());

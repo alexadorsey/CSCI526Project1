@@ -1,5 +1,22 @@
 ﻿#pragma strict
 
+var impact : AudioClip;
+var soundEffectsOn;
+
+function OnTriggerEnter (other : Collider) {
+	print("Trigger other : " + other.name);
+	if(PlayerPrefs.HasKey("soundEffectsOn")){
+		soundEffectsOn = PlayerPrefs.GetInt("soundEffectsOn");
+	} else {
+		PlayerPrefs.SetInt("soundEffectsOn", 1);
+		soundEffectsOn = 1;		
+	}
+	print("sound effects on : " + soundEffectsOn);
+	if (soundEffectsOn) {
+		audio.PlayOneShot(impact, 70);
+	}
+}
+
 /*
 public var LevelControls : LevelControls;
 var soundEffectsOn;

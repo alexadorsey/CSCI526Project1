@@ -1,6 +1,16 @@
 ﻿#pragma strict
+
 var bgMusic : GameObject;
 
+function Start() {
+	bgMusic = GameObject.Find("BGMusic");
+}
+
+function Awake() {
+	DontDestroyOnLoad(bgMusic);
+}
+
+/*
 
 function Update () {
 
@@ -8,8 +18,9 @@ function Update () {
 
 // blah blah blah 
 function Start() {
+
 	print("in awake");
-	bgMusic = GameObject.Find("BGMusic");
+	
 	print(bgMusic);
 	var musicOn;
 	var soundEffectsOn;
@@ -44,7 +55,4 @@ function Start() {
 	
 	
 }
-
-function Awake() {
-	DontDestroyOnLoad(bgMusic);
-}
+*/

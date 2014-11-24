@@ -1,7 +1,23 @@
 ﻿#pragma strict
 
+var bgMusic : GameObject;
 
 function Start () {
+
+	var musicOn;
+
+	if(PlayerPrefs.HasKey("musicOn")){	
+		musicOn = PlayerPrefs.GetInt("musicOn");	
+	} else {
+		PlayerPrefs.SetInt("musicOn", 1);
+		musicOn = 1;
+	}
+	PlayerPrefs.Save();
+	
+	bgMusic = GameObject.Find("BGMusic");
+	if (musicOn) {
+		bgMusic.audio.Play();
+	}
 
 
 
