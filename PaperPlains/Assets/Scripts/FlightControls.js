@@ -7,13 +7,12 @@ var endspeedBoostTime = 10000;
 
 private var counter :int;
 
-
 private var lives : int;
 private var speed : float;
 
 // Game control booleans
 private var speedBoost = false;
-private var invincibleMode = false;
+static var invincibleMode = false;
 
 private var speedBoostCounter : int;
 private var speedBoostTime : int;
@@ -105,7 +104,7 @@ function OnCollisionEnter(collision : Collision) {
 	else
 	{
 		if (!invincibleMode){
-			DecreaseLives(1);
+			DecreaseLives(4);
 	 		StartCoroutine(Blink(2.0));
 		}	
 	}
@@ -120,7 +119,7 @@ function OnCollisionEnter(collision : Collision) {
  	// Collision with Obstacle Sphere
  	if(other.tag == "Sphere"){
  		if (!invincibleMode){
-	 		DecreaseLives(1);
+	 		DecreaseLives(4);
 	 		StartCoroutine(Blink(2.0));
 	 	}
  	} 	
@@ -178,7 +177,7 @@ function OnCollisionEnter(collision : Collision) {
 	
 	// Collision with Heart
 	if (other.name == "Heart Body") {
-		IncreaseLives(1);
+		IncreaseLives(5);
 		LevelDisplay.ShowPlusText("+1 Life");
 		Destroy(other.gameObject);
 	}
@@ -320,38 +319,20 @@ function ChangePlaneColor( c : Color) {
  
 // Descreases the number of lives by newLifeValue, updates hearts, and checks for game over
 function DecreaseLives (newLifeValue : int) {
+
 	if (!invincibleMode) {
-    	lives -= newLifeValue;
-    	if (lives == 2) {
-    		LevelDisplay.heart3.enabled = false;	
-    	}
-	    if (lives == 1) {
-	    	LevelDisplay.heart2.enabled = false;
-	    }   
-	    if (lives == 0) {
-	    	LevelDisplay.heart1.enabled = false;
-			LevelControls.lostAllLives = true;
-	    	LevelControls.GameOver();
-	    }
-    }
+		LevelControls.curHealth-= newLifeValue;
+		if(LevelControls.curHealth ==0)
+			LevelControls.GameOver();	
+	}
+
 }
 // Increases the number of lives by newLifeValue, updates hearts
 function IncreaseLives (newLifeValue : int) {
-	if (lives <= 2){
-	    lives += newLifeValue;
-	    if (lives == 3) {
-	    	LevelDisplay.heart3.enabled = true;
-	    }
-	    if (lives == 2) {
-	    	LevelDisplay.heart2.enabled = true;
-	    }   
-	    if (lives == 1) {
-	    	LevelDisplay.heart1.enabled = true;
-	    }
-    }
+
+	LevelControls.curHealth+= newLifeValue;
+		
 }
-
-
 
 
 // Make the plane invisible

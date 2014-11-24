@@ -5,18 +5,15 @@ public var countdownText : GUIText;
 public var pauseButton : GUITexture;
 public var numRingsText : GUIText;
 public var numRingsImage : GUITexture;
-public var heart1 : GUITexture;
-public var heart2 : GUITexture;
-public var heart3 : GUITexture;
 public var plusText : GUIText;
 public var guidanceText: GUIText;
 public var guidanceTexture :Texture2D;
 public var boost : GUITexture;
 private var plusTextWaitTime : float;
 
-
-// Colors
-private var heart_enabled : Color = Color(1.0, 0.0, 0.0, 1.0);
+//textures for the health bar
+public var maxHealthGUI: Texture;
+public var curHealthGUI: Texture;
 
 
 function Start() {
@@ -37,36 +34,12 @@ function Start() {
 	timeText.fontSize = Mathf.Floor(Screen.dpi/4);
 	timeText.pixelOffset.y = -Screen.height/3 - 70;
 	
-	// Hearts
-	heart1 = (GameObject.Find("heart1").GetComponent(GUITexture)as GUITexture);
-	heart2 = (GameObject.Find("heart2").GetComponent(GUITexture)as GUITexture);
-	heart3 = (GameObject.Find("heart3").GetComponent(GUITexture)as GUITexture);
-	heart1.color = heart_enabled;
-	heart2.color = heart_enabled;
-	heart3.color = heart_enabled;
-	heart1.pixelInset.width = 0.05 * Screen.width;
-	heart1.pixelInset.height = heart1.pixelInset.width;
-	heart2.pixelInset.width = heart1.pixelInset.width;
-	heart2.pixelInset.height = heart1.pixelInset.width;
-	heart3.pixelInset.width = heart1.pixelInset.width;
-	heart3.pixelInset.height = heart1.pixelInset.width;
-	
-	heart1.pixelInset.position.x = -heart2.pixelInset.width * 2 -heart1.pixelInset.width/2 + 40;
-	heart2.pixelInset.position.x = -heart1.pixelInset.width/2;
-	heart3.pixelInset.position.x = heart2.pixelInset.width * 2 -heart1.pixelInset.width/2 - 40;
-	
-	heart1.pixelInset.y = Screen.height/3 + 40;
-	heart2.pixelInset.y = heart1.pixelInset.y;
-	heart3.pixelInset.y = heart1.pixelInset.y;
-	
-	
 	// Plus Text
 	plusText = GameObject.Find("Plus Points Text").guiText;
 	plusText.fontSize = Mathf.Floor(Screen.dpi/7);
 	plusTextWaitTime = 0;
 	// Hide plus text
 	HidePlusText();
-	
 	
 	// Rings Text & image
 	numRingsImage = (GameObject.Find("Ring Count Image").GetComponent(GUITexture)as GUITexture);
@@ -103,6 +76,17 @@ function Start() {
 	boost.enabled = false;
 }
 
+
+function OnGUI()
+{
+	if( !LevelControls.isGamePaused )
+	{
+		//fixed max health bar
+		GUI.DrawTexture(new Rect(Screen.width/3, 40, Screen.width/3/(LevelControls.maxHealth/LevelControls.maxHealth),50),maxHealthGUI, ScaleMode.StretchToFill);
+	    //current health bar
+	  	GUI.DrawTexture(new Rect(Screen.width/3, 40, Screen.width/3/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
+	}
+}
 
 
 // Shows "+1 life" next to player

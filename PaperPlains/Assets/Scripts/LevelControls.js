@@ -15,7 +15,9 @@ public var inCountdown;
 public var isGuidanceShown : int;
 var bgMusic : GameObject;
 
-
+//health bar values
+static var maxHealth : float;
+static var curHealth : float;
 
 public var lostAllLives;
 public var totalTime : float;
@@ -26,6 +28,10 @@ var timer : float;
 
 
 function Start(){
+
+	maxHealth= 100.00;
+	curHealth= 100.00;
+	
 	isGamePaused = false;
 	isGameWon = false;
 	isGameOver = false;
@@ -63,7 +69,7 @@ function Start(){
 	PlayerPrefs.Save();
 	
 	print("music on: " + musicOn);
-	
+	bgMusic = GameObject.Find("BGMusic");
 	if (musicOn) {
 		bgMusic.audio.Play();
 	}
@@ -186,9 +192,9 @@ function ShowGameEndScreen() {
 	isGamePaused = true;
 	Time.timeScale=0;	
 	LevelDisplay.timeText.enabled = false;
-	LevelDisplay.heart1.enabled = false;
-	LevelDisplay.heart2.enabled = false;
-	LevelDisplay.heart3.enabled = false;
+	//LevelDisplay.heart1.enabled = false;
+	//LevelDisplay.heart2.enabled = false;
+	//LevelDisplay.heart3.enabled = false;
 	LevelDisplay.pauseButton.enabled = false;
 	LevelDisplay.numRingsText.enabled = false;
 	LevelDisplay.numRingsImage.enabled = false;
@@ -200,6 +206,7 @@ function ShowGameEndScreen() {
 //Updates ring counter text which shows number of rings left to collect
 function UpdateRingCounter(){
 	if (!inCountdown) {
+		curHealth+= 5;
 		numRingsCounter++;
 	}
 	LevelDisplay.numRingsText.text = (numRings - numRingsCounter).ToString();
@@ -211,11 +218,16 @@ function UpdateRingCounter(){
 // Runs the timer
 function RunTimer(){
 	if (!(inCountdown || isGameOver || isGameWon || isGamePaused)) {
-		if (timer > 0){
-			timer -= Time.deltaTime;
-			var secs: int = timer % 60;
-			var mins: int = timer / 60;
-			LevelDisplay.timeText.text = String.Format("{0:0}:{1:00}", mins, secs);
+		//if (timer > 0){
+		if(curHealth > 0){	
+			if(FlightControls.invincibleMode==false )
+				curHealth-= 0.05;
+			if(curHealth <= 0)
+				GameOver();
+			//timer -= Time.deltaTime;
+			//var secs: int = timer % 60;
+			//var mins: int = timer / 60;
+			//LevelDisplay.timeText.text = String.Format("{0:0}:{1:00}", mins, secs);
 		} else {
 			GameOver();
 		}
