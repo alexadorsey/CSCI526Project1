@@ -14,9 +14,9 @@ function Start () {
     } else if (objectName == "Level1SceneRandomObstacle"){
     	pointB = pointA + Vector3(-20.0f,0.0f,0.0f);
     } else if (objectName == "MovingRingX1"){
-    	pointB = pointA + Vector3(-40.0f,-40.0f,40.0f);
+    	pointB = pointA + Vector3(-10.0f,-10.0f,10.0f);
     }else if (objectName == "MovingRingX2"){
-    	pointB = pointA + Vector3(-40.0f,40.0f,40.0f);
+    	pointB = pointA + Vector3(-10.0f,10.0f,10.0f);
     }
     else if (transform.tag == "Flame"){
     	pointB = pointA + Vector3(-20.0f,2.0f,2.0f);
