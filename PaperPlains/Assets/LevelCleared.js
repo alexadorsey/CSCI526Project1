@@ -7,8 +7,8 @@ function Start () {
 	
 	var level = PlayerPrefs.GetInt("currentlevel");
 	var level2 = level + 1;
-	if(level2 > 3)
-		level2 = 3;
+	//if(level2 > 3)
+	//	level2 = 3;
 	currentlevel = "Level"+level;
 	nextlevel = "Level"+level2;
 	var noofstars = PlayerPrefs.GetInt("noofstars");

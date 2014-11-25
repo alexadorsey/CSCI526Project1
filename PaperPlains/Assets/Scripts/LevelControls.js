@@ -203,7 +203,7 @@ function RunTimer(){
 		//if (timer > 0){
 		if(curHealth > 0){	
 			if(FlightControls.invincibleMode==false )
-				curHealth-= 0.05;
+				curHealth-= .1;
 			if(curHealth <= 0)
 				GameOver();
 			//timer -= Time.deltaTime;
