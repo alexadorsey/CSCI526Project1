@@ -23,7 +23,9 @@ function Start() {
 	pauseButton.pixelInset.width = 0.08 * Screen.width;
 	pauseButton.pixelInset.height = pauseButton.pixelInset.width;
 	pauseButton.pixelInset.position.x = Screen.width/2.5;
+	pauseButton.pixelInset.position.x = -Screen.width/2 + 20;
 	pauseButton.pixelInset.position.y = Screen.height/2.9;
+		
 	
 	// Countdown
 	countdownText = GameObject.Find("Countdown Text").guiText;
@@ -50,15 +52,18 @@ function Start() {
 	
 	//ring countdown text position
 	numRingsText = GameObject.Find("Ring Count Text").guiText;
-	numRingsText.pixelOffset.x = -Screen.width/2 + 115;
-	numRingsText.pixelOffset.y = Screen.height/2.4;
+	numRingsText.pixelOffset.x = -Screen.width/2 + 125;
+	//numRingsText.pixelOffset.y = Screen.height/2.4;
+	numRingsText.pixelOffset.y = -Screen.height/3 - 70;
 	numRingsText.fontSize = Mathf.Floor(Screen.dpi/6);
-	
+		
 	// ring countdown image position
 	numRingsImage.pixelInset.width = 0.04 * Screen.width;
 	numRingsImage.pixelInset.height = numRingsImage.pixelInset.width;
-	numRingsImage.pixelInset.x = -Screen.width/2 + 20;
-	numRingsImage.pixelInset.y = Screen.height/2.6;
+	numRingsImage.pixelInset.x = -Screen.width/2 + 30;
+	//numRingsImage.pixelInset.y = Screen.height/2.6;
+	numRingsImage.pixelInset.y = -Screen.height/3 - 90;
+	
 	
 	
 	// Speed Boost Button
@@ -81,10 +86,11 @@ function OnGUI()
 {
 	if( !LevelControls.isGamePaused )
 	{
+		if(!LevelControls.isGuidanceShown)
 		//fixed max health bar
-		GUI.DrawTexture(new Rect(Screen.width/3, 40, Screen.width/3/(LevelControls.maxHealth/LevelControls.maxHealth),50),maxHealthGUI, ScaleMode.StretchToFill);
+			GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),50),maxHealthGUI, ScaleMode.StretchToFill);
 	    //current health bar
-	  	GUI.DrawTexture(new Rect(Screen.width/3, 40, Screen.width/3/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
+	  	GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
 	}
 }
 
