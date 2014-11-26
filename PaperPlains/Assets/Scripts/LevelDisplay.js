@@ -90,7 +90,9 @@ function OnGUI()
 		//fixed max health bar
 			GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),50),maxHealthGUI, ScaleMode.StretchToFill);
 	    //current health bar
-	  	GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
+	    
+	    var value1: float = Mathf.Min(LevelControls.maxHealth, LevelControls.curHealth);
+	  	GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/value1),50),curHealthGUI, ScaleMode.StretchToFill);
 	}
 }
 

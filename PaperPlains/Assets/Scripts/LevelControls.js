@@ -18,6 +18,7 @@ var bgMusic : GameObject;
 //health bar values
 static var maxHealth : float;
 static var curHealth : float;
+public var healthBarDec : float;
 
 public var lostAllLives;
 public var totalTime : float;
@@ -200,13 +201,17 @@ function UpdateRingCounter(){
 // Runs the timer
 function RunTimer(){
 	if (!(inCountdown || isGameOver || isGameWon || isGamePaused)) {
-		//if (timer > 0){
+		if (timer > 0){
+			timer -= Time.deltaTime;
+		}
+		else {
+			timer= 0;
+		}
 		if(curHealth > 0){	
 			if(FlightControls.invincibleMode==false )
-				curHealth-= .1;
+				curHealth-= healthBarDec;
 			if(curHealth <= 0)
 				GameOver();
-			//timer -= Time.deltaTime;
 			//var secs: int = timer % 60;
 			//var mins: int = timer / 60;
 			//LevelDisplay.timeText.text = String.Format("{0:0}:{1:00}", mins, secs);
