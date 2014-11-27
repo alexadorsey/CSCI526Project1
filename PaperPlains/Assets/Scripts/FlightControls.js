@@ -104,7 +104,7 @@ function OnCollisionEnter(collision : Collision) {
 	else
 	{
 		if (!invincibleMode){
-			DecreaseLives(4);
+			DecreaseLives(10);
 	 		StartCoroutine(Blink(2.0));
 		}	
 	}
@@ -119,7 +119,7 @@ function OnCollisionEnter(collision : Collision) {
  	// Collision with Obstacle Sphere
  	if(other.tag == "Sphere"){
  		if (!invincibleMode){
-	 		DecreaseLives(4);
+	 		DecreaseLives(10);
 	 		StartCoroutine(Blink(2.0));
 	 	}
  	} 	
@@ -177,8 +177,8 @@ function OnCollisionEnter(collision : Collision) {
 	
 	// Collision with Heart
 	if (other.name == "Heart Body") {
-		IncreaseLives(5);
-		LevelDisplay.ShowPlusText("+1 Life");
+		IncreaseLives(10);
+		LevelDisplay.ShowPlusText("+ Health");
 		Destroy(other.gameObject);
 	}
 	
@@ -318,19 +318,21 @@ function ChangePlaneColor( c : Color) {
 
  
 // Descreases the number of lives by newLifeValue, updates hearts, and checks for game over
-function DecreaseLives (newLifeValue : int) {
+function DecreaseLives (newLifeValue : float) {
 
-	if (!invincibleMode) {
+	//if (!invincibleMode) {
 		LevelControls.curHealth-= newLifeValue;
 		if(LevelControls.curHealth ==0)
 			LevelControls.GameOver();	
-	}
+	//}
 
 }
 // Increases the number of lives by newLifeValue, updates hearts
-function IncreaseLives (newLifeValue : int) {
+function IncreaseLives (newLifeValue : float) {
 
-	LevelControls.curHealth+= newLifeValue;
+	//don't let increased health value be greater than maxHealth
+	var newHealth: float = LevelControls.curHealth+ newLifeValue; 
+	LevelControls.curHealth = Mathf.Min(LevelControls.maxHealth, newHealth);	
 		
 }
 

@@ -1,4 +1,5 @@
 ﻿var LevelDisplay : LevelDisplay;
+var FlightControls : FlightControls;
 var Tutorial : Tutorial;
 var bgLevelMusic: AudioClip;
 
@@ -189,7 +190,11 @@ function ShowGameEndScreen() {
 //Updates ring counter text which shows number of rings left to collect
 function UpdateRingCounter(){
 	if (!inCountdown) {
-		curHealth+= 5;
+		//FlightControls.IncreaseLives(5.0);	//does not work for some reason!
+		//increase health
+		var newHealth: float = curHealth+ 7.0; 
+		curHealth = Mathf.Min(maxHealth, newHealth);	
+		
 		numRingsCounter++;
 	}
 	LevelDisplay.numRingsText.text = (numRings - numRingsCounter).ToString();
@@ -208,8 +213,14 @@ function RunTimer(){
 			timer= 0;
 		}
 		if(curHealth > 0){	
-			if(FlightControls.invincibleMode==false )
+			if(FlightControls.invincibleMode==false ){
+				//curHealth-= healthBarDec;
+				//FlightControls.DecreaseLives(healthBarDec); //does not work for some reason!
 				curHealth-= healthBarDec;
+				if(curHealth ==0)
+					GameOver();	
+			}				
+				
 			if(curHealth <= 0)
 				GameOver();
 			//var secs: int = timer % 60;
