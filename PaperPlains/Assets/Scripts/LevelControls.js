@@ -213,7 +213,7 @@ function RunTimer(){
 			timer= 0;
 		}
 		if(curHealth > 0){	
-			if(FlightControls.invincibleMode==false ){
+			if(FlightControls.invincibleMode==false && !isGuidanceShown ){
 				//curHealth-= healthBarDec;
 				//FlightControls.DecreaseLives(healthBarDec); //does not work for some reason!
 				curHealth-= healthBarDec;

@@ -84,19 +84,21 @@ function Start() {
 
 function OnGUI()
 {
-	//if tutorial level
-	if(LevelControls.isGuidanceShown)
+	if( !LevelControls.isGamePaused )
 	{
-		GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),50),curHealthGUI, ScaleMode.StretchToFill);		
-	}
-	else{
-		if( !LevelControls.isGamePaused )
-		{
-			//fixed max health bar
-			GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),50),maxHealthGUI, ScaleMode.StretchToFill);
-		   	//current health bar
-		  	GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
-		}
+		//fixed max health bar
+		GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),50),maxHealthGUI, ScaleMode.StretchToFill);
+	   	//current health bar
+	  	//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
+	  	if(LevelControls.curHealth < 20)
+	  	{
+	  		var msecs: int = Time.time * 1000;
+	  		if ( msecs % 6 < 3) {
+        		GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
+  			}
+  		}
+  		else
+  			GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
 	}
 }
 
