@@ -92,7 +92,7 @@ function Update () {
 				gap = init - Input.acceleration.y ;
 			// Make smooth
 			if(Mathf.Abs( gap ) < 0.03){
-				transform.localEulerAngles.z = 5;  // default angle
+				transform.localEulerAngles.z = 0;  // default angle
 			} else {
 				if (gap * tiltAngle >= 45)
 					transform.localEulerAngles.z = 45;

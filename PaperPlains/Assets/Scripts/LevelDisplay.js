@@ -45,7 +45,7 @@ function Start() {
 	
 	// Rings Text & image
 	numRingsImage = (GameObject.Find("Ring Count Image").GetComponent(GUITexture)as GUITexture);
-	numRingsImage.color = Color(1.0, 0.68, 0.0, 1.0);
+	numRingsImage.color = Color(1.0, 0.4, 0.0, 1.0);
 	numRingsText= GameObject.Find("Ring Count Text").guiText;
 	numRingsText.text = LevelControls.numRings.ToString();
 	numRingsText.color = Color(1.0, 0.68, 0.0, 1.0);
