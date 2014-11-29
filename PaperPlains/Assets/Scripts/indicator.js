@@ -33,7 +33,7 @@ function Update () {
 				}
 				*/
     			if(distance < 150 && angle > 160)
-    				rings.gameObject.transform.parent.renderer.material.color = Color.green;
+    				rings.gameObject.transform.parent.renderer.material.color = Color.red;
     			else
     				rings.gameObject.transform.parent.renderer.material.color = Color32(255,216,0,1);
     		}
