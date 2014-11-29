@@ -68,12 +68,12 @@ function Start () {
 	}
 		
 		
-	EnableSprites(1, PlayerPrefs.GetString("level10"));
-	EnableSprites(2, PlayerPrefs.GetString("level11"));
+	EnableSprites(1, PlayerPrefs.GetString("level9"));
+	EnableSprites(2, PlayerPrefs.GetString("level10"));
 	print("in level select");
 	print(PlayerPrefs.GetString("level3"));
-	EnableSprites(3, PlayerPrefs.GetString("level12"));
-	EnableSprites(4, PlayerPrefs.GetString("level13"));
+	EnableSprites(3, PlayerPrefs.GetString("level11"));
+	EnableSprites(4, PlayerPrefs.GetString("level12"));
 	/*EnableSprites(4, PlayerPrefs.GetString("level4"));
 	EnableSprites(5, PlayerPrefs.GetString("level5"));
 	EnableSprites(6, PlayerPrefs.GetString("level6"));
@@ -105,27 +105,27 @@ function Update () {
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level10");
+         	Application.LoadLevel("Level9");
          }
          //if(level == "l2collider" && !(spriterender2.isVisible))
          if(level == "l2collider")
          {
             loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level11");
+         	Application.LoadLevel("Level10");
          }
          if(level == "l3collider")// && !(spriterender3.isVisible))
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level12");
+         	Application.LoadLevel("Level11");
          }
          	
          if(level == "l4collider" && !(spriterender4.isVisible))
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level13");
+         	Application.LoadLevel("Level12");
          }
          /*
          if(level == "l5collider" && !(spriterender5.isVisible))

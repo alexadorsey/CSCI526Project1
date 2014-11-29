@@ -105,27 +105,27 @@ function Update () {
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level6");
+         	Application.LoadLevel("Level5");
          }
          //if(level == "l2collider" && !(spriterender2.isVisible))
          if(level == "l2collider")
          {
             loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level7");
+         	Application.LoadLevel("Level6");
          }
          if(level == "l3collider")// && !(spriterender3.isVisible))
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level8");
+         	Application.LoadLevel("Level7");
          }
          	
          if(level == "l4collider" && !(spriterender4.isVisible))
          {
          	loading = GameObject.Find("loading").GetComponent(SpriteRenderer);
          	loading.enabled = true;
-         	Application.LoadLevel("Level9");
+         	Application.LoadLevel("Level8");
          }
          /*
          if(level == "l5collider" && !(spriterender5.isVisible))
