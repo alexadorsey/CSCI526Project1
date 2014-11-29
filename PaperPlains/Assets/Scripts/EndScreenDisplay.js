@@ -226,12 +226,26 @@ function DrawTimeAndStars(){
 	// Draw stars depending on the time
 	if (!LevelControls.isGameOver){
 		var unlockedlevel = 0;
+		var bestlevel = "besttime"+LevelControls.levelInt;
+		var besttime = PlayerPrefs.GetFloat(bestlevel);
 		GUI.color = Color(1.0, 0.68, 0.0, 1.0);
 		var a = LevelControls.levelInt;
 		var levelh = "level"+a;
 		var stars = PlayerPrefs.GetString(levelh);
 		unlockedlevel = LevelControls.levelInt+1;
 		PlayerPrefs.SetInt("currentlevel", a);
+		
+		var timeused = usedTime.ToString("F2")+"s";
+		PlayerPrefs.SetString("timetext", timeused);
+		
+		//setting best time
+		if(usedTime < besttime)
+			besttime = usedTime;
+			
+		var timebest = besttime.ToString("F2")+"s";
+		
+		PlayerPrefs.SetFloat(bestlevel, besttime);
+		PlayerPrefs.SetString("besttimetext", timebest);
 		//print(levelh);
 		// Stars for used time
 		if (usedTime <= LevelControls.totalTime  && usedTime > (LevelControls.totalTime / 4) * 3 ) {
