@@ -4,6 +4,7 @@ public var gameEndTextStyle : GUIStyle;
 public var reasonTextStyle : GUIStyle;
 public var yourUsedTimeTextStyle : GUIStyle;
 public var endStar : Texture2D;
+var flag =0;
 
 var overlay : Texture2D;
 var AvenirNextUL : Font;
@@ -64,11 +65,16 @@ function Start() {
 
 
 function OnGUI(){
-	if (LevelControls.isGamePaused) {
+	/*if (LevelControls.isGamePaused) {
 		if (LevelControls.isGuidanceShown == 0 && !LevelControls.isGameOver && !LevelControls.isGameWon) {
-			ShowPause();
+			//ShowPause();
+			if(flag == 0){
+			Time.timeScale=0;
+				Application.LoadLevelAdditive("Paused");
+				flag = 1;
+			}
 		}		
-	}
+	}*/
 	if (LevelControls.isGameOver) {
 		ShowGameOver();
 	}

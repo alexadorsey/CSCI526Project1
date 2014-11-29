@@ -306,6 +306,9 @@ function FixedUpdate () {
 				}
 			}
 		}
+		if (LevelDisplay.pauseButton.HitTest(Input.mousePosition)) {
+     		LevelControls.PauseGame();
+ 		}
 	}	
 }
  

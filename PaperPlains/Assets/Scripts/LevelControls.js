@@ -69,11 +69,11 @@ function Start(){
 	PlayerPrefs.Save();
 	
 	bgMusic = GameObject.Find("BGMusic");
-	if (musicOn) {
+	/*if (musicOn) {
 		bgMusic.audio.clip = bgLevelMusic;
 		bgMusic.audio.Play();
 	}
-    
+    */
     
 }
 
@@ -129,14 +129,16 @@ function LoadPreviousLevel() {
  function PauseGame() {
 	if(isGamePaused){
 		//Screen.sleepTimeout = SleepTimeout.SystemSetting;
-		LevelDisplay.pauseButton.enabled = false;
+		/*LevelDisplay.pauseButton.enabled = false;
 		AudioListener.pause = false;
 		isGamePaused = false;
-		Time.timeScale=1;		
+		Time.timeScale=1;		*/
 	} else {
 		isGamePaused = true;
 		AudioListener.pause = true;
 		Time.timeScale=0;
+		print("pausegame");
+		Application.LoadLevelAdditive("Paused");
 	}	
 }
 
