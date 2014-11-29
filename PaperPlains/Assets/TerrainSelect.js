@@ -12,12 +12,12 @@ function Update () {
       if(hit){
          var terrain = hit.transform.gameObject.name;
          
-         if(terrain == "greenery")
+         if(terrain == "greenerybase")
          	Application.LoadLevel("Levels1");
          //if(level == "l2collider" && !(spriterender2.isVisible))
-         if(terrain == "spooky")
+         if(terrain == "spookybase")
          	Application.LoadLevel("Levels2");
-         if(terrain == "rigid")
+         if(terrain == "moonbase")
          	Application.LoadLevel("Levels3");	
         /* if(level == "l3collider")// && !(spriterender3.isVisible))
          	Application.LoadLevel("Level7");
