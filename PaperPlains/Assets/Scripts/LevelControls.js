@@ -2,6 +2,7 @@
 var FlightControls : FlightControls;
 var Tutorial : Tutorial;
 var bgLevelMusic: AudioClip;
+public var healthIncFlag: int=0;
 
 var levelInt : int;
 var numRings : int;
@@ -95,6 +96,9 @@ function Update() {
 			// Run the Countdown
 			RunCountdown();
 		}
+	}
+	if (Time.timeScale == 1) {
+		isGamePaused = false;
 	}
 }
 
@@ -198,6 +202,9 @@ function UpdateRingCounter(){
 		curHealth = Mathf.Min(maxHealth, newHealth);	
 		
 		numRingsCounter++;
+		healthIncFlag= 1;
+		yield WaitForSeconds(0.2);
+		healthIncFlag= 0;
 	}
 	LevelDisplay.numRingsText.text = (numRings - numRingsCounter).ToString();
 	

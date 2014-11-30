@@ -7,20 +7,20 @@ var nextlevel = "";
 function Start () {
 	var level = PlayerPrefs.GetInt("currentlevel");
 	var level2 = level + 1;
-	if(level2 > 3)
-		level2 = 3;
+	if(level2 > 12)
+		level2 = 12;
 	currentlevel = "Level"+level;
 	nextlevel = "Level"+level2;
 	
-	var buttonText = GameObject.Find("gameovertext").GetComponent(TextMesh);
-	if(!(PlayerPrefs.HasKey("gameovertext")))
-			PlayerPrefs.SetString("gameovertext", "You lost all your lives");
+//	var buttonText = GameObject.Find("gameovertext").GetComponent(TextMesh);
+//	if(!(PlayerPrefs.HasKey("gameovertext")))
+//			PlayerPrefs.SetString("gameovertext", "You lost all your lives");
 	
-	buttonText.text = PlayerPrefs.GetString("gameovertext");
+//	buttonText.text = PlayerPrefs.GetString("gameovertext");
 	
-	var gameovertext = GameObject.Find("gameovertext").GetComponent(Renderer);
-	gameovertext.sortingOrder = 2;
-	print(gameovertext.sortingOrder);
+//	var gameovertext = GameObject.Find("gameovertext").GetComponent(Renderer);
+//	gameovertext.sortingOrder = 2;
+//	print(gameovertext.sortingOrder);
 }
 
 function Update () {
@@ -29,6 +29,7 @@ function Update () {
      var touchPos : Vector2 = new Vector2(wp.x, wp.y);
      var hit = Physics2D.OverlapPoint(touchPos);
       if(hit){
+      print("hit");
          var option = hit.transform.gameObject.name;
          if(option == "menubutton")
          	Application.LoadLevel("Levels");

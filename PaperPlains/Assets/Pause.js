@@ -27,9 +27,9 @@ function Update () {
      var touchPos : Vector2 = new Vector2(wp.x, wp.y);
      var hit = Physics2D.OverlapPoint(touchPos);
      print(hit);
-      if(!hit){
-         //var option = hit.transform.gameObject.name;
-         var option = "play";
+      if(hit){
+         var option = hit.transform.gameObject.name;
+ //        var option = "play";
          print(option);
          if(option == "menubutton")
          	Application.LoadLevel("Levels");
@@ -37,10 +37,11 @@ function Update () {
          print("lets destroy");
          Destroy(pause);
          print("destroyed");
+//         LevelControls.isGamePaused = false;
          Time.timeScale=1;
 //         	LevelControls.isGamePaused = false;
 			
-	//		LevelDisplay.pauseButton.enabled = true;	
+//			LevelDisplay.pauseButton.enabled = true;	
 			AudioListener.pause = false;
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;	
 		}

@@ -1,4 +1,7 @@
 ﻿var LevelControls : LevelControls;
+public var incHealthGUI: Texture;
+private var tempHealthGUI: Texture;
+
 
 public var timeText : GUIText;
 public var countdownText : GUIText;
@@ -52,17 +55,20 @@ function Start() {
 	
 	//ring countdown text position
 	numRingsText = GameObject.Find("Ring Count Text").guiText;
-	numRingsText.pixelOffset.x = -Screen.width/2 + 125;
-	//numRingsText.pixelOffset.y = Screen.height/2.4;
-	numRingsText.pixelOffset.y = -Screen.height/3 - 70;
+	//numRingsText.pixelOffset.x = -Screen.width/2 + 125;
+	//numRingsText.pixelOffset.x = Screen.width * 0.;
+	numRingsText.pixelOffset.x = Screen.width/2 * 0.75;
+	numRingsText.pixelOffset.y = Screen.height/2.4;
+	//numRingsText.pixelOffset.y = -Screen.height/3 - 70;
 	numRingsText.fontSize = Mathf.Floor(Screen.dpi/6);
 		
 	// ring countdown image position
 	numRingsImage.pixelInset.width = 0.04 * Screen.width;
 	numRingsImage.pixelInset.height = numRingsImage.pixelInset.width;
-	numRingsImage.pixelInset.x = -Screen.width/2 + 30;
-	//numRingsImage.pixelInset.y = Screen.height/2.6;
-	numRingsImage.pixelInset.y = -Screen.height/3 - 90;
+	//numRingsImage.pixelInset.x = -Screen.width/2 + 30;
+	numRingsImage.pixelInset.x = Screen.width/2 * 0.88;
+	numRingsImage.pixelInset.y = Screen.height/2.6;
+	//numRingsImage.pixelInset.y = -Screen.height/3 - 90;
 	
 	
 	
@@ -86,20 +92,30 @@ function OnGUI()
 {
 	if( !LevelControls.isGamePaused )
 	{
-		//fixed max health bar
-		GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),50),maxHealthGUI, ScaleMode.StretchToFill);
-	   	//current health bar
-	  	//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
-	  	if(LevelControls.curHealth < 20)
+		if(LevelControls.healthIncFlag==1)
+		{
+			//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),60),incHealthGUI, ScaleMode.StretchToFill);
+			tempHealthGUI= incHealthGUI;	
+		}
+		else
+			tempHealthGUI= maxHealthGUI;
+			
+		GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),60),tempHealthGUI, ScaleMode.StretchToFill);
+		if(LevelControls.curHealth < 20)
 	  	{
 	  		var msecs: int = Time.time * 1000;
-	  		if ( msecs % 6 < 3) {
-        		GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
-  			}
-  		}
-  		else
-  			GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
-	}
+	  		if ( msecs % 16 < 8) {
+				//fixed max health bar
+				//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),60),tempHealthGUI, ScaleMode.StretchToFill);
+				GUI.DrawTexture(new Rect(Screen.width/4+25, 40, (Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth))-50,60),curHealthGUI, ScaleMode.StretchToFill);
+			}
+		}
+		else
+			//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),60),tempHealthGUI, ScaleMode.StretchToFill);
+	   	//current health bar
+	  	//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
+	  		GUI.DrawTexture(new Rect(Screen.width/4+25, 40, (Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth))-50,60),curHealthGUI, ScaleMode.StretchToFill);
+ 	}
 }
 
 // Shows "+1 life" next to player

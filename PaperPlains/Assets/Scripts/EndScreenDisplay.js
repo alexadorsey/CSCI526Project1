@@ -114,7 +114,7 @@ function ShowGameWon(){
 	//Application.LoadLevel("LevelCleared");
 }
 
-function ShowGameOver(){
+function ShowGameOver(){/*
 	ShowOverlay(gameOverColor);
 	GUI.color = Color(1.0, 0.68, 0.0, 1.0);
 	GUI.Label(Rect (Screen.width/2-50, Screen.height/4, 100, 50), "GAME OVER", gameEndTextStyle);
@@ -131,6 +131,8 @@ function ShowGameOver(){
 			PlayerPrefs.SetString("gameovertext", "You hit the terrain");
 		}
 	}
+	*/
+	PlayerPrefs.SetInt("currentlevel", LevelControls.levelInt);
 	Application.LoadLevel("GameOver");	
 	/*ShowBackButton();
 	ShowReplayButton();

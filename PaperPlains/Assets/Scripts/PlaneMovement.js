@@ -78,7 +78,13 @@ function Update () {
 			//left or right still by accelerometer
 			// Left & Right
 		    transform.Rotate(0, Input.acceleration.x * rotateSpeed, 0);
+		    
 		    var z = Input.acceleration.x;
+			
+			
+			
+			
+			
 			// forth/back banking
 			transform.localEulerAngles.x = -z * tiltAngle;  
 		} else {

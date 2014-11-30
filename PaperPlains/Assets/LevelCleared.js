@@ -39,23 +39,31 @@ function Start () {
 	if(!(PlayerPrefs.HasKey("besttimetext")))
 			PlayerPrefs.SetString("besttimetext", "150s");
 	if(!(PlayerPrefs.HasKey("besttime1")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime1", 150.0);
 	if(!(PlayerPrefs.HasKey("besttime2")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime2", 150.0);
 	if(!(PlayerPrefs.HasKey("besttime3")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime3", 150.0);
 	if(!(PlayerPrefs.HasKey("besttime4")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime4", 150.0);
 	if(!(PlayerPrefs.HasKey("besttime5")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime5", 150.0);
 	if(!(PlayerPrefs.HasKey("besttime6")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime6", 150.0);
 	if(!(PlayerPrefs.HasKey("besttime7")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime7", 150.0);
 	if(!(PlayerPrefs.HasKey("besttime8")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime8", 150.0);
 	if(!(PlayerPrefs.HasKey("besttime9")))
-			PlayerPrefs.SetFloat("besttime", 150.0);
+			PlayerPrefs.SetFloat("besttime9", 150.0);
+		if(!(PlayerPrefs.HasKey("besttime10")))
+			PlayerPrefs.SetFloat("besttime10", 150.0);
+	if(!(PlayerPrefs.HasKey("besttime11")))
+			PlayerPrefs.SetFloat("besttime11", 150.0);
+	if(!(PlayerPrefs.HasKey("besttime12")))
+			PlayerPrefs.SetFloat("besttime12", 150.0);
+	if(!(PlayerPrefs.HasKey("besttime13")))
+			PlayerPrefs.SetFloat("besttime13", 150.0);
 	
 	timeText.text = PlayerPrefs.GetString("timetext");
 	besttimeText.text = PlayerPrefs.GetString("besttimetext");
