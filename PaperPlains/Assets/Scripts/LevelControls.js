@@ -2,7 +2,6 @@
 var FlightControls : FlightControls;
 var Tutorial : Tutorial;
 var bgLevelMusic: AudioClip;
-public var healthIncFlag: int=0;
 
 var levelInt : int;
 var numRings : int;
@@ -25,6 +24,7 @@ public var healthBarDec : float;
 public var lostAllLives;
 public var totalTime : float;
 
+public var healthIncFlag= false;
 
 public var countdownTime : float;
 var timer : float;
@@ -202,9 +202,9 @@ function UpdateRingCounter(){
 		curHealth = Mathf.Min(maxHealth, newHealth);	
 		
 		numRingsCounter++;
-		healthIncFlag= 1;
+		healthIncFlag= true;
 		yield WaitForSeconds(0.2);
-		healthIncFlag= 0;
+		healthIncFlag= false;
 	}
 	LevelDisplay.numRingsText.text = (numRings - numRingsCounter).ToString();
 	
@@ -223,11 +223,9 @@ function RunTimer(){
 		}
 		if(curHealth > 0){	
 			if(FlightControls.invincibleMode==false && !isGuidanceShown ){
-				//curHealth-= healthBarDec;
 				//FlightControls.DecreaseLives(healthBarDec); //does not work for some reason!
-				curHealth-= healthBarDec;
-				if(curHealth ==0)
-					GameOver();	
+				var newHealth: float = curHealth- healthBarDec;
+				curHealth=  Mathf.Max(0.0, newHealth);
 			}				
 				
 			if(curHealth <= 0)
@@ -235,7 +233,8 @@ function RunTimer(){
 			//var secs: int = timer % 60;
 			//var mins: int = timer / 60;
 			//LevelDisplay.timeText.text = String.Format("{0:0}:{1:00}", mins, secs);
-		} else {
+		} 
+		else {
 			GameOver();
 		}
 	}

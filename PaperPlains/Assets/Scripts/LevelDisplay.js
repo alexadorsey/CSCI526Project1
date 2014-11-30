@@ -1,7 +1,4 @@
 ﻿var LevelControls : LevelControls;
-public var incHealthGUI: Texture;
-private var tempHealthGUI: Texture;
-
 
 public var timeText : GUIText;
 public var countdownText : GUIText;
@@ -17,7 +14,8 @@ private var plusTextWaitTime : float;
 //textures for the health bar
 public var maxHealthGUI: Texture;
 public var curHealthGUI: Texture;
-
+public var incHealthGUI: Texture;
+private var tempHealthGUI: Texture;
 
 function Start() {
 
@@ -29,7 +27,6 @@ function Start() {
 	pauseButton.pixelInset.position.x = -Screen.width/2 + 20;
 	pauseButton.pixelInset.position.y = Screen.height/2.9;
 		
-	
 	// Countdown
 	countdownText = GameObject.Find("Countdown Text").guiText;
 	countdownText.fontSize = Mathf.Floor(Screen.dpi/2);	
@@ -71,7 +68,6 @@ function Start() {
 	//numRingsImage.pixelInset.y = -Screen.height/3 - 90;
 	
 	
-	
 	// Speed Boost Button
 //	boost = (GameObject.Find("boost").GetComponent(GUITexture)as GUITexture);
 //	boost.pixelInset.width = 0.08 * Screen.width;
@@ -92,29 +88,22 @@ function OnGUI()
 {
 	if( !LevelControls.isGamePaused )
 	{
-		if(LevelControls.healthIncFlag==1)
-		{
-			//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),60),incHealthGUI, ScaleMode.StretchToFill);
-			tempHealthGUI= incHealthGUI;	
-		}
-		else
+		if(LevelControls.healthIncFlag== true){
+			tempHealthGUI= incHealthGUI;
+		}else{
 			tempHealthGUI= maxHealthGUI;
+		}
 			
 		GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),60),tempHealthGUI, ScaleMode.StretchToFill);
 		if(LevelControls.curHealth < 20)
 	  	{
 	  		var msecs: int = Time.time * 1000;
 	  		if ( msecs % 16 < 8) {
-				//fixed max health bar
-				//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),60),tempHealthGUI, ScaleMode.StretchToFill);
-				GUI.DrawTexture(new Rect(Screen.width/4+25, 40, (Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth))-50,60),curHealthGUI, ScaleMode.StretchToFill);
+				GUI.DrawTexture(new Rect(Screen.width/4+25, 40, Mathf.Max((Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth))-50,0.0),60),curHealthGUI, ScaleMode.StretchToFill);
 			}
 		}
 		else
-			//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.maxHealth),60),tempHealthGUI, ScaleMode.StretchToFill);
-	   	//current health bar
-	  	//GUI.DrawTexture(new Rect(Screen.width/4, 40, Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth),50),curHealthGUI, ScaleMode.StretchToFill);
-	  		GUI.DrawTexture(new Rect(Screen.width/4+25, 40, (Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth))-50,60),curHealthGUI, ScaleMode.StretchToFill);
+			GUI.DrawTexture(new Rect(Screen.width/4+25, 40, Mathf.Max((Screen.width/2/(LevelControls.maxHealth/LevelControls.curHealth))-50,0.0),60),curHealthGUI, ScaleMode.StretchToFill);
  	}
 }
 

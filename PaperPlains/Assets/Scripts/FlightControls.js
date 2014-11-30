@@ -186,9 +186,13 @@ function OnCollisionEnter(collision : Collision) {
 	
 	// Collision with Heart
 	if (other.name == "Heart Body") {
+		Destroy(other.gameObject);
 		IncreaseLives(10);
 		//LevelDisplay.ShowPlusText("+ Health");
-		Destroy(other.gameObject);
+		LevelControls.healthIncFlag= true;
+		yield WaitForSeconds(0.2);
+		LevelControls.healthIncFlag= false;
+		
 	}
 	
 	
