@@ -8,16 +8,29 @@ public var guidanceState: int;
 
 private var paperPlane : GameObject;
 
+public var guidanceBoard : GUITexture;
 
 function Start () {
-
+	// guidance background
+	guidanceBoard = (GameObject.Find("Guidance Board").GetComponent(GUITexture)as GUITexture);
+	guidanceBoard.enabled = false;
+	LevelDisplay.guidanceText.enabled = false;
+	
+	guidanceBoard.pixelInset.width = Screen.height*0.90;
+	guidanceBoard.pixelInset.height = Screen.height*0.6;
+	guidanceBoard.pixelInset.position.x = -guidanceBoard.pixelInset.width/2;
+	guidanceBoard.pixelInset.position.y = -guidanceBoard.pixelInset.height/2;
+	guidanceBoard.transform.position.z = 10;
+	LevelDisplay.guidanceText.transform.position.z = 60;
+	
 	paperPlane = GameObject.Find("Plane");
+
 
 	if (LevelControls.levelInt == 0) {
 		LevelDisplay.guidanceText = GameObject.Find("Guidance").guiText;
-		guidanceState = 1;//Start
+		guidanceState = 0;//Start
 		guidanceSetTimer = 115;
-		guidanceSetDistance = 300;
+		guidanceSetDistance = 1;
 		LevelDisplay.guidanceText.fontSize = Mathf.Floor(Screen.dpi/7);
 		LevelDisplay.guidanceText.pixelOffset.y = 0;
 		LevelDisplay.guidanceText.color = Color.black;
@@ -29,7 +42,7 @@ function Start () {
 function Update () {
 	if (LevelControls.levelInt == 0) {
 		if (!LevelControls.isGamePaused && !LevelControls.inCountdown) {
-			if(guidanceState > 0) {
+			if(guidanceState >= 0) {
 				if(paperPlane.rigidbody.position.x > guidanceSetDistance){
 					guidanceState++;				
 					guidanceSetDistance += 300;
@@ -56,6 +69,9 @@ function Update () {
 				
 				}
 			}
+			if(Input.GetKeyDown(KeyCode.Space)){
+				HideGuidance();
+			}
 		}
 	}
 }
@@ -70,6 +86,7 @@ function GuidanceTimer() {
 }
 
 function HideGuidance() {
+	guidanceBoard.enabled = false;
 	LevelDisplay.guidanceText.enabled = false;
 	//LevelControls.UnPauseGame();	
 	LevelControls.isGamePaused = false;
@@ -82,41 +99,42 @@ function HideGuidance() {
 //Show guidance in tutorial level
 function ShowGuidance(){
 	print("Showing Guidance");
+	guidanceBoard.enabled = true;
 	LevelDisplay.guidanceText.enabled = true;
 	guidanceSetTimer = 180;
 	//LevelControls.PauseGame(); 
 	LevelControls.isGamePaused = true;
 	Time.timeScale=0;
 	switch(guidanceState){
-			case 1:
-			LevelDisplay.guidanceText.text = "Welcome to the world of Paper Planes\n";
+		case 1:
+			LevelDisplay.guidanceText.text = "Welcome to the world of Paper Planes!\n\nTap the screen to continue\n";
 			break;
 		case 2:
-			LevelDisplay.guidanceText.text = "Controls:\nRotate your phone to turn left, right, up, or down\n";
+			LevelDisplay.guidanceText.text = "Controls:\nRotate your phone\n to turn left, right, up, or down\n";
 			break;
 		case 3:     
-			LevelDisplay.guidanceText.text = "See the health bar?\n It will always be going down, but when you go through a ring, it will go up\n";
+			LevelDisplay.guidanceText.text = "See the health bar?\n It will always be going down, \nbut when you go through a ring, \nit will go up\n";
 			break;
 		case 4:
-			LevelDisplay.guidanceText.text = "Your Goal: Go through the rings!\nCollect all of them before your health runs out!\n";
+			LevelDisplay.guidanceText.text = "Your Goal: \nGo through the rings!\nCollect all of them \nbefore your health runs out!\n";
 			break;
 		case 5:
-			LevelDisplay.guidanceText.text = "Obstacles:\nHitting obstacles will damage your paper plane\n(you lose health!)\n";
+			LevelDisplay.guidanceText.text = "Obstacles:\nHitting obstacles will\n damage your paper plane\n(you lose health!)\n";
 			break;
 		case 6:
 			LevelDisplay.guidanceText.text = "Hearts:\nHeart items can replenish your health\n";
 			break;
 		case 7:
-			LevelDisplay.guidanceText.text = "Lightning:\nCollect a lightning item and press the\nlightning button to speed up\n";
+			LevelDisplay.guidanceText.text = "Lightning:\nCollect a lightning item and press\n the lightning button to speed up\n";
 			break;
 		case 8:
-			LevelDisplay.guidanceText.text = "Shields:\nThese will give you a shield against annoying obstacles\n";
+			LevelDisplay.guidanceText.text = "Shields:\nThese will give you a shield \nagainst obstacles for a while\n";
 			break;
 		case 9:
-			LevelDisplay.guidanceText.text = "Well done!\nLet's go through all the rings in this level!\n";
+			LevelDisplay.guidanceText.text = "Well done!\nLet's go through all the rings\n in this level!\n";
 			break;
 		case 10:
-			LevelDisplay.guidanceText.text = "Make sure you get them before your health runs out. \nHappy flying!!!\n";
+			LevelDisplay.guidanceText.text = "Make sure you get them \nbefore your health runs out. \nHappy flying!!!\n";
 			break;
 	}
 	LevelControls.isGuidanceShown = 1;
