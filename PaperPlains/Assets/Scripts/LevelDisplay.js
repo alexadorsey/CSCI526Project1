@@ -15,6 +15,7 @@ private var plusTextWaitTime : float;
 public var maxHealthGUI: Texture;
 public var curHealthGUI: Texture;
 public var incHealthGUI: Texture;
+public var decHealthGUI: Texture; 
 private var tempHealthGUI: Texture;
 
 function Start() {
@@ -90,7 +91,10 @@ function OnGUI()
 	{
 		if(LevelControls.healthIncFlag== true){
 			tempHealthGUI= incHealthGUI;
-		}else{
+		}else if(LevelControls.healthDecFlag== true){
+			tempHealthGUI= decHealthGUI;
+		}
+		else{
 			tempHealthGUI= maxHealthGUI;
 		}
 			

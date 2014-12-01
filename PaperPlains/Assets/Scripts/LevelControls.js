@@ -25,6 +25,7 @@ public var lostAllLives;
 public var totalTime : float;
 
 public var healthIncFlag= false;
+public var healthDecFlag= false;
 
 public var countdownTime : float;
 var timer : float;

@@ -360,6 +360,10 @@ function DecreaseLives (newLifeValue : float) {
 	//if (!invincibleMode) {
 	var newHealth: float = LevelControls.curHealth- newLifeValue; 
 	LevelControls.curHealth=  Mathf.Max(0.0, newHealth);
+
+	LevelControls.healthDecFlag= true;
+	yield WaitForSeconds(0.2);
+	LevelControls.healthDecFlag= false;
 		
 	if(LevelControls.curHealth <=0)
 			LevelControls.GameOver();	
