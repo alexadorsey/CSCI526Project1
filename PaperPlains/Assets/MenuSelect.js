@@ -35,6 +35,8 @@ function Update () {
          	Application.LoadLevel("Levels");
          if(menu == "plainbasesetting")
          	Application.LoadLevel("Settings");
+         if(menu == "plainbaseabout")
+         	Application.LoadLevel("About");
          if(menu == "plainbasetutorial")
          	Application.LoadLevel("tutorial");	
          //if(menu == "about")

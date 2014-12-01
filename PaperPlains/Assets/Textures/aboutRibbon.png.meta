@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: c93f703576881d04296ec1c90454febb
+guid: ebf6a10df74154a5e8267e4e45311e47
 TextureImporter:
   fileIDToRecycleName:
-    21300000: plainbase
+    21300000: aboutRibbon
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

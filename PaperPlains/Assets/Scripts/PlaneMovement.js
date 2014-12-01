@@ -45,7 +45,7 @@ function Start () {
 			init = Input.acceleration.z;
 			flag = true;
 		}
-		tiltAngle = 45.0;
+		tiltAngle = 60.0;
 		rotateSpeed = 5.0;
 	}
 	
@@ -98,12 +98,12 @@ function Update () {
 				gap = init - Input.acceleration.y ;
 			// Make smooth
 			if(Mathf.Abs( gap ) < 0.03){
-				transform.localEulerAngles.z = 0;  // default angle
+				transform.localEulerAngles.z = 5;  // default angle
 			} else {
-				if (gap * tiltAngle >= 45)
-					transform.localEulerAngles.z = 45;
-				else if (gap * tiltAngle <= -45)
-					transform.localEulerAngles.z = -45;
+				if (gap * tiltAngle >= 60)
+					transform.localEulerAngles.z = 60;
+				else if (gap * tiltAngle <= -60)
+					transform.localEulerAngles.z = -60;
 				else
 					transform.localEulerAngles.z = Mathf.Lerp(0, gap ,Time.time) * tiltAngle;
 			}

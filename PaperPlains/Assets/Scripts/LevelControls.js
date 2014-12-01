@@ -103,7 +103,9 @@ function Update() {
 		LevelDisplay.pauseButton.enabled = true;
 		LevelDisplay.numRingsText.enabled = true;
 		LevelDisplay.numRingsImage.enabled = true;
-		LevelDisplay.boost.enabled = true;
+		if(FlightControls.boostCount == 1){
+			LevelDisplay.boost.enabled = true;
+		}
 		if (inCountdown) {
 			LevelDisplay.countdownText.enabled = true;
 		}

@@ -230,7 +230,7 @@ function Update() {
 	    	if (LevelControls.inCountdown) {
 	    		transform.Translate(0, 0, 0);
 	    	} else{
-	    		transform.Translate(1.8, 0, 0);
+	    		transform.Translate(2.2, 0, 0); //1.8
 	    	}
 	    }
 	    

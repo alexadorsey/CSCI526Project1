@@ -79,7 +79,7 @@ function Start() {
 	boost = (GameObject.Find("boost").GetComponent(GUITexture)as GUITexture);
 	boost.pixelInset.width = 0.06 * Screen.width;
 	boost.pixelInset.height = boost.pixelInset.width;
-	boost.pixelInset.position.x = Screen.width/2.43;
+	boost.pixelInset.position.x = Screen.width/2.3;
 	boost.pixelInset.position.y = Screen.height/4.8;
 	boost.enabled = false;
 }
