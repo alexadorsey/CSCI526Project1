@@ -7,6 +7,9 @@ var currentlevel = "";
 var nextlevel = "";
 
 var pause : GameObject;
+var playButton : GUITexture;
+var menuButton : GUITexture;
+var reloadButton : GUITexture;
 
 function Start () {
 	var level = PlayerPrefs.GetInt("currentlevel");
@@ -18,16 +21,88 @@ function Start () {
 	
 	pause = GameObject.Find("pause");
 	
+	playButton = (GameObject.Find("PlayButton").GetComponent(GUITexture)as GUITexture);
+	menuButton = (GameObject.Find("MenuButton").GetComponent(GUITexture)as GUITexture);
+	reloadButton = (GameObject.Find("ReloadButton").GetComponent(GUITexture)as GUITexture);
+	
 }
 
-function Update () {
+function Update() {
+	if(Input.touchCount > 0) {
+			for(var i = 0; i < Input.touchCount; ++i){
+			
+				// If hit play button
+				if(playButton.HitTest(Input.GetTouch(0).position)){
+					if(Input.GetTouch(0).phase == TouchPhase.Began){
+						DestroyPause();
+					}
+				}
+				
+				// If hit menu button
+				if(menuButton.HitTest(Input.GetTouch(0).position)){
+					if(Input.GetTouch(0).phase == TouchPhase.Began){
+						Application.LoadLevel(currentlevel);
+					}
+				}
+				
+				// If hit reload button
+				if(reloadButton.HitTest(Input.GetTouch(0).position)){
+					if(Input.GetTouch(0).phase == TouchPhase.Began){
+						Application.LoadLevel("Levels");
+					}
+				}
+			}
+		}
+		
+	// On MouseOver
+	if (playButton.HitTest(Input.mousePosition)) {
+		DestroyPause();
+	}
+	if (reloadButton.HitTest(Input.mousePosition)) {
+		Application.LoadLevel(currentlevel);
+	}
+	if (menuButton.HitTest(Input.mousePosition)) {
+		Application.LoadLevel("Levels");
+	}
+}
+
+function DestroyPause() {
+  	Destroy(pause);
+    Time.timeScale=1;	
+	AudioListener.pause = false;
+	Screen.sleepTimeout = SleepTimeout.NeverSleep;	
+}
+
+//function Update () {
+
+	//print(playButton);
+/*
+	if (playButton) {
+		 print("lets destroy");
+        // Destroy(pause);
+         print("destroyed");
+//         LevelControls.isGamePaused = false;
+         Time.timeScale=1;
+//         	LevelControls.isGamePaused = false;
+			
+//			LevelDisplay.pauseButton.enabled = true;	
+		AudioListener.pause = false;
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
+	}
+
+*//*
 	if((Input.GetMouseButtonDown(0)) || ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began))) {
 	print("inside touch");
-     var wp : Vector3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-     var touchPos : Vector2 = new Vector2(wp.x, wp.y);
-     var hit = Physics2D.OverlapPoint(touchPos);
+	 var hit: RaycastHit;
+	var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	if(Physics.Raycast(ray, hit)){
+//	Vector2 pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+//	RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(pos), Vector2.zero);
+//     var wp : Vector3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+  //   var touchPos : Vector2 = new Vector2(wp.x, wp.y);
+    // var hit = Physics2D.OverlapPoint(touchPos);
      print(hit);
-      if(hit){
+     // if(hit){
          var option = hit.transform.gameObject.name;
  //        var option = "play";
          print(option);
@@ -49,4 +124,5 @@ function Update () {
          	Application.LoadLevel(currentlevel);
       }
      }
-}
+    */
+//}
