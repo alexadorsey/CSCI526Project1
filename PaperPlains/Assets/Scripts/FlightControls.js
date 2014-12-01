@@ -329,7 +329,21 @@ function FixedUpdate () {
 				}
 			}
 		}
-	}	
+	}
+	
+	if (LevelDisplay.pauseButton.HitTest(Input.mousePosition)) {
+            LevelControls.PauseGame();
+    }
+	if (LevelDisplay.boost.HitTest(Input.mousePosition)) {
+	    if(boostCount>0){
+	        boostCount--;
+	        IncreaseSpeed();
+	    }
+	    if(boostCount == 0){
+	        LevelDisplay.boost.enabled = false;
+	        //LevelDisplay.boost.color = LevelDisplay.boost_enabled;
+	    }
+	}
 }
  
 

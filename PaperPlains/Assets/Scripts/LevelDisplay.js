@@ -23,7 +23,7 @@ function Start() {
 	pauseButton = (GameObject.Find("Pause Button").GetComponent(GUITexture)as GUITexture);
 	pauseButton.pixelInset.width = 0.08 * Screen.width;
 	pauseButton.pixelInset.height = pauseButton.pixelInset.width;
-	pauseButton.pixelInset.position.x = Screen.width/2.5;
+	//pauseButton.pixelInset.position.x = Screen.width/2.5;
 	pauseButton.pixelInset.position.x = -Screen.width/2 + 20;
 	pauseButton.pixelInset.position.y = Screen.height/2.9;
 		

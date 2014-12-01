@@ -22,9 +22,22 @@ function Start () {
 	pause = GameObject.Find("pause");
 	
 	playButton = (GameObject.Find("PlayButton").GetComponent(GUITexture)as GUITexture);
-	menuButton = (GameObject.Find("MenuButton").GetComponent(GUITexture)as GUITexture);
 	reloadButton = (GameObject.Find("ReloadButton").GetComponent(GUITexture)as GUITexture);
+	menuButton = (GameObject.Find("MenuButton").GetComponent(GUITexture)as GUITexture);
 	
+	var buttonWidth = 0.09 * Screen.width;
+	
+	playButton.pixelInset.width = buttonWidth;
+	playButton.pixelInset.height = buttonWidth;
+	playButton.pixelInset.position.x = Screen.width/2 - buttonWidth/2 - 300;
+	
+	reloadButton.pixelInset.width = buttonWidth;
+	reloadButton.pixelInset.height = buttonWidth;
+	reloadButton.pixelInset.position.x = Screen.width/2 - buttonWidth/2;
+	
+	menuButton.pixelInset.width = buttonWidth;
+	menuButton.pixelInset.height = buttonWidth;
+	menuButton.pixelInset.position.x = Screen.width/2 - buttonWidth/2 + 300;
 }
 
 function Update() {
@@ -41,6 +54,7 @@ function Update() {
 				// If hit menu button
 				if(menuButton.HitTest(Input.GetTouch(0).position)){
 					if(Input.GetTouch(0).phase == TouchPhase.Began){
+						AudioListener.pause = false;
 						Application.LoadLevel(currentlevel);
 					}
 				}
@@ -48,6 +62,7 @@ function Update() {
 				// If hit reload button
 				if(reloadButton.HitTest(Input.GetTouch(0).position)){
 					if(Input.GetTouch(0).phase == TouchPhase.Began){
+						AudioListener.pause = false;
 						Application.LoadLevel("Levels");
 					}
 				}

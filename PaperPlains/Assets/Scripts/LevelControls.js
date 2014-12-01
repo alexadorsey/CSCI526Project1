@@ -99,6 +99,13 @@ function Update() {
 	}
 	if (Time.timeScale == 1) {
 		isGamePaused = false;
+		LevelDisplay.pauseButton.enabled = true;
+		LevelDisplay.numRingsText.enabled = true;
+		LevelDisplay.numRingsImage.enabled = true;
+		LevelDisplay.boost.enabled = true;
+		if (inCountdown) {
+			LevelDisplay.countdownText.enabled = true;
+		}
 	}
 }
 
@@ -141,7 +148,12 @@ function LoadPreviousLevel() {
 		isGamePaused = true;
 		AudioListener.pause = true;
 		Time.timeScale=0;
-		print("pausegame");
+		PlayerPrefs.SetInt("currentlevel", levelInt);
+		LevelDisplay.pauseButton.enabled = false;
+		LevelDisplay.numRingsText.enabled = false;
+		LevelDisplay.numRingsImage.enabled = false;
+		LevelDisplay.boost.enabled = false;
+		LevelDisplay.countdownText.enabled = false;
 		Application.LoadLevelAdditive("Paused");
 	}	
 }
