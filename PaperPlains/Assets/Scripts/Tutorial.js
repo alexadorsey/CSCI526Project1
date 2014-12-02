@@ -31,10 +31,10 @@ function Start () {
 		guidanceState = 0;//Start
 		guidanceSetTimer = 115;
 		guidanceSetDistance = 1;
-		LevelDisplay.guidanceText.fontSize = Mathf.Floor(Screen.dpi/7);
+		LevelDisplay.guidanceText.fontSize = Mathf.Floor(Screen.dpi/9);
 		LevelDisplay.guidanceText.pixelOffset.y = 0;
 		LevelDisplay.guidanceText.color = Color.black;
-		LevelDisplay.guidanceText.text = "Welcome to the world of Paper Planes\n";
+		LevelDisplay.guidanceText.text = "Welcome to the world of\nPaper Planes!";
 	}
 
 }
@@ -107,34 +107,34 @@ function ShowGuidance(){
 	Time.timeScale=0;
 	switch(guidanceState){
 		case 1:
-			LevelDisplay.guidanceText.text = "Welcome to the world of Paper Planes!\n\nTap the screen to continue\n";
+			LevelDisplay.guidanceText.text = "Welcome to the world of\nPaper Planes!\n\nTap the screen to continue\n";
 			break;
 		case 2:
-			LevelDisplay.guidanceText.text = "Controls:\nRotate your phone\n to turn left, right, up, or down\n";
+			LevelDisplay.guidanceText.text = "Controls:\n\nRotate your phone\n to turn left, right, up, or down\n";
 			break;
 		case 3:     
-			LevelDisplay.guidanceText.text = "See the health bar?\n It will always be going down, \nbut when you go through a ring, \nit will go up\n";
+			LevelDisplay.guidanceText.text = "See the health bar?\n\nIt will always be going down,\nbut when you go through a ring, \nit will go up\n";
 			break;
 		case 4:
-			LevelDisplay.guidanceText.text = "Your Goal: \nGo through the rings!\nCollect all of them \nbefore your health runs out!\n";
+			LevelDisplay.guidanceText.text = "Your Goal:\n\nGo through the rings!\nCollect all of them\nbefore your health runs out!\n";
 			break;
 		case 5:
-			LevelDisplay.guidanceText.text = "Obstacles:\nHitting obstacles will\n damage your paper plane\n(you lose health!)\n";
+			LevelDisplay.guidanceText.text = "Obstacles:\n\nHitting obstacles will\n damage your paper plane\n(you lose health!)\n";
 			break;
 		case 6:
-			LevelDisplay.guidanceText.text = "Hearts:\nHeart items can replenish your health\n";
+			LevelDisplay.guidanceText.text = "Hearts:\n\nHeart items can\nreplenish your health\n";
 			break;
 		case 7:
-			LevelDisplay.guidanceText.text = "Lightning:\nCollect a lightning item and press\n the lightning button to speed up\n";
+			LevelDisplay.guidanceText.text = "Lightning:\n\nCollect a lightning item and press\nthe lightning button to speed up\n";
 			break;
 		case 8:
-			LevelDisplay.guidanceText.text = "Shields:\nThese will give you a shield \nagainst obstacles for a while\n";
+			LevelDisplay.guidanceText.text = "Shields:\n\nThese will give you a shield\nagainst obstacles for a while\n";
 			break;
 		case 9:
-			LevelDisplay.guidanceText.text = "Well done!\nLet's go through all the rings\n in this level!\n";
+			LevelDisplay.guidanceText.text = "Well done!\n\nLet's go through all the rings\nin this level!\n";
 			break;
 		case 10:
-			LevelDisplay.guidanceText.text = "Make sure you get them \nbefore your health runs out. \nHappy flying!!!\n";
+			LevelDisplay.guidanceText.text = "Make sure you get them \nbefore your health runs out.\n\nHappy flying!!!\n";
 			break;
 	}
 	LevelControls.isGuidanceShown = 1;

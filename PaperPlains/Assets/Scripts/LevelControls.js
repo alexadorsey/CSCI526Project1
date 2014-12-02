@@ -71,11 +71,11 @@ function Start(){
 	PlayerPrefs.Save();
 	
 	bgMusic = GameObject.Find("BGMusic");
-	/*if (musicOn) {
+	if (musicOn) {
 		bgMusic.audio.clip = bgLevelMusic;
 		bgMusic.audio.Play();
 	}
-    */
+    
     
 }
 

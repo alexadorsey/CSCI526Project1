@@ -29,10 +29,10 @@ function Start () {
 	}
 	if (touchOn) {
 		//Touch Initializations
-		defaultAngle = 0;
+		defaultAngle = -5;
 		upAngle = 15.0;
 		rotateSpeed = 5.0;//Use same variable with accelerometer modes
-		tiltAngle = 45.0;//Use same variable with accelerometer modes
+		tiltAngle = 60.0;//Use same variable with accelerometer modes
 	
 	} else {
 		// Accelerometer Initializations
@@ -98,7 +98,7 @@ function Update () {
 				gap = init - Input.acceleration.y ;
 			// Make smooth
 			if(Mathf.Abs( gap ) < 0.03){
-				transform.localEulerAngles.z = 5;  // default angle
+				transform.localEulerAngles.z = -5;  // default angle
 			} else {
 				if (gap * tiltAngle >= 60)
 					transform.localEulerAngles.z = 60;

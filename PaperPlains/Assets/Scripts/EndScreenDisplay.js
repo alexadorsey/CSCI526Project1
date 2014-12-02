@@ -193,7 +193,7 @@ function DrawTimeAndStars(){
 	//GUI.Label(Rect (Screen.width/2, Screen.height/2, 100, 50),  usedTimeString, yourUsedTimeTextStyle);
 	
 	//load best time of a certain level
-	var level = "bestTimeL" + LevelControls.levelInt;
+	var level = "bestTime" + LevelControls.levelInt;
 	//PlayerPrefs.DeleteAll();
 	if(PlayerPrefs.HasKey(level)){
 		bestTime = PlayerPrefs.GetFloat(level);
