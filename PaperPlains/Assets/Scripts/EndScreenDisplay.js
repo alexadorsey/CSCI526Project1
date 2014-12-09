@@ -256,7 +256,8 @@ function DrawTimeAndStars(){
 		PlayerPrefs.SetString("besttimetext", timebest);
 		//print(levelh);
 		// Stars for used time
-		if (usedTime <= LevelControls.totalTime  && usedTime > (LevelControls.totalTime / 4) * 3 ) {
+		//if (usedTime <= LevelControls.totalTime  && usedTime > (LevelControls.totalTime / 4) * 3 ) {
+		if(LevelControls.curHealth < 40) {
 			//GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			if(stars == "nostar") {
 				if(LevelControls.levelInt<=5)
@@ -271,7 +272,8 @@ function DrawTimeAndStars(){
 			PlayerPrefs.SetInt("noofstars", 1);	
 			Application.LoadLevel("LevelCleared");
 		}
-		else if (usedTime <= (LevelControls.totalTime / 4) * 3 && usedTime > LevelControls.totalTime/2) {
+		else //if (usedTime <= (LevelControls.totalTime / 4) * 3 && usedTime > LevelControls.totalTime/2) {
+		if(LevelControls.curHealth > 40 && LevelControls.curHealth < 70) {
 			//GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			//GUI.DrawTexture(Rect(Screen.width*2/3 - 130, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			if(stars == "nostar") {
@@ -287,7 +289,8 @@ function DrawTimeAndStars(){
 				
 			PlayerPrefs.SetInt("noofstars", 2);	
 			Application.LoadLevel("LevelCleared");
-		}  else if (usedTime <= LevelControls.totalTime / 2 ) {
+		}  else //if (usedTime <= LevelControls.totalTime / 2 ) {
+		if(LevelControls.curHealth > 70) {
 			//GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			//GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			//GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
