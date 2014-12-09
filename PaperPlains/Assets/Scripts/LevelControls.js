@@ -213,7 +213,7 @@ function UpdateRingCounter(){
 	if (!inCountdown) {
 		//FlightControls.IncreaseLives(5.0);	//does not work for some reason!
 		//increase health
-		var newHealth: float = curHealth+ 7.0; 
+		var newHealth: float = curHealth+4.0; 
 		curHealth = Mathf.Min(maxHealth, newHealth);	
 		
 		numRingsCounter++;
@@ -237,7 +237,7 @@ function RunTimer(){
 			timer= 0;
 		}
 		if(curHealth > 0){	
-			if(FlightControls.invincibleMode==false && !isGuidanceShown ){
+			if(!isGuidanceShown){
 				//FlightControls.DecreaseLives(healthBarDec); //does not work for some reason!
 				var newHealth: float = curHealth- healthBarDec;
 				curHealth=  Mathf.Max(0.0, newHealth);

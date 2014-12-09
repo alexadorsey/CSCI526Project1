@@ -115,6 +115,10 @@ function OnCollisionEnter(collision : Collision) {
 		if (!invincibleMode){
 			DecreaseLives(10);
 	 		StartCoroutine(Blink(2.0));
+		} else {
+			invincibleMode = false;
+			StartCoroutine(Blink(2.0));
+			plane_shield.renderer.enabled= false;
 		}	
 	}
 }
@@ -130,6 +134,10 @@ function OnCollisionEnter(collision : Collision) {
  		if (!invincibleMode){
 	 		DecreaseLives(10);
 	 		StartCoroutine(Blink(2.0));
+	 	} else {
+	 		invincibleMode = false;
+	 		StartCoroutine(Blink(2.0));
+	 		plane_shield.renderer.enabled= false;
 	 	}
  	} 	
  	if (other.transform.IsChildOf(transform))
@@ -187,7 +195,7 @@ function OnCollisionEnter(collision : Collision) {
 	// Collision with Heart
 	if (other.name == "Heart Body") {
 		Destroy(other.gameObject);
-		IncreaseLives(10);
+		IncreaseLives(100);
 		//LevelDisplay.ShowPlusText("+ Health");
 		LevelControls.healthIncFlag= true;
 		yield WaitForSeconds(0.2);
@@ -207,7 +215,8 @@ function OnCollisionEnter(collision : Collision) {
 	// Collision with Shield
 	if (other.name == "Shield Body"){
 		plane_shield.renderer.enabled= true;
-		MakeInvincible(5);   
+		//MakeInvincible(5); 
+		MakeInvincible();  
 		Destroy(other.gameObject);
 		//ChangePlaneColor(Color(0.4, 0.0, 0.7, 1.0));
 	}
@@ -230,7 +239,7 @@ function Update() {
 	    	if (LevelControls.inCountdown) {
 	    		transform.Translate(0, 0, 0);
 	    	} else{
-	    		transform.Translate(2.2, 0, 0); //1.8
+	    		transform.Translate(2.0, 0, 0); //1.8
 	    	}
 	    }
 	    
@@ -381,12 +390,13 @@ function IncreaseLives (newLifeValue : float) {
 
 
 // Make the plane invisible
-function MakeInvincible(invincibleValue : float){
-	endinvincibleTime=Time.time + 5.0;
-	print(Time.time + endinvincibleTime);
-	invincibleTime = invincibleValue;
+//function MakeInvincible(invincibleValue : float){
+function MakeInvincible(){
+	//endinvincibleTime=Time.time + 5.0;
+	//print(Time.time + endinvincibleTime);
+	//invincibleTime = invincibleValue;
 	invincibleMode = true;
-	blinkflag = 1;
+	//blinkflag = 1;
 }
 
 
