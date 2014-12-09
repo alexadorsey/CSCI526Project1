@@ -259,12 +259,12 @@ function DrawTimeAndStars(){
 		if (usedTime <= LevelControls.totalTime  && usedTime > (LevelControls.totalTime / 4) * 3 ) {
 			//GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			if(stars == "nostar") {
-				if(LevelControls.levelInt<=3)
+				if(LevelControls.levelInt<=5)
 					PlayerPrefs.SetInt("unlocked", unlockedlevel);
-				else if(LevelControls.levelInt>3 && LevelControls.levelInt<=6)
-					PlayerPrefs.SetInt("unlockedspooky", (unlockedlevel-3));
+				else if(LevelControls.levelInt>5 && LevelControls.levelInt<=9)
+					PlayerPrefs.SetInt("unlockedspooky", (unlockedlevel-5));
 				else 
-					PlayerPrefs.SetInt("unlockedMoon", (unlockedlevel-6));
+					PlayerPrefs.SetInt("unlockedMoon", (unlockedlevel-9));
 			}
 			if(!(stars == "2star") && !(stars == "3star"))
 				PlayerPrefs.SetString(levelh, "1star");
@@ -275,12 +275,12 @@ function DrawTimeAndStars(){
 			//GUI.DrawTexture(Rect(Screen.width*2/3, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			//GUI.DrawTexture(Rect(Screen.width*2/3 - 130, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			if(stars == "nostar") {
-				if(LevelControls.levelInt<=3)
+				if(LevelControls.levelInt<=5)
 					PlayerPrefs.SetInt("unlocked", unlockedlevel);
-				else if(LevelControls.levelInt>3 && LevelControls.levelInt<=6)
-					PlayerPrefs.SetInt("unlockedspooky", (unlockedlevel-3));
+				else if(LevelControls.levelInt>5 && LevelControls.levelInt<=9)
+					PlayerPrefs.SetInt("unlockedspooky", (unlockedlevel-5));
 				else 
-					PlayerPrefs.SetInt("unlockedMoon", (unlockedlevel-6));
+					PlayerPrefs.SetInt("unlockedMoon", (unlockedlevel-9));
 			}
 			if(!(stars == "3star"))
 				PlayerPrefs.SetString(levelh, "2star");
@@ -292,12 +292,12 @@ function DrawTimeAndStars(){
 			//GUI.DrawTexture(Rect(Screen.width*2/3 + 260, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			//GUI.DrawTexture(Rect(Screen.width*2/3 + 130, Screen.height/2, 0.04 * Screen.width, 0.04 * Screen.width), endStar);
 			if(stars == "nostar") {
-				if(LevelControls.levelInt<=3)
+				if(LevelControls.levelInt<=5)
 					PlayerPrefs.SetInt("unlocked", unlockedlevel);
-				else if(LevelControls.levelInt>3 && LevelControls.levelInt<=6)
-					PlayerPrefs.SetInt("unlockedspooky", (unlockedlevel-3));
+				else if(LevelControls.levelInt>5 && LevelControls.levelInt<=9)
+					PlayerPrefs.SetInt("unlockedspooky", (unlockedlevel-5));
 				else 
-					PlayerPrefs.SetInt("unlockedMoon", (unlockedlevel-6));
+					PlayerPrefs.SetInt("unlockedMoon", (unlockedlevel-9));
 			}
 			//print("pushing stars");
 		//	print(levelh);
