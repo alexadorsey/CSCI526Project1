@@ -122,7 +122,7 @@ function ShowGuidance(){
 			LevelDisplay.guidanceText.text = "Obstacles:\n\nHitting obstacles will\n damage your paper plane\n(you lose health!)\n";
 			break;
 		case 6:
-			LevelDisplay.guidanceText.text = "Hearts:\n\nHeart items can\nreplenish your health\n";
+			LevelDisplay.guidanceText.text = "Hearts:\n\nHeart items will\nreplenish your health all the way\n";
 			break;
 		case 7:
 			LevelDisplay.guidanceText.text = "Lightning:\n\nCollect a lightning item and press\nthe lightning button to speed up\n";

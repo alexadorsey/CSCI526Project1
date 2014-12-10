@@ -32,7 +32,7 @@ function Start () {
 		defaultAngle = -5;
 		upAngle = 15.0;
 		rotateSpeed = 5.0;//Use same variable with accelerometer modes
-		tiltAngle = 60.0;//Use same variable with accelerometer modes
+		tiltAngle = 45.0;//Use same variable with accelerometer modes
 	
 	} else {
 		// Accelerometer Initializations
@@ -45,7 +45,7 @@ function Start () {
 			init = Input.acceleration.z;
 			flag = true;
 		}
-		tiltAngle = 60.0;
+		tiltAngle = 45.0;
 		rotateSpeed = 5.0;
 	}
 	
@@ -100,9 +100,9 @@ function Update () {
 			if(Mathf.Abs( gap ) < 0.03){
 				transform.localEulerAngles.z = -5;  // default angle
 			} else {
-				if (gap * tiltAngle >= 60)
+				if (gap * tiltAngle >= 45)
 					transform.localEulerAngles.z = 60;
-				else if (gap * tiltAngle <= -60)
+				else if (gap * tiltAngle <= -45)
 					transform.localEulerAngles.z = -60;
 				else
 					transform.localEulerAngles.z = Mathf.Lerp(0, gap ,Time.time) * tiltAngle;

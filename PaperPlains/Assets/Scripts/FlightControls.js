@@ -82,14 +82,15 @@ function Start(){
 	var py : int = plane.transform.position.z;	//project z axis to y axis
 	var forward : Vector3 = plane.transform.right;
 	var right : Vector3 = plane.transform.forward;
-	drawPlane(px,py,forward,right, Color.white);
+	drawPlane(px,py,forward,right,Color.white);
+	
 	//record the last position
 	oldX = px;
 	oldY = py;
 	oldForward = forward;
 	oldRight = right;
-	print(px);
-	print(py);
+	//print(px);
+	//print(py);
 	
 	//set all rings in the mini map
 	var allRings = GameObject.FindGameObjectsWithTag("Circle");
@@ -97,6 +98,14 @@ function Start(){
 		var rx : int = mapSize * target.transform.position.x / terrainSize;	//project to x axis
 		var ry : int = mapSize * target.transform.position.z / terrainSize;	//project z axis to y axis
 		draw(rx,ry,ringSize,Color.yellow);
+	}
+	
+	//set all hearts in the mini map
+	var allHearts = GameObject.FindGameObjectsWithTag("heart");
+	for(var heart in allHearts){
+		var hx : int = mapSize * heart.transform.position.x / terrainSize;	//project to x axis
+		var hy : int = mapSize * heart.transform.position.z / terrainSize;	//project z axis to y axis
+		draw(hx,hy,ringSize,Color.red);
 	}
 	
 /*----------------------------------------------------------------------------*/
@@ -164,23 +173,29 @@ function OnCollisionEnter(collision : Collision) {
 			if(ring.renderer.enabled == true)
 			{				
 				ring.renderer.material.color = Color.red;
+				var PS = ring.Find("ParticleSystem");
+				PS.particleEmitter.Emit();
+				ring.renderer.enabled=false;
+				
 /*-------------------------------------------------------------------------*/
 /*added by Jing for mini map*/
 /*diasble the ring in the mini map*/
-				var rx : int = mapSize * other.transform.position.x / terrainSize;
-				var ry : int = mapSize * other.transform.position.z / terrainSize;
-				draw(rx,ry,ringSize*2,backgroundColor);
-/*-------------------------------------------------------------------------*/
-				var PS = ring.Find("ParticleSystem");
-				PS.particleEmitter.Emit();
-				
-				/*
-				if (ring.name != "ring0"){
-					ring.renderer.enabled=false;
-					
+			var rx : int = mapSize * other.transform.position.x / terrainSize;
+			var ry : int = mapSize * other.transform.position.z / terrainSize;
+			draw(rx,ry,ringSize * 3,backgroundColor);
+			//update the map
+			var allRings = GameObject.FindGameObjectsWithTag("Circle");
+			for(var target : GameObject in allRings){
+				//print(target.transform.parent.renderer.material.color);
+				if(target.transform.parent.renderer.material.color != Color.red){
+					var x : int = mapSize * target.transform.position.x / terrainSize;	//project to x axis
+					var y : int = mapSize * target.transform.position.z / terrainSize;	//project z axis to y axis
+					draw(x,y,ringSize,Color.yellow);
 				}
-				*/
-				ring.renderer.enabled=false;
+			}
+/*-------------------------------------------------------------------------*/
+				
+				
 				
 				LevelControls.UpdateRingCounter();
 				if (LevelControls.numRingsCounter == LevelControls.numRings) {
@@ -193,13 +208,20 @@ function OnCollisionEnter(collision : Collision) {
 	
 	
 	// Collision with Heart
-	if (other.name == "Heart Body") {
+	if (other.name == "Heart Body") {	
+		//make hearts invisible in mini map
+		var hx : int = mapSize * other.transform.position.x / terrainSize;
+		var hy : int = mapSize * other.transform.position.z / terrainSize;
 		Destroy(other.gameObject);
+		draw(hx,hy,ringSize,backgroundColor);
+		
 		IncreaseLives(100);
 		//LevelDisplay.ShowPlusText("+ Health");
 		LevelControls.healthIncFlag= true;
 		yield WaitForSeconds(0.2);
 		LevelControls.healthIncFlag= false;
+		
+		
 		
 	}
 	
@@ -215,8 +237,7 @@ function OnCollisionEnter(collision : Collision) {
 	// Collision with Shield
 	if (other.name == "Shield Body"){
 		plane_shield.renderer.enabled= true;
-		//MakeInvincible(5); 
-		MakeInvincible();  
+		MakeInvincible();   
 		Destroy(other.gameObject);
 		//ChangePlaneColor(Color(0.4, 0.0, 0.7, 1.0));
 	}
@@ -239,7 +260,7 @@ function Update() {
 	    	if (LevelControls.inCountdown) {
 	    		transform.Translate(0, 0, 0);
 	    	} else{
-	    		transform.Translate(2.0, 0, 0); //1.8
+	    		transform.Translate(2.2, 0, 0); //1.8
 	    	}
 	    }
 	    
@@ -299,11 +320,11 @@ function drawPlane(x : int, y : int, forward : Vector3, right : Vector3,color: C
 		var position = Vector3(x,0,y);
 		for(var i : int = 0; i < 80; i++){
 			var coor : Vector3 = position + forward * i;
-			for(var j : int = -1 * (80-i) / 3; j <= (80-i) / 3; j++){
+			for(var j : int = -1 * (80 - i) / 3; j <= (80 - i) / 3; j++){
 				var coorIn : Vector3 = coor + right * j;
 				var px : int = mapSize * coorIn.x / terrainSize;	//project to x axis
 				var py : int = mapSize * coorIn.z / terrainSize;	//project to y axis
-				if(tex2d.GetPixel(px, py) != Color.yellow)
+				if(tex2d.GetPixel(px, py) != Color.yellow && tex2d.GetPixel(px, py) != Color.red)
 					tex2d.SetPixel(px, py, color);
 			}
 		}
@@ -390,7 +411,6 @@ function IncreaseLives (newLifeValue : float) {
 
 
 // Make the plane invisible
-//function MakeInvincible(invincibleValue : float){
 function MakeInvincible(){
 	//endinvincibleTime=Time.time + 5.0;
 	//print(Time.time + endinvincibleTime);
